@@ -1,0 +1,27 @@
+name: PhantomExample
+options:
+  bundleIdPrefix: com.phantomswift
+targets:
+  PhantomExample:
+    type: application
+    platform: iOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: .
+        excludes:
+          - project.yml
+          - Info.plist
+          - "*.xcodeproj"
+    dependencies:
+      - package: PhantomSwift
+    settings:
+      base:
+        INFOPLIST_FILE: Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.phantomswift.Example
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: NO
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+        TARGETED_DEVICE_FAMILY: "1,2"
+packages:
+  PhantomSwift:
+    path: ../

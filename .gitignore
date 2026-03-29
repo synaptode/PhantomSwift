@@ -1,0 +1,173 @@
+# ──────────────────────────────────────────────────────────────
+# Xcode
+# ──────────────────────────────────────────────────────────────
+build/
+DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xcuserstate
+*.xcscmblueprint
+*.xcworkspacedata
+
+# Xcode build artifacts
+*.o
+*.a
+*.d
+*.dia
+*.swiftdoc
+*.swiftmodule
+*.swiftsourceinfo
+*.tbd
+
+# Xcode profiling
+*.gcda
+*.gcno
+*.profdata
+
+# Interface Builder
+*.nib
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# ──────────────────────────────────────────────────────────────
+# Swift Package Manager
+# ──────────────────────────────────────────────────────────────
+.build/
+.swiftpm/
+Package.resolved
+Packages/
+*.xcframework
+
+# ──────────────────────────────────────────────────────────────
+# CocoaPods
+# ──────────────────────────────────────────────────────────────
+Pods/
+*.xcworkspace
+Podfile.lock
+
+# ──────────────────────────────────────────────────────────────
+# Carthage
+# ──────────────────────────────────────────────────────────────
+Carthage/Build/
+Carthage/Checkouts/
+
+# ──────────────────────────────────────────────────────────────
+# Accio
+# ──────────────────────────────────────────────────────────────
+Dependencies/
+.accio/
+
+# ──────────────────────────────────────────────────────────────
+# Fastlane
+# ──────────────────────────────────────────────────────────────
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# ──────────────────────────────────────────────────────────────
+# Code coverage
+# ──────────────────────────────────────────────────────────────
+*.xcresult
+codecov/
+coverage/
+
+# ──────────────────────────────────────────────────────────────
+# OS generated files
+# ──────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ──────────────────────────────────────────────────────────────
+# IDE & Editors
+# ──────────────────────────────────────────────────────────────
+
+# Vim
+*.swp
+*.swo
+*~
+
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains (AppCode)
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ──────────────────────────────────────────────────────────────
+# Environment & secrets
+# ──────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.p12
+*.p8
+*.mobileprovision
+*.provisionprofile
+
+# ──────────────────────────────────────────────────────────────
+# Miscellaneous
+# ──────────────────────────────────────────────────────────────
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+.sass-cache/
+node_modules/
+.idea/
+.vscode/
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Code coverage
+*.gcno
+*.gcda
+*.profdata
+*.profraw
+
+# Archives
+*.xcarchive
+
+# Temporary files
+*.orig
+*.bak

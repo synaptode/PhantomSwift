@@ -1,0 +1,206 @@
+Command line invocation:
+    /Applications/Xcode-26.0.1.app/Contents/Developer/usr/bin/xcodebuild build -scheme PhantomExample -project /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj -destination "platform=iOS Simulator,name=iPhone 16"
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  PhantomSwift: /Volumes/Local/Pemrograman/iOS/PhantomSwift
+
+2026-03-27 21:33:09.279 xcodebuild[77922:944599] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (3 targets)
+    Target 'PhantomExample' in project 'PhantomExample'
+        ➜ Explicit dependency on target 'PhantomSwift' in project 'PhantomSwift'
+    Target 'PhantomSwift' in project 'PhantomSwift'
+        ➜ Explicit dependency on target 'PhantomSwift' in project 'PhantomSwift'
+    Target 'PhantomSwift' in project 'PhantomSwift' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode-26.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode-26.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode-26.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: e62d83a9da3b0c0ee9cdfe829396d2b2
+Build description path: /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/XCBuildData/e62d83a9da3b0c0ee9cdfe829396d2b2.xcbuilddata
+ClangStatCache /Applications/Xcode-26.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk /Users/mrakhalf/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-35d311a043587c0750ebf9f4c84a738f.sdkstatcache
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    /Applications/Xcode-26.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk -o /Users/mrakhalf/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-35d311a043587c0750ebf9f4c84a738f.sdkstatcache
+
+ProcessProductPackaging "" /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomExample.build/Debug-iphonesimulator/PhantomExample.build/PhantomExample.app-Simulated.xcent (in target 'PhantomExample' from project 'PhantomExample')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "VPLNMGMX6S.com.phantomswift.Example";
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomExample.build/Debug-iphonesimulator/PhantomExample.build/PhantomExample.app-Simulated.xcent
+
+ProcessProductPackagingDER /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomExample.build/Debug-iphonesimulator/PhantomExample.build/PhantomExample.app-Simulated.xcent /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomExample.build/Debug-iphonesimulator/PhantomExample.build/PhantomExample.app-Simulated.xcent.der (in target 'PhantomExample' from project 'PhantomExample')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example
+    /usr/bin/derq query -f xml -i /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomExample.build/Debug-iphonesimulator/PhantomExample.build/PhantomExample.app-Simulated.xcent -o /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomExample.build/Debug-iphonesimulator/PhantomExample.build/PhantomExample.app-Simulated.xcent.der --raw
+
+SwiftDriver PhantomSwift normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    builtin-SwiftDriver -- /Applications/Xcode-26.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name PhantomSwift -Onone -enforce-exclusivity\=checked @/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomSwift.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode-26.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk -target arm64-apple-ios12.0-simulator -g -module-cache-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Products/Debug-iphonesimulator -F /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/Developer/Library/Frameworks -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/mrakhalf/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-35d311a043587c0750ebf9f4c84a738f.sdkstatcache -output-file-map /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomSwift-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomSwift.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/mrakhalf/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomSwift_const_extract_protocols.json -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/DerivedSources-normal/arm64 -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/DerivedSources/arm64 -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomSwift-Swift.h -working-directory /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ PhantomDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+/Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift:99:92: error: value of type 'PhantomEnvironment' has no member 'rawValue'
+        subtitleLabel.text = "DEVELOPER SUITE • \(PhantomSwift.shared.config.environment.rawValue.uppercased())"
+/Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Core/PhantomEnvironment.swift:5:13: note: did you mean to specify a raw type on the enum declaration?
+public enum PhantomEnvironment: Equatable {
+            ^
+/Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift:105:30: error: 'init(systemName:)' is only available in iOS 13.0 or newer
+        closeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+                             ^
+/Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift:105:30: note: add 'if #available' version check
+        closeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+                             ^
+/Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift:78:18: note: add '@available' attribute to enclosing instance method
+    private func setupUI() {
+                 ^
+/Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift:5:22: note: add '@available' attribute to enclosing class
+internal final class PhantomDashboardVC: UIViewController {
+                     ^
+/Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift:306:52: error: cannot convert value of type 'UIView' to expected argument type 'CALayer'
+        PhantomTheme.shared.applyPremiumShadow(to: iconContainer)
+                                                   ^
+
+Failed frontend command:
+/Applications/Xcode-26.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Core/PhantomConfig.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Core/PhantomEnvironment.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Core/PhantomEventBus.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Core/PhantomFeature.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Core/PhantomPlugin.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Core/PhantomSwift.swift -primary-file /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDynamicIsland.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomGestureHandler.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomHUDButton.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomHUDWindow.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomTheme.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/ThemeEditorVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Analytics/Core/PhantomAnalyticsMonitor.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Analytics/UI/AnalyticsListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Assets/Core/PhantomAssetInspector.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Assets/UI/AssetListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Core/PhantomExtensionBus.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Intelligence/PhantomAI.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Intelligence/UI/AIDCListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Intelligence/UI/PhantomAIChatVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Interceptor/InterceptRule.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Interceptor/PhantomInterceptor.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Interceptor/PhantomRuleMatcher.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Interceptor/UI/InterceptorListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Interceptor/UI/PhantomMockEditorVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Logger/LogEntry.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Logger/LogLevel.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Logger/LogStore.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Logger/PhantomLog.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Logger/UI/ExtensionLogVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Logger/UI/LogConsoleVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/MemoryLeak/PhantomHeapSnapshot.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/MemoryLeak/PhantomLeakTracker.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/MemoryLeak/UI/LeakListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/Core/PhantomCURLExporter.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/Core/PhantomNetworkModel.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/Core/PhantomNetworkSimulator.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/Core/PhantomRequestStore.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/Core/PhantomSessionRecorder.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/Core/PhantomURLProtocol.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/UI/BadNetworkDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/UI/NetworkListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/UI/SessionReplayVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Performance/Core/PerformanceMonitor.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Performance/Core/PhantomHangDetector.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Performance/Core/PhantomMemorySlayer.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Performance/Core/PhantomObjectTracker.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Performance/UI/HangListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Performance/UI/MemoryDiffVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Performance/UI/MemoryGraphVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Performance/UI/PerformanceDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Performance/UI/PhantomTimelineView.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/Core/PhantomAccessibilityAuditor.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/Core/PhantomBugReporter.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/Core/PhantomEnvironmentMonitor.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/Core/PhantomFlowRecorder.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/Core/PhantomLocaleManager.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/UI/AccessibilityDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/UI/AppShortcutsVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/UI/EnvironmentDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/UI/FlowListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Remote/PhantomRemoteConsole.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Remote/PhantomWebEcho.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Security/PhantomSecurityInspector.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Security/UI/SecurityDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/Core/PhantomSnapshotManager.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/KeychainInspectorVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/SQLiteInspectorVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/SandboxInspectorVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/SnapshotListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/StorageListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/UserDefaultsVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/SwiftUI/Core/PhantomRenderStore.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/SwiftUI/Core/PhantomRenderTracker.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/SwiftUI/UI/RenderListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/UIInspector/PhantomUIInspector.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/UIInspector/UI/ViewDetailVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/UIInspector/UI/ViewHierarchyVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Components/PhantomBadgeView.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Components/PhantomCodeView.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Components/PhantomEmptyStateView.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Components/PhantomTableVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Extensions/UIColor+Phantom.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Extensions/UIExtensions+Phantom.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Extensions/UIFont+Phantom.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Extensions/UIImage+Phantom.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Helpers/PhantomSwizzler.swift -emit-dependencies-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomDashboardVC.d -emit-const-values-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomDashboardVC.swiftconstvalues -emit-reference-dependencies-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomDashboardVC.swiftdeps -serialize-diagnostics-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomDashboardVC.dia -target arm64-apple-ios12.0-simulator -module-can-import-version SwiftUI 7.0.84.1 7.0.84 -load-resolved-plugin /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libFoundationMacros.dylib\#/Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#FoundationMacros -load-resolved-plugin /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libObservationMacros.dylib\#/Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#ObservationMacros -load-resolved-plugin /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libPreviewsMacros.dylib\#/Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#PreviewsMacros -load-resolved-plugin /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftMacros.dylib\#/Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftMacros -load-resolved-plugin /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftUIMacros.dylib\#/Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftUIMacros -disable-implicit-swift-modules -Xcc -fno-implicit-modules -Xcc -fno-implicit-module-maps -explicit-swift-module-map-file /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomSwift-dependencies-1.json -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk -I /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Products/Debug-iphonesimulator -F /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode-26.0.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/Developer/Library/Frameworks -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=4 -module-cache-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -swift-version 5 -enforce-exclusivity\=checked -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -const-gather-protocols-file /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomSwift_const_extract_protocols.json -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/mrakhalf/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj -enable-anonymous-context-mangled-names -file-compilation-dir /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -ivfsstatcache -Xcc /Users/mrakhalf/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-35d311a043587c0750ebf9f4c84a738f.sdkstatcache -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/swift-overrides.hmap -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/DerivedSources-normal/arm64 -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/DerivedSources/arm64 -Xcc -I/Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -no-auto-bridging-header-chaining -module-name PhantomSwift -frontend-parseable-output -disable-clang-spi -target-sdk-version 26.0 -target-sdk-name iphonesimulator26.0 -clang-target arm64-apple-ios26.0-simulator -in-process-plugin-server-path /Applications/Xcode-26.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -o /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Build/Intermediates.noindex/PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomDashboardVC.o -index-unit-output-path /PhantomSwift.build/Debug-iphonesimulator/PhantomSwift.build/Objects-normal/arm64/PhantomDashboardVC.o -index-store-path /Users/mrakhalf/Library/Developer/Xcode/DerivedData/PhantomExample-avjbtksyhglwgvdkqoptnjesaskj/Index.noindex/DataStore -index-system-modules
+SwiftCompile normal arm64 Compiling\ PhantomTheme.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomTheme.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomTheme.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 Compiling\ UIExtensions+Phantom.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Extensions/UIExtensions+Phantom.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Extensions/UIExtensions+Phantom.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 Compiling\ PhantomDynamicIsland.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDynamicIsland.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDynamicIsland.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ PhantomSwift (in target 'PhantomSwift' from project 'PhantomSwift')
+EmitSwiftModule normal arm64 (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 Compiling\ UIColor+Phantom.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Extensions/UIColor+Phantom.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Extensions/UIColor+Phantom.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling UIColor+Phantom.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 Compiling\ SecurityDashboardVC.swift,\ KeychainInspectorVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Security/UI/SecurityDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/KeychainInspectorVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Security/UI/SecurityDashboardVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/KeychainInspectorVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 Compiling\ PhantomUIInspector.swift,\ ViewDetailVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/UIInspector/PhantomUIInspector.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/UIInspector/UI/ViewDetailVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/UIInspector/PhantomUIInspector.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/UIInspector/UI/ViewDetailVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 Compiling\ PhantomBadgeView.swift,\ PhantomCodeView.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Components/PhantomBadgeView.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Components/PhantomCodeView.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Components/PhantomBadgeView.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Shared/Components/PhantomCodeView.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 Compiling\ UserDefaultsVC.swift,\ RenderListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/UserDefaultsVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/SwiftUI/UI/RenderListVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/UserDefaultsVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/SwiftUI/UI/RenderListVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling UIExtensions+Phantom.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 Compiling\ AIDCListVC.swift,\ ExtensionLogVC.swift,\ NetworkListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Intelligence/UI/AIDCListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Logger/UI/ExtensionLogVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/UI/NetworkListVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Intelligence/UI/AIDCListVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Logger/UI/ExtensionLogVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Network/UI/NetworkListVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling PhantomTheme.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 Compiling\ EnvironmentDashboardVC.swift,\ FlowListVC.swift,\ SQLiteInspectorVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/UI/EnvironmentDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/UI/FlowListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/SQLiteInspectorVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/UI/EnvironmentDashboardVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/QA/UI/FlowListVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Storage/UI/SQLiteInspectorVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+    cd /Volumes/Local/Pemrograman/iOS/PhantomSwift/Example/PhantomExample.xcodeproj
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling PhantomDynamicIsland.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+SwiftCompile normal arm64 Compiling\ PhantomMockEditorVC.swift,\ LogConsoleVC.swift,\ LeakListVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Interceptor/UI/PhantomMockEditorVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/Logger/UI/LogConsoleVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/Modules/MemoryLeak/UI/LeakListVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	SwiftCompile normal arm64 /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+	SwiftCompile normal arm64 Compiling\ PhantomDashboardVC.swift /Volumes/Local/Pemrograman/iOS/PhantomSwift/Sources/PhantomSwift/HUD/PhantomDashboardVC.swift (in target 'PhantomSwift' from project 'PhantomSwift')
+	Building project PhantomExample with scheme PhantomExample
+(3 failures)
