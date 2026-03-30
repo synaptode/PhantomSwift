@@ -165,9 +165,25 @@ internal final class PhantomSecurityInspector {
         // Check for known reverse engineering / hooking frameworks in loaded dylibs
         let suspects = ["FridaGadget", "frida", "cynject", "libcycript", "MobileSubstrate",
                         "Lobster", "SSLKillSwitch", "A-Bypass"]
-        let imageCount = _dyld_image_count()
+
+        // Resolve dyld functions dynamically — the Swift MachO module
+        // does not expose _dyld_image_count / _dyld_get_image_name on iOS.
+        guard let handle = dlopen(nil, RTLD_LAZY) else { return false }
+        defer { dlclose(handle) }
+
+        typealias ImageCountFn = @convention(c) () -> UInt32
+        typealias ImageNameFn  = @convention(c) (UInt32) -> UnsafePointer<CChar>?
+
+        guard let countPtr = dlsym(handle, "_dyld_image_count"),
+              let namePtr  = dlsym(handle, "_dyld_get_image_name") else {
+            return false
+        }
+
+        let imageCount   = unsafeBitCast(countPtr, to: ImageCountFn.self)()
+        let getImageName = unsafeBitCast(namePtr, to: ImageNameFn.self)
+
         for i in 0..<imageCount {
-            if let name = _dyld_get_image_name(i) {
+            if let name = getImageName(i) {
                 let path = String(cString: name).lowercased()
                 if suspects.contains(where: { path.contains($0.lowercased()) }) { return true }
             }

@@ -5,6 +5,12 @@ All notable changes to PhantomSwift will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-03-31
+
+### Fixed
+- 🔧 **SPI Build Fix**: Replaced direct `_dyld_image_count()` / `_dyld_get_image_name()` calls with `dlsym`-based dynamic resolution in `PhantomSecurityInspector.swift` — the Swift `MachO` module does not expose these C symbols on iOS, causing build failures on Swift Package Index across all Xcode versions (15.4, 16.2, 16.3, 26.0)
+- 🏗️ **Compatibility**: Verified build succeeds on Swift 5.10, 6.0, 6.1, and 6.2 for iOS
+
 ## [1.0.1] - 2026-03-30
 
 ### Fixed
