@@ -47,7 +47,7 @@ playground.xcworkspace
 # ──────────────────────────────────────────────────────────────
 # Swift Package Manager
 # ──────────────────────────────────────────────────────────────
-.build/
+.build/ 
 .swiftpm/
 docs/
 Package.resolved

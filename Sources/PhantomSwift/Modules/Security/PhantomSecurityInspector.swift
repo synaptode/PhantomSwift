@@ -2,6 +2,7 @@
 import Foundation
 import UIKit
 import Security
+import MachO
 
 /// Performs security and environment integrity checks.
 internal final class PhantomSecurityInspector {

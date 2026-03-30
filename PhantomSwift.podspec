@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PhantomSwift'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = 'Zero-dependency iOS debugging toolkit with 25 modules: network inspector, memory leak tracker, UI hierarchy, and more.'
   s.description      = <<-DESC
 PhantomSwift is an open-source, zero-dependency iOS debugging library for Swift developers.
