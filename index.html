@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhantomSwift — Zero-Dependency iOS Debugging Toolkit</title>
+    <meta name="description" content="PhantomSwift is an open-source iOS debugging library with 25 modules: network inspector, memory leak tracker, UI hierarchy, performance monitor. Zero dependencies. SPM + CocoaPods. #if DEBUG safe.">
+    <meta name="keywords" content="iOS debugging, Swift debugging toolkit, network inspector iOS, memory leak detection Swift, FLEX alternative, Netfox replacement, Pulse alternative, iOS developer tools, UIKit debugging, SwiftUI debugging, zero dependency iOS library, open source iOS tools, debug toolkit Swift, iOS performance monitor, 3D view hierarchy iOS">
+    <meta name="author" content="Synaptode">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://synaptode.github.io/PhantomSwift/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="PhantomSwift — Zero-Dependency iOS Debugging Toolkit">
+    <meta property="og:description" content="25 debug modules for iOS: network inspection, memory leak detection, UI hierarchy, performance monitoring. Zero dependencies. #if DEBUG safe.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://synaptode.github.io/PhantomSwift/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PhantomSwift — iOS Debug Toolkit">
+    <meta name="twitter:description" content="25 debug modules for iOS. Zero dependencies. Open source. FLEX/Netfox/Pulse alternative.">
+
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #7c3aed;
+            --accent-light: #a78bfa;
+            --green: #3fb950;
+            --orange: #d29922;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin: 0 auto 32px;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .badges img {
+            height: 22px;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 0;
+        }
+
+        section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        section .subtitle {
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Comparison Table */
+        .comparison {
+            overflow-x: auto;
+        }
+
+        .comparison table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison th,
+        .comparison td {
+            padding: 12px 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison th {
+            background: rgba(124, 58, 237, 0.15);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .comparison td:first-child,
+        .comparison th:first-child {
+            text-align: left;
+        }
+
+        .check { color: var(--green); }
+        .cross { color: #f85149; }
+
+        /* Install */
+        .install-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .install-tab {
+            padding: 8px 20px;
+            border-radius: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .install-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .code-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 24px;
+            font-family: 'SF Mono', 'Fira Code', 'Menlo', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            max-width: 640px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .code-block .keyword { color: #ff7b72; }
+        .code-block .string { color: #a5d6ff; }
+        .code-block .comment { color: var(--text-muted); }
+
+        .install-content { display: none; }
+        .install-content.active { display: block; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+        }
+
+        /* SEO structured intro */
+        .seo-intro {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 700px;
+            margin: -20px auto 40px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .hero .tagline { font-size: 1rem; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1><span>PhantomSwift</span></h1>
+        <p class="tagline">The zero-dependency iOS debugging toolkit with 25 modules. Network inspector, memory leak tracker, 3D view hierarchy, and more. <code>#if DEBUG</code> safe.</p>
+        <div class="badges">
+            <img src="https://img.shields.io/badge/iOS-12.0+-blue.svg?style=flat" alt="iOS 12.0+">
+            <img src="https://img.shields.io/badge/Swift-5.9+-F05138.svg?style=flat" alt="Swift 5.9+">
+            <img src="https://img.shields.io/badge/Dependencies-Zero-brightgreen.svg?style=flat" alt="Zero Dependencies">
+            <img src="https://img.shields.io/badge/Modules-25-7C3AED.svg?style=flat" alt="25 Modules">
+            <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat" alt="MIT License">
+        </div>
+        <div class="cta-group">
+            <a href="https://github.com/synaptode/PhantomSwift" class="btn btn-primary">View on GitHub</a>
+            <a href="#install" class="btn btn-secondary">Install Now</a>
+        </div>
+    </section>
+
+    <p class="seo-intro">
+        PhantomSwift is an open-source iOS debugging library for Swift developers.
+        It provides network inspection, memory leak detection, UI hierarchy exploration,
+        and 25+ diagnostic tools — all in a single zero-dependency package.
+        Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods.
+        A modern alternative to FLEX, Netfox, and Pulse.
+    </p>
+
+    <!-- Features -->
+    <section>
+        <h2>25 Debug Modules</h2>
+        <p class="subtitle">Everything you need to debug, inspect, and optimize your iOS app — in one library.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>🌐 Network Trace</h3>
+                <p>Real-time HTTP/HTTPS traffic monitoring with full request/response inspection and HAR export.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🚧 Interceptor</h3>
+                <p>Mock, block, delay, or redirect any request. Mockoon redirect support with hit counters.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📡 Bad Network</h3>
+                <p>Simulate 3G, Edge, packet loss, and offline conditions with one tap.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ Performance Monitor</h3>
+                <p>Real-time CPU, FPS, and RAM tracking with interactive timeline graphs.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🧠 Memory Leak Tracker</h3>
+                <p>Automatic retain cycle detection with object lifecycle tracking and visual memory graph.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔍 3D View Hierarchy</h3>
+                <p>Xcode-style exploded 3D view with tap-to-select, depth slider, wireframe mode, and zoom.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📝 Console Logger</h3>
+                <p>Priority-level logging with tags, metadata, full-text search, and OSLog bridge.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💾 Storage Inspector</h3>
+                <p>Browse and edit UserDefaults, Keychain, sandbox files, and SQLite databases.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔒 Security Audit</h3>
+                <p>Jailbreak detection, SSL pinning check, debugger detection, and binary integrity verification.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🚩 Feature Flags</h3>
+                <p>Register, toggle, and persist feature flags at runtime with grouped UI.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📈 Analytics Inspector</h3>
+                <p>Intercept and inspect analytics events from Firebase, Amplitude, and custom providers.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🖥 Remote Server</h3>
+                <p>WebSocket debug server for real-time remote inspection from browser or Postman.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section>
+        <h2>Why PhantomSwift?</h2>
+        <p class="subtitle">Compare PhantomSwift with popular iOS debugging tools.</p>
+        <div class="comparison">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>PhantomSwift</th>
+                        <th>FLEX</th>
+                        <th>Pulse</th>
+                        <th>Netfox</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Zero dependencies</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="check">✅</td></tr>
+                    <tr><td><code>#if DEBUG</code> safe</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+                    <tr><td>Network inspection</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td></tr>
+                    <tr><td>3D view hierarchy</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+                    <tr><td>Performance monitoring</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+                    <tr><td>Request interception</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+                    <tr><td>Bad network simulation</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+                    <tr><td>Feature flags</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+                    <tr><td>Memory leak tracker</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+                    <tr><td>Security audit</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+                    <tr><td>Module count</td><td><strong>25</strong></td><td>~8</td><td>~5</td><td>1</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Install -->
+    <section id="install">
+        <h2>Installation</h2>
+        <p class="subtitle">Add PhantomSwift to your Debug target only.</p>
+
+        <div class="install-tabs">
+            <button class="install-tab active" onclick="showTab('spm')">Swift Package Manager</button>
+            <button class="install-tab" onclick="showTab('cocoapods')">CocoaPods</button>
+        </div>
+
+        <div id="tab-spm" class="install-content active">
+            <div class="code-block">
+                <span class="comment">// Package.swift</span><br>
+                <span class="keyword">dependencies</span>: [<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;.<span class="keyword">package</span>(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url: <span class="string">"https://github.com/synaptode/PhantomSwift.git"</span>,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: <span class="string">"1.0.0"</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                ]
+            </div>
+        </div>
+
+        <div id="tab-cocoapods" class="install-content">
+            <div class="code-block">
+                <span class="comment"># Podfile</span><br>
+                <span class="keyword">pod</span> <span class="string">'PhantomSwift'</span>, :configurations =&gt; [<span class="string">'Debug'</span>]
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section>
+        <h2>Quick Start</h2>
+        <p class="subtitle">Get up and running in under a minute.</p>
+        <div class="code-block">
+            <span class="keyword">import</span> SwiftUI<br>
+            <span class="keyword">#if</span> DEBUG<br>
+            <span class="keyword">import</span> PhantomSwift<br>
+            <span class="keyword">#endif</span><br>
+            <br>
+            <span class="keyword">@main</span><br>
+            <span class="keyword">struct</span> MyApp: App {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">init</span>() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">#if</span> DEBUG<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PhantomSwift.configure { config <span class="keyword">in</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;config.triggers = [.shake, .dynamicIsland]<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PhantomSwift.launch()<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">#endif</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> body: <span class="keyword">some</span> Scene {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WindowGroup { ContentView() }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <div class="container">
+        <p>
+            <strong>PhantomSwift</strong> — MIT License<br>
+            <a href="https://github.com/synaptode/PhantomSwift">GitHub</a> ·
+            <a href="https://swiftpackageindex.com/synaptode/PhantomSwift">Swift Package Index</a>
+        </p>
+        <p style="margin-top: 12px;">Built with precision for iOS engineers who demand the best debugging tools.</p>
+    </div>
+</footer>
+
+<script>
+    function showTab(tab) {
+        document.querySelectorAll('.install-content').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        document.querySelectorAll('.install-tab').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        document.getElementById('tab-' + tab).classList.add('active');
+        event.target.classList.add('active');
+    }
+</script>
+
+</body>
+</html>

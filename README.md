@@ -1,4 +1,4 @@
-<p align="center">
+  <p align="center">
   <img src="Resources/images/logo.png" width="250" alt="PhantomSwift Logo">
 </p>
 
@@ -31,6 +31,13 @@
   <img src="https://img.shields.io/badge/%23if%20DEBUG-Safe-orange.svg?style=flat" alt="DEBUG only">
 </p>
 
+<p align="center">
+PhantomSwift is an open-source iOS debugging library for Swift developers.
+It provides network inspection, memory leak detection, UI hierarchy exploration,
+and 25+ diagnostic tools — all in a single zero-dependency package.
+Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods.
+</p>
+
 ---
 
 ## Overview
@@ -56,6 +63,12 @@
 | **Bug reporter** | ✅ | ❌ | ❌ | ❌ |
 | **Glassmorphic UI** | ✅ | ❌ | ✅ | ❌ |
 | **Module count** | **25** | ~8 | ~5 | 1 |
+
+### Looking for an Alternative?
+
+- **FLEX alternative** — PhantomSwift covers everything FLEX does, plus network mocking, bad network simulation, feature flags, and a glassmorphic UI.
+- **Netfox replacement** — PhantomSwift includes all Netfox's network inspection with 25 additional modules, and is also `#if DEBUG` safe.
+- **Pulse iOS alternative** — PhantomSwift adds zero-dependency constraint with full UIKit + SwiftUI support and no external packages required.
 
 ### Key Principles
 

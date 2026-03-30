@@ -49,6 +49,7 @@ playground.xcworkspace
 # ──────────────────────────────────────────────────────────────
 .build/
 .swiftpm/
+.docs/
 Package.resolved
 Packages/
 *.xcframework
