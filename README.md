@@ -32,6 +32,15 @@
 </p>
 
 <p align="center">
+  <a href="https://swiftpackageindex.com/synaptode/PhantomSwift">
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fsynaptode%2FPhantomSwift%2Fbadge%3Ftype%3Dswift-versions" alt="Swift Versions">
+  </a>
+  <a href="https://swiftpackageindex.com/synaptode/PhantomSwift">
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fsynaptode%2FPhantomSwift%2Fbadge%3Ftype%3Dplatforms" alt="Supported Platforms">
+  </a>
+</p>
+
+<p align="center">
 PhantomSwift is an open-source iOS debugging library for Swift developers.
 It provides network inspection, memory leak detection, UI hierarchy exploration,
 and 25+ diagnostic tools — all in a single zero-dependency package.
