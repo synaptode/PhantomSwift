@@ -10,28 +10,14 @@
 
 <p align="center">
   <a href="https://github.com/synaptode/PhantomSwift/releases/tag/1.0.0">
-    <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version 1.0.0">
+    <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?style=flat" alt="Version 1.0.0">
   </a>
   <a href="https://github.com/synaptode/PhantomSwift/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License MIT">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat" alt="MIT License">
   </a>
-  <img src="https://img.shields.io/badge/iOS-12.0%2B-orange.svg" alt="iOS 12.0+">
-  <img src="https://img.shields.io/badge/Swift-5.0%2B-red.svg" alt="Swift 5.0+">
-  <a href="https://github.com/synaptode/PhantomSwift">
-    <img src="https://img.shields.io/badge/platform-iOS-lightgrey.svg" alt="iOS Platform">
-  </a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/iOS-12.0+-blue.svg?style=flat" alt="iOS 12.0+">
-  <img src="https://img.shields.io/badge/Swift-5.9+-F05138.svg?style=flat" alt="Swift 5.9+">
   <img src="https://img.shields.io/badge/Dependencies-Zero-brightgreen.svg?style=flat" alt="Zero Dependencies">
   <img src="https://img.shields.io/badge/Modules-25-7C3AED.svg?style=flat" alt="25 Modules">
-  <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat" alt="MIT License">
   <img src="https://img.shields.io/badge/%23if%20DEBUG-Safe-orange.svg?style=flat" alt="DEBUG only">
-</p>
-
-<p align="center">
   <a href="https://swiftpackageindex.com/synaptode/PhantomSwift">
     <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fsynaptode%2FPhantomSwift%2Fbadge%3Ftype%3Dswift-versions" alt="Swift Versions">
   </a>
