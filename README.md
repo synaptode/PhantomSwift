@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/synaptode/PhantomSwift/releases/tag/1.0.0">
-    <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?style=flat" alt="Version 1.0.0">
+  <a href="https://github.com/synaptode/PhantomSwift/releases/tag/1.0.3">
+    <img src="https://img.shields.io/badge/version-1.0.3-blue.svg?style=flat" alt="Version 1.0.3">
   </a>
   <a href="https://github.com/synaptode/PhantomSwift/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat" alt="MIT License">
@@ -178,7 +178,7 @@ Add PhantomSwift via Xcode:
 1. **File → Add Package Dependencies...**
 2. Enter the repository URL:
    ```
-   https://github.com/nickmrakhman/PhantomSwift.git
+   https://github.com/synaptode/PhantomSwift.git
    ```
 3. Select version rule: **Up to Next Major**
 4. Add to your **Debug** target only
@@ -187,7 +187,7 @@ Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/nickmrakhman/PhantomSwift.git", from: "1.0.0")
+    .package(url: "https://github.com/synaptode/PhantomSwift.git", from: "1.0.3")
 ]
 ```
 

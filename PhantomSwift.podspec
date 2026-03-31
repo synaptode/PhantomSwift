@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PhantomSwift'
-  s.version          = '1.0.2'
+  s.version          = '1.0.3'
   s.summary          = 'Zero-dependency iOS debugging toolkit with 25 modules: network inspector, memory leak tracker, UI hierarchy, and more.'
   s.description      = <<-DESC
 PhantomSwift is an open-source, zero-dependency iOS debugging library for Swift developers.
@@ -17,7 +17,7 @@ An alternative to FLEX, Netfox, and Pulse with no external dependencies required
   s.source           = { :git => 'https://github.com/synaptode/PhantomSwift.git', :tag => "v#{s.version}" }
 
   s.ios.deployment_target = '12.0'
-  s.swift_version = '5.0'
+  s.swift_version = '5.9'
 
   s.source_files = 'Sources/PhantomSwift/**/*'
   s.frameworks = 'UIKit', 'Security'
