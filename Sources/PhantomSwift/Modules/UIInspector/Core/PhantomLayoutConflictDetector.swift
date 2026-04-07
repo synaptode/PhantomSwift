@@ -192,16 +192,10 @@ internal final class PhantomLayoutConflictDetector {
         // Extract the involved view class from the "Will attempt to recover" advisory.
         var viewClass: String?
         for line in captureLines where line.contains("Will attempt") || line.contains("breaking constraint") {
-            var scanner = line[line.startIndex...]
-            if let ltIdx = scanner.firstIndex(of: "<") {
-                scanner = scanner[scanner.index(after: ltIdx)...]
-                if let spIdx = scanner.firstIndex(of: ":") {
-                    viewClass = String(scanner[scanner.startIndex ..< spIdx])
-                } else if let gtIdx = scanner.firstIndex(of: ">") {
-                    viewClass = String(scanner[scanner.startIndex ..< gtIdx])
-                }
+            if let extracted = extractViewClass(from: line) {
+                viewClass = extracted
+                break
             }
-            if viewClass != nil { break }
         }
 
         let stack = Thread.callStackSymbols
@@ -219,6 +213,18 @@ internal final class PhantomLayoutConflictDetector {
         }
         notifyObservers()
         captureLines = []
+    }
+
+    private func extractViewClass(from line: String) -> String? {
+        guard let ltIdx = line.firstIndex(of: "<") else { return nil }
+        let afterLt = line[line.index(after: ltIdx)...]
+
+        if let spIdx = afterLt.firstIndex(of: ":") {
+            return String(afterLt[..<spIdx])
+        } else if let gtIdx = afterLt.firstIndex(of: ">") {
+            return String(afterLt[..<gtIdx])
+        }
+        return nil
     }
 
     // MARK: - Observer Notification
