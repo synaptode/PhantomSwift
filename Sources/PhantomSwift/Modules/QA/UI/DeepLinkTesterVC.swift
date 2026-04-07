@@ -91,7 +91,7 @@ internal final class DeepLinkTesterVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        applyNavBarAppearance()
+        phantom_applyNavBarAppearance(tintColor: UIColor.Phantom.neonAzure)
         updateEmptyState()
     }
 
@@ -101,28 +101,6 @@ internal final class DeepLinkTesterVC: UIViewController {
     }
 
     // MARK: Appearance
-
-    private func applyNavBarAppearance() {
-        if #available(iOS 13.0, *) {
-            let a = UINavigationBarAppearance()
-            a.configureWithOpaqueBackground()
-            a.backgroundColor = PhantomTheme.shared.backgroundColor
-            a.shadowColor     = .clear
-            a.titleTextAttributes = [
-                .foregroundColor: PhantomTheme.shared.textColor,
-                .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
-            ]
-            navigationController?.navigationBar.standardAppearance   = a
-            navigationController?.navigationBar.scrollEdgeAppearance = a
-            navigationController?.navigationBar.compactAppearance    = a
-        } else {
-            navigationController?.navigationBar.barTintColor = PhantomTheme.shared.backgroundColor
-            navigationController?.navigationBar.shadowImage  = UIImage()
-            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: PhantomTheme.shared.textColor]
-        }
-        navigationController?.navigationBar.tintColor = UIColor.Phantom.neonAzure
-    }
 
     // MARK: Setup
 

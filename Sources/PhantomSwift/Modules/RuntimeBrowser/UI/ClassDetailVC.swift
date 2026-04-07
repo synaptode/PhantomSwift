@@ -84,33 +84,10 @@ internal final class ClassDetailVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        applyNavBarAppearance()
+        phantom_applyNavBarAppearance()
     }
 
     // MARK: - Setup
-
-    private func applyNavBarAppearance() {
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = PhantomTheme.shared.backgroundColor
-            appearance.shadowColor     = .clear
-            appearance.titleTextAttributes = [
-                .foregroundColor: PhantomTheme.shared.textColor,
-                .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
-            ]
-            navigationController?.navigationBar.standardAppearance   = appearance
-            navigationController?.navigationBar.scrollEdgeAppearance = appearance
-            navigationController?.navigationBar.compactAppearance    = appearance
-            navigationController?.navigationBar.tintColor = PhantomTheme.shared.primaryColor
-        } else {
-            navigationController?.navigationBar.barTintColor = PhantomTheme.shared.backgroundColor
-            navigationController?.navigationBar.tintColor    = PhantomTheme.shared.primaryColor
-            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: PhantomTheme.shared.textColor]
-            navigationController?.navigationBar.shadowImage = UIImage()
-            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        }
-    }
 
     private func setupNavigationBar() {
         // Use only the simple name in the nav bar — full name shown in header card
@@ -130,7 +107,7 @@ internal final class ClassDetailVC: UIViewController {
                 action: #selector(copyClassName)
             )
         }
-        applyNavBarAppearance()
+        phantom_applyNavBarAppearance()
     }
 
     @objc private func copyClassName() {

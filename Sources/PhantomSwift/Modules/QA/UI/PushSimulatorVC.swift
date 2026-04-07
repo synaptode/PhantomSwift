@@ -41,7 +41,7 @@ internal final class PushSimulatorVC: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        applyNavBarAppearance()
+        phantom_applyNavBarAppearance()
         refreshPending()
     }
 
@@ -52,29 +52,6 @@ internal final class PushSimulatorVC: UITableViewController {
         tableView.separatorColor  = UIColor.white.withAlphaComponent(0.06)
         tableView.separatorInset  = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
         if #available(iOS 15.0, *) { tableView.sectionHeaderTopPadding = 0 }
-    }
-
-    private func applyNavBarAppearance() {
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = PhantomTheme.shared.backgroundColor
-            appearance.shadowColor     = .clear
-            appearance.titleTextAttributes = [
-                .foregroundColor: PhantomTheme.shared.textColor,
-                .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
-            ]
-            navigationController?.navigationBar.standardAppearance   = appearance
-            navigationController?.navigationBar.scrollEdgeAppearance = appearance
-            navigationController?.navigationBar.compactAppearance    = appearance
-            navigationController?.navigationBar.tintColor = PhantomTheme.shared.primaryColor
-        } else {
-            navigationController?.navigationBar.barTintColor = PhantomTheme.shared.backgroundColor
-            navigationController?.navigationBar.tintColor    = PhantomTheme.shared.primaryColor
-            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: PhantomTheme.shared.textColor]
-            navigationController?.navigationBar.shadowImage = UIImage()
-            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        }
     }
 
     // MARK: - Setup
@@ -596,7 +573,7 @@ internal final class PushComposeVC: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        applyNavBarAppearance()
+        phantom_applyNavBarAppearance()
     }
 
     // MARK: - Appearance
@@ -605,29 +582,6 @@ internal final class PushComposeVC: UITableViewController {
         tableView.backgroundColor = PhantomTheme.shared.backgroundColor
         tableView.separatorColor  = UIColor.white.withAlphaComponent(0.06)
         if #available(iOS 15.0, *) { tableView.sectionHeaderTopPadding = 0 }
-    }
-
-    private func applyNavBarAppearance() {
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = PhantomTheme.shared.backgroundColor
-            appearance.shadowColor     = .clear
-            appearance.titleTextAttributes = [
-                .foregroundColor: PhantomTheme.shared.textColor,
-                .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
-            ]
-            navigationController?.navigationBar.standardAppearance   = appearance
-            navigationController?.navigationBar.scrollEdgeAppearance = appearance
-            navigationController?.navigationBar.compactAppearance    = appearance
-            navigationController?.navigationBar.tintColor = PhantomTheme.shared.primaryColor
-        } else {
-            navigationController?.navigationBar.barTintColor = PhantomTheme.shared.backgroundColor
-            navigationController?.navigationBar.tintColor    = PhantomTheme.shared.primaryColor
-            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: PhantomTheme.shared.textColor]
-            navigationController?.navigationBar.shadowImage = UIImage()
-            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        }
     }
 
     // MARK: - Setup
