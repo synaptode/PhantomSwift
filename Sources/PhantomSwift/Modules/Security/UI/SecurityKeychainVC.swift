@@ -157,6 +157,7 @@ internal final class SecurityKeychainVC: UIViewController {
     }
 
     @objc private func exportItems() {
+        let formatter = ISO8601DateFormatter()
         let arr: [[String: String]] = filteredItems.map { item in
             var d: [String: String] = [
                 "service": item.service,
@@ -164,7 +165,7 @@ internal final class SecurityKeychainVC: UIViewController {
                 "accessible": item.accessible,
             ]
             if let ag = item.accessGroup { d["accessGroup"] = ag }
-            if let c  = item.createdAt   { d["createdAt"]   = ISO8601DateFormatter().string(from: c) }
+            if let c  = item.createdAt   { d["createdAt"]   = formatter.string(from: c) }
             return d
         }
         guard let data = try? JSONSerialization.data(withJSONObject: arr, options: .prettyPrinted),

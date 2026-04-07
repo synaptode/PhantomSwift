@@ -416,9 +416,7 @@ internal final class PerformanceDashboardVC: UIViewController {
     }
 
     private func formatDate(_ date: Date) -> String {
-        let f = DateFormatter()
-        f.dateFormat = "MMM d, HH:mm"
-        return f.string(from: date)
+        return SessionSummaryCell.dateFormatter.string(from: date)
     }
 }
 

@@ -6,6 +6,12 @@ import UIKit
 /// Full-featured live log console with level filtering, search, and per-entry detail.
 internal final class LogConsoleVC: UIViewController, PhantomEventObserver {
 
+    private static let exportFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return df
+    }()
+
     // MARK: - State
 
     private var allLogs:      [LogEntry] = []
@@ -276,10 +282,8 @@ internal final class LogConsoleVC: UIViewController, PhantomEventObserver {
     }
 
     @objc private func exportLogs() {
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let text = filteredLogs.map { log in
-            let ts   = df.string(from: log.timestamp)
+            let ts   = LogConsoleVC.exportFormatter.string(from: log.timestamp)
             let file = URL(fileURLWithPath: log.file).lastPathComponent
             let tag  = log.tag ?? "-"
             return "[\(ts)] [\(log.level.name)] [\(tag)] [\(file):\(log.line)] \(log.message)"
@@ -532,6 +536,12 @@ private final class LogCell: UITableViewCell {
 // MARK: - LogDetailVC
 
 private final class LogDetailVC: UIViewController {
+
+    private static let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        return df
+    }()
     private let entry: LogEntry
     private let tableView: UITableView = {
         if #available(iOS 13.0, *) {
@@ -580,14 +590,12 @@ private final class LogDetailVC: UIViewController {
     }
 
     private var sections: [(header: String, rows: [(label: String, value: String)])] {
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let file = URL(fileURLWithPath: entry.file).lastPathComponent
         return [
             ("ENTRY", [
                 ("Level",    "\(entry.level.emoji) \(entry.level.name)"),
                 ("Tag",      entry.tag ?? "—"),
-                ("Time",     df.string(from: entry.timestamp)),
+                ("Time",     LogDetailVC.dateFormatter.string(from: entry.timestamp)),
             ]),
             ("LOCATION", [
                 ("File",     file),

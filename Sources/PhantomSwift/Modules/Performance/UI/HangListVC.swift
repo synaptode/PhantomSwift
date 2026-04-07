@@ -330,9 +330,7 @@ private final class HangEventCell: UITableViewCell {
         let screenName = hang.screenName
         screenLabel.text = "at \(screenName)"
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss.SSS"
-        timestampLabel.text = "🕒 \(formatter.string(from: hang.timestamp))"
+        timestampLabel.text = "🕒 \(HangEventCell.dateFormatter.string(from: hang.timestamp))"
 
         let color: UIColor
         let severity: String

@@ -3,6 +3,13 @@ import UIKit
 
 /// File browser for the app's sandbox.
 internal final class SandboxInspectorVC: PhantomTableVC {
+
+    private static let dateFormatter: DateFormatter = {
+        let fmt = DateFormatter()
+        fmt.dateStyle = .short
+        fmt.timeStyle = .short
+        return fmt
+    }()
     private let currentPath: String
     private var contents: [URL] = []
     
@@ -78,10 +85,7 @@ internal final class SandboxInspectorVC: PhantomTableVC {
             let date = (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
             let sizeStr = ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: .file)
             if let date = date {
-                let formatter = DateFormatter()
-                formatter.dateStyle = .short
-                formatter.timeStyle = .short
-                cell.detailTextLabel?.text = "\(sizeStr) • \(formatter.string(from: date))"
+                cell.detailTextLabel?.text = "\(sizeStr) • \(SandboxInspectorVC.dateFormatter.string(from: date))"
             } else {
                 cell.detailTextLabel?.text = sizeStr
             }

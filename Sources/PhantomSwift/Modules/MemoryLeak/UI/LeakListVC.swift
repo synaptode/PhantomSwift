@@ -11,7 +11,7 @@ internal final class LeakListVC: PhantomTableVC, PhantomEventObserver {
     private var filteredLeaks: [LeakReport] = []
     private var searchText: String = ""
 
-    private let fmt: DateFormatter = {
+    private static let dateFormatter: DateFormatter = {
         let f = DateFormatter()
         f.dateStyle = .none
         f.timeStyle = .medium
