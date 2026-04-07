@@ -89,14 +89,17 @@ internal final class BadNetworkDashboardVC: PhantomTableVC {
         let targetWidth = tableView.bounds.width
         if targetWidth == 0 { return }
         
+        // Fix header view size for UITableView
+        headerView.layoutIfNeeded()
         let size = headerView.systemLayoutSizeFitting(
             CGSize(width: targetWidth, height: UIView.layoutFittingCompressedSize.height),
             withHorizontalFittingPriority: .required,
             verticalFittingPriority: .fittingSizeLevel
         )
 
-        if headerView.frame.size.height != size.height {
-            headerView.frame.size.height = size.height
+        let newHeight = max(size.height, 84)
+        if headerView.frame.size.height != newHeight {
+            headerView.frame.size.height = newHeight
             tableView.tableHeaderView = headerView
         }
     }
