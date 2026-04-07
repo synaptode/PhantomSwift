@@ -48,15 +48,23 @@ internal final class PerformanceDashboardVC: UIViewController {
         container.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(container)
         
-        // Hero Card (FPS)
+        setupHeroCard(in: container)
+        setupStatsGrid(in: container)
+        setupMetricKitSection(in: container)
+        setupMemoryToolsSection(in: container)
+        setupConstraints(container: container)
+    }
+
+    private func setupHeroCard(in container: UIStackView) {
         let fpsHeader = UILabel()
         fpsHeader.text = "FLUIDITY"
         fpsHeader.font = UIFont.systemFont(ofSize: 10, weight: .black)
         fpsHeader.textColor = PhantomTheme.shared.primaryColor
         container.addArrangedSubview(fpsHeader)
         container.addArrangedSubview(fpsCard)
-        
-        // Stats Grid
+    }
+
+    private func setupStatsGrid(in container: UIStackView) {
         let statsHeader = UILabel()
         statsHeader.text = "SYSTEM LOAD"
         statsHeader.font = UIFont.systemFont(ofSize: 10, weight: .black)
@@ -69,8 +77,9 @@ internal final class PerformanceDashboardVC: UIViewController {
         statsStack.addArrangedSubview(cpuCard)
         statsStack.addArrangedSubview(ramCard)
         container.addArrangedSubview(statsStack)
+    }
 
-        // MetricKit section (iOS 13+)
+    private func setupMetricKitSection(in container: UIStackView) {
         if #available(iOS 13.0, *) {
             let mkHeader = UILabel()
             mkHeader.text = "METRICKIT (24H)"
@@ -93,8 +102,9 @@ internal final class PerformanceDashboardVC: UIViewController {
             }
             PhantomMetricKitMonitor.shared.start()
         }
+    }
 
-        // MARK: Memory Tools section
+    private func setupMemoryToolsSection(in container: UIStackView) {
         let memHeader = UILabel()
         memHeader.text      = "MEMORY TOOLS"
         memHeader.font      = UIFont.systemFont(ofSize: 10, weight: .black)
@@ -178,7 +188,9 @@ internal final class PerformanceDashboardVC: UIViewController {
             diffRow.trailingAnchor.constraint(equalTo: memCard.trailingAnchor),
             diffRow.bottomAnchor.constraint(equalTo: memCard.bottomAnchor),
         ])
+    }
 
+    private func setupConstraints(container: UIStackView) {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
