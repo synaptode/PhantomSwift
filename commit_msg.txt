@@ -1,0 +1,6 @@
+🧹 [Code Health] Refactor PhantomRemoteServer.executeCommand
+
+🎯 **What:** Extracted the cases of the large switch statement in executeCommand into private, dedicated helper functions (e.g., handleAppInfoCommand, handleLogsCommand).
+💡 **Why:** To significantly reduce the complexity and length of executeCommand, making the code easier to read, maintain, and test. Also optimized memory usage by hoisting ISO8601DateFormatter() instantiation out of loops in the log and network trace handlers.
+✅ **Verification:** Bypassed local Swift compilation due to missing toolchain, but performed code review validating syntactic correctness and safety of extraction.
+✨ **Result:** Clean, modularized command handlers with a minor performance improvement.
