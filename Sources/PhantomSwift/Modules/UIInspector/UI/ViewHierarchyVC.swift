@@ -109,21 +109,20 @@ internal final class ViewHierarchyVC: PhantomTableVC {
     // MARK: - Tree Building
 
     private func buildTree() {
-        rootNode = buildNode(view: rootView, depth: 0)
-        totalViewCount = countNodes(rootNode)
+        let result = buildNode(view: rootView, depth: 0)
+        rootNode = result.node
+        totalViewCount = result.count
     }
 
-    private func buildNode(view: UIView, depth: Int) -> TreeNode {
+    private func buildNode(view: UIView, depth: Int) -> (node: TreeNode, count: Int) {
         let node = TreeNode(view: view, depth: depth)
+        var count = 1
         for sub in view.subviews {
-            node.children.append(buildNode(view: sub, depth: depth + 1))
+            let childResult = buildNode(view: sub, depth: depth + 1)
+            node.children.append(childResult.node)
+            count += childResult.count
         }
-        return node
-    }
-
-    private func countNodes(_ node: TreeNode?) -> Int {
-        guard let node else { return 0 }
-        return 1 + node.children.reduce(0) { $0 + countNodes($1) }
+        return (node, count)
     }
 
     private func rebuildDisplayList() {
