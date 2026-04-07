@@ -17,6 +17,11 @@ let package = Package(
             name: "PhantomSwift",
             dependencies: [],
             path: "Sources/PhantomSwift"
+        ),
+        .testTarget(
+            name: "PhantomSwiftTests",
+            dependencies: ["PhantomSwift"],
+            path: "Tests/PhantomSwiftTests"
         )
     ]
 )
