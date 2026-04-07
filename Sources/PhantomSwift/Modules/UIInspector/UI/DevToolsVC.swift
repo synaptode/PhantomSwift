@@ -203,109 +203,122 @@ extension DevToolsVC: UITableViewDataSource {
 
         switch sec {
         case .darkMode:
-            let seg: UISegmentedControl
-            if #available(iOS 13.0, *) {
-                seg = UISegmentedControl(items: ["Light", "Dark", "System"])
-                seg.selectedSegmentIndex = 2
-                seg.selectedSegmentTintColor = UIColor.Phantom.neonAzure
-            } else {
-                seg = UISegmentedControl(items: ["Light", "Dark"])
-                seg.selectedSegmentIndex = 0
-            }
-            seg.translatesAutoresizingMaskIntoConstraints = false
-            cell.contentView.addSubview(seg)
-            NSLayoutConstraint.activate([
-                seg.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor),
-                seg.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor),
-                seg.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
-                seg.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
-                cell.contentView.heightAnchor.constraint(equalToConstant: 56),
-            ])
-            seg.addTarget(self, action: #selector(darkModeChanged(_:)), for: .valueChanged)
-
+            configureDarkModeCell(cell)
         case .dynamicType:
-            let slider = UISlider()
-            slider.minimumValue = 0
-            slider.maximumValue = Float(contentSizeCategories.count - 1)
-            slider.value = Float(dynamicTypeCategoryIndex)
-            slider.minimumTrackTintColor = UIColor.Phantom.vibrantPurple
-            slider.translatesAutoresizingMaskIntoConstraints = false
-
-            let minLabel = UILabel()
-            minLabel.text = "XS"
-            minLabel.font = .systemFont(ofSize: 9, weight: .bold)
-            minLabel.textColor = UIColor.white.withAlphaComponent(0.5)
-            minLabel.translatesAutoresizingMaskIntoConstraints = false
-
-            let maxLabel = UILabel()
-            maxLabel.text = "A5"
-            maxLabel.font = .systemFont(ofSize: 9, weight: .bold)
-            maxLabel.textColor = UIColor.white.withAlphaComponent(0.5)
-            maxLabel.translatesAutoresizingMaskIntoConstraints = false
-
-            let valueLabel = UILabel()
-            valueLabel.text = contentSizeCategoryNames[safe: dynamicTypeCategoryIndex] ?? "L"
-            valueLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 13, weight: .black)
-            valueLabel.textColor = UIColor.Phantom.vibrantPurple
-            valueLabel.textAlignment = .center
-            valueLabel.translatesAutoresizingMaskIntoConstraints = false
-            valueLabel.tag = 99
-
-            [minLabel, maxLabel, valueLabel, slider].forEach { cell.contentView.addSubview($0) }
-            NSLayoutConstraint.activate([
-                valueLabel.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 10),
-                valueLabel.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor),
-                minLabel.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
-                minLabel.centerYAnchor.constraint(equalTo: slider.centerYAnchor),
-                maxLabel.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
-                maxLabel.centerYAnchor.constraint(equalTo: slider.centerYAnchor),
-                slider.topAnchor.constraint(equalTo: valueLabel.bottomAnchor, constant: 8),
-                slider.leadingAnchor.constraint(equalTo: minLabel.trailingAnchor, constant: 8),
-                slider.trailingAnchor.constraint(equalTo: maxLabel.leadingAnchor, constant: -8),
-                slider.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -12),
-            ])
-            slider.addTarget(self, action: #selector(dynamicTypeChanged(_:)), for: .valueChanged)
-
+            configureDynamicTypeCell(cell)
         case .localization:
-            let picker = UIPickerView()
-            picker.dataSource = self
-            picker.delegate = self
-            picker.selectRow(currentLocalizationIndex, inComponent: 0, animated: false)
-            picker.translatesAutoresizingMaskIntoConstraints = false
-            cell.contentView.addSubview(picker)
-            NSLayoutConstraint.activate([
-                picker.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                picker.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-                picker.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
-                picker.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-                picker.heightAnchor.constraint(equalToConstant: 150),
-            ])
-
+            configureLocalizationCell(cell)
         case .rtl:
-            let label = UILabel()
-            label.text = "Force Right-to-Left"
-            label.font = .systemFont(ofSize: 15, weight: .medium)
-            label.textColor = .white
-            label.translatesAutoresizingMaskIntoConstraints = false
-
-            let rtlSwitch = UISwitch()
-            rtlSwitch.isOn = isRTLEnabled
-            rtlSwitch.onTintColor = UIColor.Phantom.vibrantPurple
-            rtlSwitch.translatesAutoresizingMaskIntoConstraints = false
-
-            cell.contentView.addSubview(label)
-            cell.contentView.addSubview(rtlSwitch)
-            NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
-                label.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor),
-                rtlSwitch.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
-                rtlSwitch.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor),
-                cell.contentView.heightAnchor.constraint(equalToConstant: 56),
-            ])
-            rtlSwitch.addTarget(self, action: #selector(rtlToggled(_:)), for: .valueChanged)
+            configureRTLCell(cell)
         }
 
         return cell
+    }
+
+    private func configureDarkModeCell(_ cell: UITableViewCell) {
+        let seg: UISegmentedControl
+        if #available(iOS 13.0, *) {
+            seg = UISegmentedControl(items: ["Light", "Dark", "System"])
+            seg.selectedSegmentIndex = 2
+            seg.selectedSegmentTintColor = UIColor.Phantom.neonAzure
+        } else {
+            seg = UISegmentedControl(items: ["Light", "Dark"])
+            seg.selectedSegmentIndex = 0
+        }
+        seg.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(seg)
+        NSLayoutConstraint.activate([
+            seg.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor),
+            seg.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor),
+            seg.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
+            seg.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
+            cell.contentView.heightAnchor.constraint(equalToConstant: 56),
+        ])
+        seg.addTarget(self, action: #selector(darkModeChanged(_:)), for: .valueChanged)
+    }
+
+    private func configureDynamicTypeCell(_ cell: UITableViewCell) {
+        let slider = UISlider()
+        slider.minimumValue = 0
+        slider.maximumValue = Float(contentSizeCategories.count - 1)
+        slider.value = Float(dynamicTypeCategoryIndex)
+        slider.minimumTrackTintColor = UIColor.Phantom.vibrantPurple
+        slider.translatesAutoresizingMaskIntoConstraints = false
+
+        let minLabel = UILabel()
+        minLabel.text = "XS"
+        minLabel.font = .systemFont(ofSize: 9, weight: .bold)
+        minLabel.textColor = UIColor.white.withAlphaComponent(0.5)
+        minLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        let maxLabel = UILabel()
+        maxLabel.text = "A5"
+        maxLabel.font = .systemFont(ofSize: 9, weight: .bold)
+        maxLabel.textColor = UIColor.white.withAlphaComponent(0.5)
+        maxLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        let valueLabel = UILabel()
+        valueLabel.text = contentSizeCategoryNames[safe: dynamicTypeCategoryIndex] ?? "L"
+        valueLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 13, weight: .black)
+        valueLabel.textColor = UIColor.Phantom.vibrantPurple
+        valueLabel.textAlignment = .center
+        valueLabel.translatesAutoresizingMaskIntoConstraints = false
+        valueLabel.tag = 99
+
+        [minLabel, maxLabel, valueLabel, slider].forEach { cell.contentView.addSubview($0) }
+        NSLayoutConstraint.activate([
+            valueLabel.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 10),
+            valueLabel.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor),
+            minLabel.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
+            minLabel.centerYAnchor.constraint(equalTo: slider.centerYAnchor),
+            maxLabel.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
+            maxLabel.centerYAnchor.constraint(equalTo: slider.centerYAnchor),
+            slider.topAnchor.constraint(equalTo: valueLabel.bottomAnchor, constant: 8),
+            slider.leadingAnchor.constraint(equalTo: minLabel.trailingAnchor, constant: 8),
+            slider.trailingAnchor.constraint(equalTo: maxLabel.leadingAnchor, constant: -8),
+            slider.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -12),
+        ])
+        slider.addTarget(self, action: #selector(dynamicTypeChanged(_:)), for: .valueChanged)
+    }
+
+    private func configureLocalizationCell(_ cell: UITableViewCell) {
+        let picker = UIPickerView()
+        picker.dataSource = self
+        picker.delegate = self
+        picker.selectRow(currentLocalizationIndex, inComponent: 0, animated: false)
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(picker)
+        NSLayoutConstraint.activate([
+            picker.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            picker.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+            picker.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
+            picker.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+            picker.heightAnchor.constraint(equalToConstant: 150),
+        ])
+    }
+
+    private func configureRTLCell(_ cell: UITableViewCell) {
+        let label = UILabel()
+        label.text = "Force Right-to-Left"
+        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        let rtlSwitch = UISwitch()
+        rtlSwitch.isOn = isRTLEnabled
+        rtlSwitch.onTintColor = UIColor.Phantom.vibrantPurple
+        rtlSwitch.translatesAutoresizingMaskIntoConstraints = false
+
+        cell.contentView.addSubview(label)
+        cell.contentView.addSubview(rtlSwitch)
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
+            label.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor),
+            rtlSwitch.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
+            rtlSwitch.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor),
+            cell.contentView.heightAnchor.constraint(equalToConstant: 56),
+        ])
+        rtlSwitch.addTarget(self, action: #selector(rtlToggled(_:)), for: .valueChanged)
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
