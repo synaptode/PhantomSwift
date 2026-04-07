@@ -43,6 +43,20 @@ internal final class SnapshotCompareVC: UIViewController {
     }
 
     private func setupUI() {
+        setupImages()
+        setupDivider()
+        setupLabels()
+        setupCaptureButton()
+        setupHintLabel()
+
+        // Layout
+        [beforeImageView, afterImageView, dividerView, handleView,
+         beforeLabel, afterLabel, captureButton, hintLabel].forEach { view.addSubview($0) }
+
+        setupConstraints()
+    }
+
+    private func setupImages() {
         // Before image (full width background layer)
         beforeImageView.image = beforeImage
         beforeImageView.contentMode = .scaleAspectFit
@@ -55,7 +69,9 @@ internal final class SnapshotCompareVC: UIViewController {
         afterImageView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         afterImageView.clipsToBounds = true
         afterImageView.translatesAutoresizingMaskIntoConstraints = false
+    }
 
+    private func setupDivider() {
         // Divider line
         dividerView.backgroundColor = UIColor.Phantom.neonAzure
         dividerView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +94,9 @@ internal final class SnapshotCompareVC: UIViewController {
             arrowRight.centerYAnchor.constraint(equalTo: handleView.centerYAnchor),
             arrowRight.trailingAnchor.constraint(equalTo: handleView.trailingAnchor, constant: -4),
         ])
+    }
 
+    private func setupLabels() {
         // Labels
         beforeLabel.text = " BEFORE "
         beforeLabel.font = .systemFont(ofSize: 9, weight: .black)
@@ -95,7 +113,9 @@ internal final class SnapshotCompareVC: UIViewController {
         afterLabel.layer.cornerRadius = 6
         afterLabel.layer.masksToBounds = true
         afterLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
 
+    private func setupCaptureButton() {
         // Capture button
         if #available(iOS 13.0, *) {
             captureButton.setImage(UIImage(systemName: "camera.fill"), for: .normal)
@@ -110,7 +130,9 @@ internal final class SnapshotCompareVC: UIViewController {
         captureButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 20)
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         captureButton.addTarget(self, action: #selector(captureAfter), for: .touchUpInside)
+    }
 
+    private func setupHintLabel() {
         // Hint
         hintLabel.text = "Navigate back, make changes, return and tap \"Capture After\"\nThen drag the divider to compare"
         hintLabel.font = .systemFont(ofSize: 11, weight: .regular)
@@ -118,11 +140,9 @@ internal final class SnapshotCompareVC: UIViewController {
         hintLabel.textAlignment = .center
         hintLabel.numberOfLines = 2
         hintLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
 
-        // Layout
-        [beforeImageView, afterImageView, dividerView, handleView,
-         beforeLabel, afterLabel, captureButton, hintLabel].forEach { view.addSubview($0) }
-
+    private func setupConstraints() {
         let comparisonBottom = view.centerYAnchor
         let divCenter = dividerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         dividerCenterConstraint = divCenter
