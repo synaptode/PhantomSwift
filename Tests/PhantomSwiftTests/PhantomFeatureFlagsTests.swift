@@ -85,4 +85,43 @@ final class PhantomFeatureFlagsTests: XCTestCase {
         // Let's test that it *doesn't* crash and fails gracefully (flag is false).
         XCTAssertFalse(sut.isEnabled(key), "Setting an override for an unregistered flag should have no effect")
     }
+
+    func testToggle() {
+        let sut = PhantomFeatureFlags.shared
+        let key = UUID().uuidString
+
+        // Register with default false
+        sut.register(key: key, title: "Test Toggle Flag", defaultValue: false)
+        XCTAssertFalse(sut.isEnabled(key))
+
+        // Toggle should flip it to true
+        sut.toggle(key)
+        XCTAssertTrue(sut.isEnabled(key))
+
+        // Toggle again should flip it to false
+        sut.toggle(key)
+        XCTAssertFalse(sut.isEnabled(key))
+    }
+
+    func testToggleWithDefaultTrue() {
+        let sut = PhantomFeatureFlags.shared
+        let key = UUID().uuidString
+
+        // Register with default true
+        sut.register(key: key, title: "Test Toggle Flag True", defaultValue: true)
+        XCTAssertTrue(sut.isEnabled(key))
+
+        // Toggle should flip it to false
+        sut.toggle(key)
+        XCTAssertFalse(sut.isEnabled(key))
+    }
+
+    func testToggleUnregisteredFlag() {
+        let sut = PhantomFeatureFlags.shared
+        let key = UUID().uuidString
+
+        // Toggling an unregistered flag should not crash and should leave it disabled.
+        sut.toggle(key)
+        XCTAssertFalse(sut.isEnabled(key))
+    }
 }
