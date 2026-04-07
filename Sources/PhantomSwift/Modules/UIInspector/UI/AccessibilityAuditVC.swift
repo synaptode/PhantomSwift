@@ -218,9 +218,14 @@ internal final class AccessibilityAuditVC: UIViewController {
     private func buildSummaryHeader() -> UIView {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 110))
 
-        let critCount = issues.filter { $0.severity == .critical }.count
-        let warnCount = issues.filter { $0.severity == .warning }.count
-        let infoCount = issues.filter { $0.severity == .info }.count
+        var critCount = 0, warnCount = 0, infoCount = 0
+        for issue in issues {
+            switch issue.severity {
+            case .critical: critCount += 1
+            case .warning:  warnCount += 1
+            case .info:     infoCount += 1
+            }
+        }
 
         let titleLabel = UILabel()
         if issues.isEmpty {
