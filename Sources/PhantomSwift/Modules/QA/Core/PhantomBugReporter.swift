@@ -72,20 +72,35 @@ public final class PhantomBugReporter {
 
             // Create zip
             let zipURL = fm.temporaryDirectory.appendingPathComponent("PhantomBugReport.zip")
-            try? fm.removeItem(at: zipURL)
+            if fm.fileExists(atPath: zipURL.path) {
+                do {
+                    try fm.removeItem(at: zipURL)
+                } catch {
+                    print("PhantomSwift Error: Could not remove existing zip file: \(error.localizedDescription)")
+                }
+            }
 
             let coordinator = NSFileCoordinator()
             var error: NSError?
+            var copyError: Error?
             coordinator.coordinate(readingItemAt: bundleDir,
                                    options: .forUploading,
                                    error: &error) { (zippedURL) in
-                try? fm.copyItem(at: zippedURL, to: zipURL)
+                do {
+                    try fm.copyItem(at: zippedURL, to: zipURL)
+                } catch {
+                    copyError = error
+                }
             }
 
             // Clean up bundle dir
-            try? fm.removeItem(at: bundleDir)
+            do {
+                try fm.removeItem(at: bundleDir)
+            } catch {
+                print("PhantomSwift Error: Could not clean up bundle directory: \(error.localizedDescription)")
+            }
 
-            if fm.fileExists(atPath: zipURL.path) {
+            if copyError == nil && error == nil && fm.fileExists(atPath: zipURL.path) {
                 return zipURL
             }
         } catch {
@@ -327,7 +342,11 @@ internal final class BugReporterVC: UIViewController {
         let activity = UIActivityViewController(activityItems: items, applicationActivities: nil)
         activity.completionWithItemsHandler = { [weak self] _, _, _, _ in
             if let zipURL = zipURL {
-                try? FileManager.default.removeItem(at: zipURL)
+                do {
+                    try FileManager.default.removeItem(at: zipURL)
+                } catch {
+                    print("PhantomSwift Error: Failed to clean up zip file after export: \(error.localizedDescription)")
+                }
             }
             self?.dismiss(animated: true)
         }
