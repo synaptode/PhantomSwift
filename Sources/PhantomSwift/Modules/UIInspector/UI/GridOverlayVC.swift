@@ -117,10 +117,26 @@ extension GridOverlayVC: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (Section(rawValue: indexPath.section)!, indexPath.row) {
+        case (.toggle, let row):
+            return configureToggleCell(for: tableView, at: indexPath, row: row)
+        case (.presets, _):
+            return configurePresetsCell(for: tableView, at: indexPath)
+        case (.columns, _):
+            return configureColumnsCell(for: tableView, at: indexPath)
+        case (.spacing, let row):
+            return configureSpacingCell(for: tableView, at: indexPath, row: row)
+        case (.baseline, let row):
+            return configureBaselineCell(for: tableView, at: indexPath, row: row)
+        case (.guides, _):
+            return configureGuidesCell(for: tableView, at: indexPath)
+        default:
+            return tableView.dequeueReusableCell(withIdentifier: "Base", for: indexPath)
+        }
+    }
 
-        // MARK: Toggle section
-        case (.toggle, 0):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell") as! ToggleCell
+    private func configureToggleCell(for tableView: UITableView, at indexPath: IndexPath, row: Int) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
+        if row == 0 {
             cell.configure(label: "Show Grid Overlay",
                            icon: "squareshape.split.3x3",
                            iconColor: UIColor.Phantom.neonAzure,
@@ -133,10 +149,7 @@ extension GridOverlayVC: UITableViewDataSource {
                     cfg = self?.localConfig ?? PhantomGridConfig()
                 } }
             }
-            return cell
-
-        case (.toggle, 1):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell") as! ToggleCell
+        } else {
             cell.configure(label: "Touch Visualizer",
                            icon: "hand.tap",
                            iconColor: UIColor.Phantom.vibrantOrange,
@@ -145,46 +158,48 @@ extension GridOverlayVC: UITableViewDataSource {
                 isOn ? PhantomTouchVisualizer.shared.start()
                      : PhantomTouchVisualizer.shared.stop()
             }
-            return cell
+        }
+        return cell
+    }
 
-        // MARK: Presets section
-        case (.presets, _):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PresetButtonsCell") as! PresetButtonsCell
-            cell.configure(presets: [
-                Preset(label: "4-col\niOS HIG",  columns: 4,  margin: 20, gutter: 16),
-                Preset(label: "8-col\nMaterial",  columns: 8,  margin: 16, gutter: 8),
-                Preset(label: "12-col\nBootstrap", columns: 12, margin: 16, gutter: 8),
-                Preset(label: "16-col\nDesktop",  columns: 16, margin: 16, gutter: 4)
-            ])
-            cell.onPresetSelected = { [weak self] preset in
-                self?.apply {
-                    $0.columns = preset.columns
-                    $0.margin  = preset.margin
-                    $0.gutter  = preset.gutter
-                }
-                self?.tableView.reloadSections(
-                    IndexSet(integersIn: Section.columns.rawValue...Section.spacing.rawValue),
-                    with: .none)
+    private func configurePresetsCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PresetButtonsCell", for: indexPath) as! PresetButtonsCell
+        cell.configure(presets: [
+            Preset(label: "4-col\niOS HIG",  columns: 4,  margin: 20, gutter: 16),
+            Preset(label: "8-col\nMaterial",  columns: 8,  margin: 16, gutter: 8),
+            Preset(label: "12-col\nBootstrap", columns: 12, margin: 16, gutter: 8),
+            Preset(label: "16-col\nDesktop",  columns: 16, margin: 16, gutter: 4)
+        ])
+        cell.onPresetSelected = { [weak self] preset in
+            self?.apply {
+                $0.columns = preset.columns
+                $0.margin  = preset.margin
+                $0.gutter  = preset.gutter
             }
-            return cell
+            self?.tableView.reloadSections(
+                IndexSet(integersIn: Section.columns.rawValue...Section.spacing.rawValue),
+                with: .none)
+        }
+        return cell
+    }
 
-        // MARK: Columns section
-        case (.columns, _):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "StepperCell") as! StepperCell
-            cell.configure(with: .init(
-                label: "Columns",
-                icon: "rectangle.split.3x1",
-                iconColor: UIColor.Phantom.vibrantGreen,
-                value: Double(localConfig.columns),
-                minValue: 1, maxValue: 24, step: 1))
-            cell.onChange = { [weak self] val in
-                self?.apply { $0.columns = Int(val) }
-            }
-            return cell
+    private func configureColumnsCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "StepperCell", for: indexPath) as! StepperCell
+        cell.configure(with: .init(
+            label: "Columns",
+            icon: "rectangle.split.3x1",
+            iconColor: UIColor.Phantom.vibrantGreen,
+            value: Double(localConfig.columns),
+            minValue: 1, maxValue: 24, step: 1))
+        cell.onChange = { [weak self] val in
+            self?.apply { $0.columns = Int(val) }
+        }
+        return cell
+    }
 
-        // MARK: Spacing section
-        case (.spacing, 0):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SliderCell") as! SliderCell
+    private func configureSpacingCell(for tableView: UITableView, at indexPath: IndexPath, row: Int) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SliderCell", for: indexPath) as! SliderCell
+        if row == 0 {
             cell.configure(with: .init(
                 label: "Margin",
                 icon: "arrow.left.and.right",
@@ -194,10 +209,7 @@ extension GridOverlayVC: UITableViewDataSource {
             cell.onChange = { [weak self] val in
                 self?.apply { $0.margin = CGFloat(val) }
             }
-            return cell
-
-        case (.spacing, 1):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SliderCell") as! SliderCell
+        } else {
             cell.configure(with: .init(
                 label: "Gutter",
                 icon: "equal.square",
@@ -207,11 +219,13 @@ extension GridOverlayVC: UITableViewDataSource {
             cell.onChange = { [weak self] val in
                 self?.apply { $0.gutter = CGFloat(val) }
             }
-            return cell
+        }
+        return cell
+    }
 
-        // MARK: Baseline section
-        case (.baseline, 0):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell") as! ToggleCell
+    private func configureBaselineCell(for tableView: UITableView, at indexPath: IndexPath, row: Int) -> UITableViewCell {
+        if row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
             cell.configure(label: "Baseline Grid",
                            icon: "line.3.horizontal",
                            iconColor: UIColor.Phantom.vibrantOrange,
@@ -220,9 +234,8 @@ extension GridOverlayVC: UITableViewDataSource {
                 self?.apply { $0.showBaseline = isOn }
             }
             return cell
-
-        case (.baseline, 1):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SliderCell") as! SliderCell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SliderCell", for: indexPath) as! SliderCell
             cell.configure(with: .init(
                 label: "Baseline Spacing",
                 icon: "timeline.selection",
@@ -233,22 +246,19 @@ extension GridOverlayVC: UITableViewDataSource {
                 self?.apply { $0.baselineSpacing = CGFloat(val) }
             }
             return cell
-
-        // MARK: Guides section
-        case (.guides, _):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell") as! ToggleCell
-            cell.configure(label: "Center Guides",
-                           icon: "plus.viewfinder",
-                           iconColor: UIColor.Phantom.neonAzure,
-                           isOn: localConfig.showCenterGuides)
-            cell.onToggle = { [weak self] isOn in
-                self?.apply { $0.showCenterGuides = isOn }
-            }
-            return cell
-
-        default:
-            return tableView.dequeueReusableCell(withIdentifier: "Base", for: indexPath)
         }
+    }
+
+    private func configureGuidesCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell", for: indexPath) as! ToggleCell
+        cell.configure(label: "Center Guides",
+                       icon: "plus.viewfinder",
+                       iconColor: UIColor.Phantom.neonAzure,
+                       isOn: localConfig.showCenterGuides)
+        cell.onToggle = { [weak self] isOn in
+            self?.apply { $0.showCenterGuides = isOn }
+        }
+        return cell
     }
 }
 
