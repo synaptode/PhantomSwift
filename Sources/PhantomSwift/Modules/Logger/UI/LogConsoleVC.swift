@@ -405,6 +405,12 @@ private final class LevelChip: UIControl {
 private final class LogCell: UITableViewCell {
     static let reuseID = "LogCell"
 
+    private static let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "HH:mm:ss.SSS"
+        return df
+    }()
+
     private let accentBar    = UIView()
     private let levelBadge   = UILabel()
     private let messageLabel = UILabel()
@@ -508,9 +514,7 @@ private final class LogCell: UITableViewCell {
         tagBadge.backgroundColor   = accent.withAlphaComponent(0.12)
 
         let file = URL(fileURLWithPath: entry.file).lastPathComponent
-        let df   = DateFormatter()
-        df.dateFormat = "HH:mm:ss.SSS"
-        metaLabel.text = "\(file):\(entry.line) · \(df.string(from: entry.timestamp))"
+        metaLabel.text = "\(file):\(entry.line) · \(LogCell.dateFormatter.string(from: entry.timestamp))"
     }
 
     private func accentColor(for level: LogLevel) -> UIColor {
