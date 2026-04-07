@@ -41,25 +41,9 @@ internal final class LiveEditVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Live Edit"
-        setupAppearance()
+        setupPhantomAppearance(titleFont: .systemFont(ofSize: 16, weight: .bold))
         setupNavigation()
         setupTableView()
-    }
-
-    private func setupAppearance() {
-        view.backgroundColor = PhantomTheme.shared.backgroundColor
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = PhantomTheme.shared.backgroundColor
-            appearance.titleTextAttributes = [
-                .foregroundColor: UIColor.white,
-                .font: UIFont.systemFont(ofSize: 16, weight: .bold)
-            ]
-            navigationController?.navigationBar.standardAppearance = appearance
-            navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        }
-        navigationController?.navigationBar.tintColor = UIColor.Phantom.neonAzure
     }
 
     private func setupNavigation() {
