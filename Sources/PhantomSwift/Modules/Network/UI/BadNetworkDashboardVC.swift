@@ -24,12 +24,17 @@ internal final class BadNetworkDashboardVC: PhantomTableVC {
             self.masterSwitch.isOn = PhantomNetworkSimulator.shared.isEnabled
             self.tableView.reloadData()
             self.updateHeaderStyle()
+            self.updateHeaderHeight()
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateHeaderHeight()
+    }
+
     private func setupHeader() {
         let headerView = UIView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.backgroundColor = .clear
         
         let container = UIView()
@@ -42,7 +47,9 @@ internal final class BadNetworkDashboardVC: PhantomTableVC {
         
         let label = UILabel()
         label.text = "Simulation Master"
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         label.textColor = PhantomTheme.shared.textColor
         container.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -59,23 +66,39 @@ internal final class BadNetworkDashboardVC: PhantomTableVC {
             container.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
             container.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16),
             container.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -12),
-            container.heightAnchor.constraint(greaterThanOrEqualToConstant: 60),
             
+            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 20),
+            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20),
             label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
-            label.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            label.trailingAnchor.constraint(lessThanOrEqualTo: masterSwitch.leadingAnchor, constant: -12),
             
             masterSwitch.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16),
-            masterSwitch.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+            masterSwitch.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            masterSwitch.topAnchor.constraint(greaterThanOrEqualTo: container.topAnchor, constant: 12),
+            masterSwitch.bottomAnchor.constraint(lessThanOrEqualTo: container.bottomAnchor, constant: -12)
         ])
         
         tableView.tableHeaderView = headerView
-        
-        // Fix header view size for UITableView
-        headerView.layoutIfNeeded()
-        let headerSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        headerView.frame.size.height = max(headerSize.height, 84)
-        
+        updateHeaderHeight()
         updateHeaderStyle()
+    }
+
+    private func updateHeaderHeight() {
+        guard let headerView = tableView.tableHeaderView else { return }
+        
+        let targetWidth = tableView.bounds.width
+        if targetWidth == 0 { return }
+        
+        let size = headerView.systemLayoutSizeFitting(
+            CGSize(width: targetWidth, height: UIView.layoutFittingCompressedSize.height),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+
+        if headerView.frame.size.height != size.height {
+            headerView.frame.size.height = size.height
+            tableView.tableHeaderView = headerView
+        }
     }
     
     private func updateHeaderStyle() {
