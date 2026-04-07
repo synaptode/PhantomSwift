@@ -81,5 +81,35 @@ final class LogStoreTests: XCTestCase {
         let logs = store.getAll()
         XCTAssertEqual(logs.count, addCount, "Store should safely add all concurrent entries.")
     }
+
+    func testAddPostsEventToEventBus() {
+        let store = LogStore.shared
+        let expectation = self.expectation(description: "Event bus posts logAdded event")
+
+        class MockObserver: PhantomEventObserver {
+            let expectation: XCTestExpectation
+
+            init(expectation: XCTestExpectation) {
+                self.expectation = expectation
+            }
+
+            func onEvent(_ event: PhantomEvent) {
+                if case .logAdded(let entry) = event {
+                    XCTAssertEqual(entry.message, "Event Bus Test")
+                    expectation.fulfill()
+                }
+            }
+        }
+
+        let observer = MockObserver(expectation: expectation)
+        PhantomEventBus.shared.subscribe(observer, to: "logAdded")
+
+        let log = createDummyLog(message: "Event Bus Test")
+        store.add(log)
+
+        waitForExpectations(timeout: 2.0, handler: nil)
+
+        PhantomEventBus.shared.unsubscribe(observer, from: "logAdded")
+    }
 }
 #endif
