@@ -231,13 +231,27 @@ internal final class ViewHierarchy3DVC: UIViewController {
     // MARK: Toolbar
 
     private func buildToolbar() {
+        setupToolbarBase()
+        let sep = addSeparator()
+        let sliderRows = buildSliderRows()
+        let btnScroll = buildActionButtons()
+        buildStatusBadges()
+        setupToolbarConstraints(sep: sep, spacingRow: sliderRows.0, depthRow: sliderRows.1, rotateXRow: sliderRows.2, rotateYRow: sliderRows.3, btnScroll: btnScroll)
+    }
+
+    private func setupToolbarBase() {
         toolbar.backgroundColor = UIColor.Phantom.surfaceDark
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(toolbar)
+    }
 
+    private func addSeparator() -> UIView {
         let sep = hairline()
         toolbar.addSubview(sep)
+        return sep
+    }
 
+    private func buildSliderRows() -> (UIView, UIView, UIView, UIView) {
         // row 1: spacing slider
         let spacingRow = sliderRow(label: "Spacing", value: spacing,
                                    min: 4, max: 80, color: UIColor.Phantom.neonAzure,
@@ -272,6 +286,10 @@ internal final class ViewHierarchy3DVC: UIViewController {
         rotateXValueLabel.text = "\(Int(angleX * 180 / CGFloat.pi))°"
         rotateYValueLabel.text = "\(Int(angleY * 180 / CGFloat.pi))°"
 
+        return (spacingRow, depthRow, rotateXRow, rotateYRow)
+    }
+
+    private func buildActionButtons() -> UIView {
         // row 5: buttons
         let btnScroll = UIScrollView()
         btnScroll.showsHorizontalScrollIndicator = false
@@ -304,6 +322,18 @@ internal final class ViewHierarchy3DVC: UIViewController {
             btnStack.addArrangedSubview(b)
         }
 
+        NSLayoutConstraint.activate([
+            btnStack.topAnchor.constraint(equalTo: btnScroll.topAnchor),
+            btnStack.leadingAnchor.constraint(equalTo: btnScroll.leadingAnchor),
+            btnStack.trailingAnchor.constraint(equalTo: btnScroll.trailingAnchor),
+            btnStack.bottomAnchor.constraint(equalTo: btnScroll.bottomAnchor),
+            btnStack.heightAnchor.constraint(equalTo: btnScroll.heightAnchor)
+        ])
+
+        return btnScroll
+    }
+
+    private func buildStatusBadges() {
         // row 4: badges
         if #available(iOS 13.0, *) {
             countBadge.font = .monospacedDigitSystemFont(ofSize: 10, weight: .bold)
@@ -323,7 +353,9 @@ internal final class ViewHierarchy3DVC: UIViewController {
         zoomBadge.textAlignment = .right
         zoomBadge.translatesAutoresizingMaskIntoConstraints = false
         toolbar.addSubview(zoomBadge)
+    }
 
+    private func setupToolbarConstraints(sep: UIView, spacingRow: UIView, depthRow: UIView, rotateXRow: UIView, rotateYRow: UIView, btnScroll: UIView) {
         NSLayoutConstraint.activate([
             toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -358,12 +390,6 @@ internal final class ViewHierarchy3DVC: UIViewController {
             btnScroll.leadingAnchor.constraint(equalTo: toolbar.leadingAnchor, constant: 16),
             btnScroll.trailingAnchor.constraint(equalTo: toolbar.trailingAnchor, constant: -16),
             btnScroll.heightAnchor.constraint(equalToConstant: 32),
-
-            btnStack.topAnchor.constraint(equalTo: btnScroll.topAnchor),
-            btnStack.leadingAnchor.constraint(equalTo: btnScroll.leadingAnchor),
-            btnStack.trailingAnchor.constraint(equalTo: btnScroll.trailingAnchor),
-            btnStack.bottomAnchor.constraint(equalTo: btnScroll.bottomAnchor),
-            btnStack.heightAnchor.constraint(equalTo: btnScroll.heightAnchor),
 
             countBadge.topAnchor.constraint(equalTo: btnScroll.bottomAnchor, constant: 4),
             countBadge.leadingAnchor.constraint(equalTo: toolbar.leadingAnchor, constant: 16),
