@@ -493,8 +493,7 @@ internal final class ViewDetailVC: PhantomTableVC {
 
     private func buildSections() {
         let constraints = targetView.constraints
-            .filter { $0.isActive }
-            .map { PropertyRow(name: "Constraint", value: "Const: \($0.constant)", type: .info) }
+            .compactMap { $0.isActive ? PropertyRow(name: "Constraint", value: "Const: \($0.constant)", type: .info) : nil }
 
         var geoRows = [
             PropertyRow(name: "Frame", value: "\(targetView.frame)", type: .info),
