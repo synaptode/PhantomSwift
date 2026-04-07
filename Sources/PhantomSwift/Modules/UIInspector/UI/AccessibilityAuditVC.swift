@@ -47,23 +47,10 @@ internal final class AccessibilityAuditVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Accessibility Audit"
-        setupAppearance()
+        setupPhantomAppearance()
         setupNavigation()
         performAudit()
         setupTableView()
-    }
-
-    private func setupAppearance() {
-        view.backgroundColor = PhantomTheme.shared.backgroundColor
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = PhantomTheme.shared.backgroundColor
-            appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-            navigationController?.navigationBar.standardAppearance = appearance
-            navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        }
-        navigationController?.navigationBar.tintColor = UIColor.Phantom.neonAzure
     }
 
     private func setupNavigation() {
