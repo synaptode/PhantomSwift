@@ -27,11 +27,20 @@ private final class MockoonCardView: UIView, UITextFieldDelegate {
     required init?(coder: NSCoder) { fatalError() }
 
     private func setup() {
+        setupAppearance()
+        setupSubviews()
+        setupConstraints()
+        updateAppearance()
+    }
+
+    private func setupAppearance() {
         backgroundColor = PhantomTheme.shared.surfaceColor
         layer.cornerRadius = 16
         layer.borderWidth = 1
         layer.borderColor = UIColor.white.withAlphaComponent(0.08).cgColor
+    }
 
+    private func setupSubviews() {
         // Status dot
         statusDot.layer.cornerRadius = 5
         statusDot.translatesAutoresizingMaskIntoConstraints = false
@@ -93,7 +102,9 @@ private final class MockoonCardView: UIView, UITextFieldDelegate {
         excludeField.autocorrectionType = .no
         excludeField.autocapitalizationType = .none
         excludeField.delegate = self
+    }
 
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             // Title row
             statusDot.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
@@ -152,8 +163,6 @@ private final class MockoonCardView: UIView, UITextFieldDelegate {
             excludeField.heightAnchor.constraint(equalToConstant: 40),
             excludeField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
         ])
-
-        updateAppearance()
     }
 
     private func styleInputLabel(_ label: UILabel) {
