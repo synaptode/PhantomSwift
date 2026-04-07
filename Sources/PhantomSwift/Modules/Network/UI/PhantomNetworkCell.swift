@@ -27,6 +27,11 @@ internal final class PhantomNetworkCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
 
+        setupViews()
+        setupConstraints()
+    }
+
+    private func setupViews() {
         // Card
         cardView.backgroundColor = PhantomTheme.shared.surfaceColor
         cardView.layer.cornerRadius = 14
@@ -99,7 +104,9 @@ internal final class PhantomNetworkCell: UITableViewCell {
         mockoonBadge.isHidden = true
         mockoonBadge.translatesAutoresizingMaskIntoConstraints = false
         cardView.addSubview(mockoonBadge)
+    }
 
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             // Card inset from contentView
             cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -157,6 +164,12 @@ internal final class PhantomNetworkCell: UITableViewCell {
         let statusCode = request.response?.statusCode ?? 0
         let tint = colorForStatus(statusCode, status: request.status)
 
+        configureCoreInfo(request: request, tint: tint)
+        configureStatusAndMetrics(request: request, statusCode: statusCode, tint: tint)
+        configureBorder(request: request, statusCode: statusCode)
+    }
+
+    private func configureCoreInfo(request: PhantomRequest, tint: UIColor) {
         statusBar.backgroundColor = tint
 
         // Method
@@ -165,57 +178,67 @@ internal final class PhantomNetworkCell: UITableViewCell {
 
         // Path & host
         pathLabel.text = request.url.path.isEmpty ? "/" : request.url.path
-        hostLabel.text = request.url.host ?? request.url.absoluteString
 
         // Mockoon badge
         let isMockoon = request.mockoonRedirectedURL != nil
         mockoonBadge.isHidden = !isMockoon
         // When Mockoon is active, indent the host label to make room for the badge
         hostLabel.text = isMockoon ? request.url.host ?? "" : (request.url.host ?? request.url.absoluteString)
+    }
 
-        // Right side
+    private func configureStatusAndMetrics(request: PhantomRequest, statusCode: Int, tint: UIColor) {
         let isPending = request.response == nil && !(isBlocked(request) || isFailed(request))
         if isPending {
-            statusBadge.text = ""
-            statusBadge.backgroundColor = .clear
-            pendingDot.isHidden = false
-            metricsLabel.text = "pending…"
-            metricsLabel.textColor = PhantomTheme.shared.primaryColor.withAlphaComponent(0.7)
-            startPulse()
+            configurePendingState()
         } else {
-            pendingDot.isHidden = true
-            stopPulse()
-            metricsLabel.textColor = PhantomTheme.shared.textColor.withAlphaComponent(0.4)
-
-            switch request.status {
-            case .blocked:
-                statusBadge.text = " BLK "
-                statusBadge.textColor = .white
-                statusBadge.backgroundColor = UIColor.Phantom.vibrantRed
-                metricsLabel.text = "blocked"
-            case .failed:
-                statusBadge.text = " ERR "
-                statusBadge.textColor = .white
-                statusBadge.backgroundColor = UIColor.Phantom.error
-                metricsLabel.text = "failed"
-            case .mocked:
-                statusBadge.text = " MOCK "
-                statusBadge.textColor = .white
-                statusBadge.backgroundColor = UIColor.Phantom.secondary
-                metricsLabel.text = formatMetrics(request)
-            default:
-                if statusCode > 0 {
-                    statusBadge.text = " \(statusCode) "
-                    statusBadge.textColor = .white
-                    statusBadge.backgroundColor = tint
-                } else {
-                    statusBadge.text = ""
-                    statusBadge.backgroundColor = .clear
-                }
-                metricsLabel.text = formatMetrics(request)
-            }
+            configureCompletedState(request: request, statusCode: statusCode, tint: tint)
         }
+    }
 
+    private func configurePendingState() {
+        statusBadge.text = ""
+        statusBadge.backgroundColor = .clear
+        pendingDot.isHidden = false
+        metricsLabel.text = "pending…"
+        metricsLabel.textColor = PhantomTheme.shared.primaryColor.withAlphaComponent(0.7)
+        startPulse()
+    }
+
+    private func configureCompletedState(request: PhantomRequest, statusCode: Int, tint: UIColor) {
+        pendingDot.isHidden = true
+        stopPulse()
+        metricsLabel.textColor = PhantomTheme.shared.textColor.withAlphaComponent(0.4)
+
+        switch request.status {
+        case .blocked:
+            statusBadge.text = " BLK "
+            statusBadge.textColor = .white
+            statusBadge.backgroundColor = UIColor.Phantom.vibrantRed
+            metricsLabel.text = "blocked"
+        case .failed:
+            statusBadge.text = " ERR "
+            statusBadge.textColor = .white
+            statusBadge.backgroundColor = UIColor.Phantom.error
+            metricsLabel.text = "failed"
+        case .mocked:
+            statusBadge.text = " MOCK "
+            statusBadge.textColor = .white
+            statusBadge.backgroundColor = UIColor.Phantom.secondary
+            metricsLabel.text = formatMetrics(request)
+        default:
+            if statusCode > 0 {
+                statusBadge.text = " \(statusCode) "
+                statusBadge.textColor = .white
+                statusBadge.backgroundColor = tint
+            } else {
+                statusBadge.text = ""
+                statusBadge.backgroundColor = .clear
+            }
+            metricsLabel.text = formatMetrics(request)
+        }
+    }
+
+    private func configureBorder(request: PhantomRequest, statusCode: Int) {
         // Highlight card border for errors
         if statusCode >= 400 || isFailed(request) {
             cardView.layer.borderColor = UIColor.Phantom.error.withAlphaComponent(0.25).cgColor
