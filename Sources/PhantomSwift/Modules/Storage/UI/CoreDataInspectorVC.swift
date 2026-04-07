@@ -418,6 +418,7 @@ private final class CoreDataRecordsVC: UIViewController {
             guard let self else { return }
             let request = NSFetchRequest<NSManagedObject>(entityName: self.entity.name ?? "")
             request.fetchLimit = 500
+            request.returnsObjectsAsFaults = false
             let fetched = (try? ctx.fetch(request)) ?? []
 
             let rows: [[String: String]] = fetched.map { obj in
