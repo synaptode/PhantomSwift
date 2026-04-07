@@ -27,11 +27,15 @@ internal final class PhantomNetworkCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
 
-        setupViews()
+        setupCardAndStatusBar()
+        setupMethodBadgeAndPath()
+        setupHostAndStatusBadge()
+        setupMetricsAndIndicators()
+
         setupConstraints()
     }
 
-    private func setupViews() {
+    private func setupCardAndStatusBar() {
         // Card
         cardView.backgroundColor = PhantomTheme.shared.surfaceColor
         cardView.layer.cornerRadius = 14
@@ -44,7 +48,9 @@ internal final class PhantomNetworkCell: UITableViewCell {
         statusBar.layer.cornerRadius = 2
         statusBar.translatesAutoresizingMaskIntoConstraints = false
         cardView.addSubview(statusBar)
+    }
 
+    private func setupMethodBadgeAndPath() {
         // Method badge pill
         methodBadge.font = .systemFont(ofSize: 9, weight: .black)
         methodBadge.textColor = .white
@@ -60,7 +66,9 @@ internal final class PhantomNetworkCell: UITableViewCell {
         pathLabel.lineBreakMode = .byTruncatingMiddle
         pathLabel.translatesAutoresizingMaskIntoConstraints = false
         cardView.addSubview(pathLabel)
+    }
 
+    private func setupHostAndStatusBadge() {
         // Host
         hostLabel.font = .systemFont(ofSize: 11, weight: .regular)
         hostLabel.textColor = PhantomTheme.shared.textColor.withAlphaComponent(0.4)
@@ -77,7 +85,9 @@ internal final class PhantomNetworkCell: UITableViewCell {
         statusBadge.setContentCompressionResistancePriority(.required, for: .horizontal)
         statusBadge.translatesAutoresizingMaskIntoConstraints = false
         cardView.addSubview(statusBadge)
+    }
 
+    private func setupMetricsAndIndicators() {
         // Metrics
         metricsLabel.font = .systemFont(ofSize: 10, weight: .medium)
         metricsLabel.textColor = PhantomTheme.shared.textColor.withAlphaComponent(0.4)
