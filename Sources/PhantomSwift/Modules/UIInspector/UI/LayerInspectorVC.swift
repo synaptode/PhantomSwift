@@ -108,8 +108,15 @@ internal final class LayerInspectorVC: UIViewController {
     private func traverse(layer: CALayer, depth: Int) {
         let node = analyze(layer: layer, depth: depth)
         nodes.append(node)
-        expensiveCount += node.warnings.filter { $0.level == .expensive }.count
-        moderateCount  += node.warnings.filter { $0.level == .moderate  }.count
+
+        for warning in node.warnings {
+            switch warning.level {
+            case .expensive: expensiveCount += 1
+            case .moderate:  moderateCount += 1
+            case .info:      break
+            }
+        }
+
         layer.sublayers?.forEach { traverse(layer: $0, depth: depth + 1) }
     }
 
