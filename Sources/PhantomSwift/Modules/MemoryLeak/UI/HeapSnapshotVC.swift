@@ -195,8 +195,16 @@ internal final class HeapSnapshotVC: UIViewController {
                 }
                 self.rows = deltaRows
 
-                let growCount = deltaRows.filter { $0.delta > 0 }.count
-                let newCount  = deltaRows.filter { $0.before == 0 && $0.after > 0 }.count
+                var growCount = 0
+                var newCount = 0
+                for row in deltaRows {
+                    if row.delta > 0 {
+                        growCount += 1
+                        if row.before == 0 {
+                            newCount += 1
+                        }
+                    }
+                }
                 self.statusLbl.text = "\(growCount) growing classes, \(newCount) new"
                 self.isCapturing        = false
                 self.baseBtn.isEnabled    = true
