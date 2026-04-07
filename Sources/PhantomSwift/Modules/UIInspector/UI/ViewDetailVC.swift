@@ -49,7 +49,28 @@ internal final class ViewDetailVC: PhantomTableVC {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 250))
         header.backgroundColor = .clear
 
-        // Breadcrumbs
+        let bScrollView = setupBreadcrumbs(in: header)
+        let (previewContainer, snapshotView) = setupSnapshotPreview(in: header)
+        let typeLabel = setupTypeLabel(in: header)
+        let addressLabel = setupAddressLabel(in: header)
+        let infoRow = setupInfoPills(in: header)
+        let actionsScrollView = setupActions(in: header)
+
+        setupHeaderConstraints(
+            header: header,
+            bScrollView: bScrollView,
+            previewContainer: previewContainer,
+            snapshotView: snapshotView,
+            typeLabel: typeLabel,
+            addressLabel: addressLabel,
+            infoRow: infoRow,
+            actionsScrollView: actionsScrollView
+        )
+
+        tableView.tableHeaderView = header
+    }
+
+    private func setupBreadcrumbs(in header: UIView) -> UIScrollView {
         let bScrollView = UIScrollView()
         bScrollView.showsHorizontalScrollIndicator = false
         bScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +82,18 @@ internal final class ViewDetailVC: PhantomTableVC {
         bScrollView.addSubview(breadcrumbStack)
         buildBreadcrumbs()
 
-        // Snapshot Preview
+        NSLayoutConstraint.activate([
+            breadcrumbStack.topAnchor.constraint(equalTo: bScrollView.topAnchor),
+            breadcrumbStack.bottomAnchor.constraint(equalTo: bScrollView.bottomAnchor),
+            breadcrumbStack.leadingAnchor.constraint(equalTo: bScrollView.leadingAnchor),
+            breadcrumbStack.trailingAnchor.constraint(equalTo: bScrollView.trailingAnchor),
+            breadcrumbStack.heightAnchor.constraint(equalTo: bScrollView.heightAnchor)
+        ])
+
+        return bScrollView
+    }
+
+    private func setupSnapshotPreview(in header: UIView) -> (UIView, UIImageView) {
         let previewContainer = UIView()
         previewContainer.backgroundColor = PhantomTheme.shared.surfaceColor
         previewContainer.layer.cornerRadius = 14
@@ -82,23 +114,30 @@ internal final class ViewDetailVC: PhantomTableVC {
         snapshotView.contentMode = .scaleAspectFit
         snapshotView.translatesAutoresizingMaskIntoConstraints = false
         previewContainer.addSubview(snapshotView)
+        return (previewContainer, snapshotView)
+    }
 
-        // Type + Address
+    private func setupTypeLabel(in header: UIView) -> UILabel {
         let typeLabel = UILabel()
         typeLabel.text = String(describing: type(of: targetView)).uppercased()
         typeLabel.font = UIFont.systemFont(ofSize: 15, weight: .black)
         typeLabel.textColor = .white
         typeLabel.translatesAutoresizingMaskIntoConstraints = false
         header.addSubview(typeLabel)
+        return typeLabel
+    }
 
+    private func setupAddressLabel(in header: UIView) -> UILabel {
         let addressLabel = UILabel()
         addressLabel.text = "\(Unmanaged.passUnretained(targetView).toOpaque())"
         addressLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
         addressLabel.textColor = UIColor.Phantom.neonAzure.withAlphaComponent(0.6)
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         header.addSubview(addressLabel)
+        return addressLabel
+    }
 
-        // Quick info pills
+    private func setupInfoPills(in header: UIView) -> UIStackView {
         let infoRow = UIStackView()
         infoRow.axis = .horizontal
         infoRow.spacing = 8
@@ -115,8 +154,10 @@ internal final class ViewDetailVC: PhantomTableVC {
             text: "\(targetView.subviews.count) sub",
             color: UIColor.Phantom.vibrantOrange)
         [framePill, depthPill, subPill].forEach { infoRow.addArrangedSubview($0) }
+        return infoRow
+    }
 
-        // Actions — scrollable row of buttons
+    private func setupActions(in header: UIView) -> UIScrollView {
         let actionsScrollView = UIScrollView()
         actionsScrollView.showsHorizontalScrollIndicator = false
         actionsScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -129,78 +170,54 @@ internal final class ViewDetailVC: PhantomTableVC {
         actionsStack.translatesAutoresizingMaskIntoConstraints = false
         actionsScrollView.addSubview(actionsStack)
 
-        let flashBtn = createHeaderAction(title: "Flash", icon: "sparkles", color: UIColor.Phantom.vibrantOrange)
-        flashBtn.addTarget(self, action: #selector(flashTarget), for: .touchUpInside)
-        actionsStack.addArrangedSubview(flashBtn)
+        let actions: [(String, String, UIColor, Selector)] = [
+            ("Flash", "sparkles", UIColor.Phantom.vibrantOrange, #selector(flashTarget)),
+            ("3D View", "cube", UIColor.Phantom.neonAzure, #selector(explodeTarget)),
+            ("Live Edit", "slider.horizontal.3", UIColor.Phantom.vibrantGreen, #selector(showLiveEdit)),
+            ("Audit", "accessibility", UIColor.Phantom.vibrantPurple, #selector(showAccessibilityAudit)),
+            ("Gestures", "hand.tap", UIColor.Phantom.vibrantOrange, #selector(showGestureInspector)),
+            ("Responder", "arrow.triangle.branch", UIColor.Phantom.neonAzure, #selector(showResponderChain)),
+            ("Compare", "square.split.2x1", UIColor.Phantom.vibrantRed, #selector(showSnapshotCompare)),
+            ("Layers", "square.stack.3d.up", UIColor.Phantom.vibrantPurple, #selector(showLayerInspector)),
+            ("Constraints", "equal.circle", UIColor.Phantom.vibrantGreen, #selector(showConstraintInspector)),
+            ("Animations", "waveform", UIColor.Phantom.neonAzure, #selector(showAnimationInspector)),
+            ("Color Pick", "eyedropper.halffull", UIColor.Phantom.vibrantOrange, #selector(showColorPicker)),
+            ("Grid", "squareshape.split.3x3", UIColor.Phantom.neonAzure, #selector(showGridOverlay)),
+            ("Touch Viz", "hand.tap.fill", UIColor.Phantom.vibrantOrange, #selector(toggleTouchVisualizer)),
+            ("Hit Test", "scope", UIColor.Phantom.vibrantGreen, #selector(showHitTestInspector)),
+            ("Perf HUD", "flame.fill", UIColor.Phantom.vibrantOrange, #selector(togglePerfHUD)),
+            ("Defaults", "tray.full.fill", UIColor.Phantom.vibrantGreen, #selector(showUserDefaultsInspector)),
+            ("Env Override", "dial.min.fill", UIColor.Phantom.vibrantPurple, #selector(showEnvironmentOverride)),
+            ("Export", "square.and.arrow.up", UIColor.white.withAlphaComponent(0.6), #selector(copyDescription))
+        ]
 
-        let explodeBtn = createHeaderAction(title: "3D View", icon: "cube", color: UIColor.Phantom.neonAzure)
-        explodeBtn.addTarget(self, action: #selector(explodeTarget), for: .touchUpInside)
-        actionsStack.addArrangedSubview(explodeBtn)
+        for (title, icon, color, action) in actions {
+            let btn = createHeaderAction(title: title, icon: icon, color: color)
+            btn.addTarget(self, action: action, for: .touchUpInside)
+            actionsStack.addArrangedSubview(btn)
+        }
 
-        let editBtn = createHeaderAction(title: "Live Edit", icon: "slider.horizontal.3", color: UIColor.Phantom.vibrantGreen)
-        editBtn.addTarget(self, action: #selector(showLiveEdit), for: .touchUpInside)
-        actionsStack.addArrangedSubview(editBtn)
+        NSLayoutConstraint.activate([
+            actionsStack.topAnchor.constraint(equalTo: actionsScrollView.topAnchor),
+            actionsStack.leadingAnchor.constraint(equalTo: actionsScrollView.leadingAnchor),
+            actionsStack.trailingAnchor.constraint(equalTo: actionsScrollView.trailingAnchor),
+            actionsStack.bottomAnchor.constraint(equalTo: actionsScrollView.bottomAnchor),
+            actionsStack.heightAnchor.constraint(equalTo: actionsScrollView.heightAnchor)
+        ])
 
-        let a11yBtn = createHeaderAction(title: "Audit", icon: "accessibility", color: UIColor.Phantom.vibrantPurple)
-        a11yBtn.addTarget(self, action: #selector(showAccessibilityAudit), for: .touchUpInside)
-        actionsStack.addArrangedSubview(a11yBtn)
+        return actionsScrollView
+    }
 
-        let gestureBtn = createHeaderAction(title: "Gestures", icon: "hand.tap", color: UIColor.Phantom.vibrantOrange)
-        gestureBtn.addTarget(self, action: #selector(showGestureInspector), for: .touchUpInside)
-        actionsStack.addArrangedSubview(gestureBtn)
-
-        let responderBtn = createHeaderAction(title: "Responder", icon: "arrow.triangle.branch", color: UIColor.Phantom.neonAzure)
-        responderBtn.addTarget(self, action: #selector(showResponderChain), for: .touchUpInside)
-        actionsStack.addArrangedSubview(responderBtn)
-
-        let compareBtn = createHeaderAction(title: "Compare", icon: "square.split.2x1", color: UIColor.Phantom.vibrantRed)
-        compareBtn.addTarget(self, action: #selector(showSnapshotCompare), for: .touchUpInside)
-        actionsStack.addArrangedSubview(compareBtn)
-
-        let layerBtn = createHeaderAction(title: "Layers", icon: "square.stack.3d.up", color: UIColor.Phantom.vibrantPurple)
-        layerBtn.addTarget(self, action: #selector(showLayerInspector), for: .touchUpInside)
-        actionsStack.addArrangedSubview(layerBtn)
-
-        let constraintBtn = createHeaderAction(title: "Constraints", icon: "equal.circle", color: UIColor.Phantom.vibrantGreen)
-        constraintBtn.addTarget(self, action: #selector(showConstraintInspector), for: .touchUpInside)
-        actionsStack.addArrangedSubview(constraintBtn)
-
-        let animBtn = createHeaderAction(title: "Animations", icon: "waveform", color: UIColor.Phantom.neonAzure)
-        animBtn.addTarget(self, action: #selector(showAnimationInspector), for: .touchUpInside)
-        actionsStack.addArrangedSubview(animBtn)
-
-        let colorBtn = createHeaderAction(title: "Color Pick", icon: "eyedropper.halffull", color: UIColor.Phantom.vibrantOrange)
-        colorBtn.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
-        actionsStack.addArrangedSubview(colorBtn)
-
-        let gridBtn = createHeaderAction(title: "Grid", icon: "squareshape.split.3x3", color: UIColor.Phantom.neonAzure)
-        gridBtn.addTarget(self, action: #selector(showGridOverlay), for: .touchUpInside)
-        actionsStack.addArrangedSubview(gridBtn)
-
-        let touchBtn = createHeaderAction(title: "Touch Viz", icon: "hand.tap.fill", color: UIColor.Phantom.vibrantOrange)
-        touchBtn.addTarget(self, action: #selector(toggleTouchVisualizer), for: .touchUpInside)
-        actionsStack.addArrangedSubview(touchBtn)
-
-        let hitBtn = createHeaderAction(title: "Hit Test", icon: "scope", color: UIColor.Phantom.vibrantGreen)
-        hitBtn.addTarget(self, action: #selector(showHitTestInspector), for: .touchUpInside)
-        actionsStack.addArrangedSubview(hitBtn)
-
-        let perfBtn = createHeaderAction(title: "Perf HUD", icon: "flame.fill", color: UIColor.Phantom.vibrantOrange)
-        perfBtn.addTarget(self, action: #selector(togglePerfHUD), for: .touchUpInside)
-        actionsStack.addArrangedSubview(perfBtn)
-
-        let defaultsBtn = createHeaderAction(title: "Defaults", icon: "tray.full.fill", color: UIColor.Phantom.vibrantGreen)
-        defaultsBtn.addTarget(self, action: #selector(showUserDefaultsInspector), for: .touchUpInside)
-        actionsStack.addArrangedSubview(defaultsBtn)
-
-        let envBtn = createHeaderAction(title: "Env Override", icon: "dial.min.fill", color: UIColor.Phantom.vibrantPurple)
-        envBtn.addTarget(self, action: #selector(showEnvironmentOverride), for: .touchUpInside)
-        actionsStack.addArrangedSubview(envBtn)
-
-        let copyBtn = createHeaderAction(title: "Export", icon: "square.and.arrow.up", color: UIColor.white.withAlphaComponent(0.6))
-        copyBtn.addTarget(self, action: #selector(copyDescription), for: .touchUpInside)
-        actionsStack.addArrangedSubview(copyBtn)
-
+    private func setupHeaderConstraints(
+        header: UIView,
+        bScrollView: UIScrollView,
+        previewContainer: UIView,
+        snapshotView: UIImageView,
+        typeLabel: UILabel,
+        addressLabel: UILabel,
+        infoRow: UIStackView,
+        actionsScrollView: UIScrollView
+    ) {
         NSLayoutConstraint.activate([
             bScrollView.topAnchor.constraint(equalTo: header.topAnchor, constant: 10),
             bScrollView.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 20),
@@ -210,12 +227,6 @@ internal final class ViewDetailVC: PhantomTableVC {
                 return c
             }(),
             bScrollView.heightAnchor.constraint(equalToConstant: 28),
-
-            breadcrumbStack.topAnchor.constraint(equalTo: bScrollView.topAnchor),
-            breadcrumbStack.bottomAnchor.constraint(equalTo: bScrollView.bottomAnchor),
-            breadcrumbStack.leadingAnchor.constraint(equalTo: bScrollView.leadingAnchor),
-            breadcrumbStack.trailingAnchor.constraint(equalTo: bScrollView.trailingAnchor),
-            breadcrumbStack.heightAnchor.constraint(equalTo: bScrollView.heightAnchor),
 
             previewContainer.topAnchor.constraint(equalTo: bScrollView.bottomAnchor, constant: 14),
             previewContainer.centerXAnchor.constraint(equalTo: header.centerXAnchor),
@@ -240,17 +251,9 @@ internal final class ViewDetailVC: PhantomTableVC {
             actionsScrollView.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 16),
             actionsScrollView.trailingAnchor.constraint(equalTo: header.trailingAnchor, constant: -16),
             actionsScrollView.heightAnchor.constraint(equalToConstant: 34),
-            actionsScrollView.bottomAnchor.constraint(equalTo: header.bottomAnchor, constant: -14),
-            actionsStack.topAnchor.constraint(equalTo: actionsScrollView.topAnchor),
-            actionsStack.leadingAnchor.constraint(equalTo: actionsScrollView.leadingAnchor),
-            actionsStack.trailingAnchor.constraint(equalTo: actionsScrollView.trailingAnchor),
-            actionsStack.bottomAnchor.constraint(equalTo: actionsScrollView.bottomAnchor),
-            actionsStack.heightAnchor.constraint(equalTo: actionsScrollView.heightAnchor),
+            actionsScrollView.bottomAnchor.constraint(equalTo: header.bottomAnchor, constant: -14)
         ])
-
-        tableView.tableHeaderView = header
     }
-
     private func makeInfoPill(text: String, color: UIColor) -> UIView {
         let lbl = UILabel()
         lbl.text = "  \(text)  "
