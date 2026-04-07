@@ -46,7 +46,7 @@ internal final class BGTaskInspectorVC: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        applyNavBarAppearance()
+        phantomApplyNavBarAppearance(tintColor: UIColor.Phantom.vibrantOrange)
         records = PhantomBGTaskInspector.shared.records
         tableView.reloadData()
         PhantomBGTaskInspector.shared.startAutoRefresh(interval: 4)
@@ -69,21 +69,6 @@ internal final class BGTaskInspectorVC: UITableViewController {
         tableView.separatorColor  = UIColor.white.withAlphaComponent(0.06)
         tableView.separatorInset  = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
         if #available(iOS 15.0, *) { tableView.sectionHeaderTopPadding = 0 }
-    }
-
-    private func applyNavBarAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = PhantomTheme.shared.backgroundColor
-        appearance.shadowColor     = .clear
-        appearance.titleTextAttributes = [
-            .foregroundColor: PhantomTheme.shared.textColor,
-            .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
-        ]
-        navigationController?.navigationBar.standardAppearance   = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.compactAppearance    = appearance
-        navigationController?.navigationBar.tintColor = UIColor.Phantom.vibrantOrange
     }
 
     private func setupNavBar() {
@@ -422,28 +407,13 @@ private final class BGTaskDetailVC: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        applyNavBarAppearance()
+        phantomApplyNavBarAppearance(tintColor: UIColor.Phantom.vibrantOrange)
     }
 
     private func applyDarkAppearance() {
         tableView.backgroundColor = PhantomTheme.shared.backgroundColor
         tableView.separatorColor  = UIColor.white.withAlphaComponent(0.06)
         if #available(iOS 15.0, *) { tableView.sectionHeaderTopPadding = 0 }
-    }
-
-    private func applyNavBarAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = PhantomTheme.shared.backgroundColor
-        appearance.shadowColor     = .clear
-        appearance.titleTextAttributes = [
-            .foregroundColor: PhantomTheme.shared.textColor,
-            .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
-        ]
-        navigationController?.navigationBar.standardAppearance   = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.compactAppearance    = appearance
-        navigationController?.navigationBar.tintColor = UIColor.Phantom.vibrantOrange
     }
 
     private var rows: [(String, String)] {

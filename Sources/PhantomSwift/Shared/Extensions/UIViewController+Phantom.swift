@@ -15,6 +15,29 @@ extension UIViewController {
         }
         return self
     }
+
+    func phantomApplyNavBarAppearance(tintColor: UIColor = PhantomTheme.shared.primaryColor) {
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = PhantomTheme.shared.backgroundColor
+            appearance.shadowColor     = .clear
+            appearance.titleTextAttributes = [
+                .foregroundColor: PhantomTheme.shared.textColor,
+                .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
+            ]
+            navigationController?.navigationBar.standardAppearance   = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController?.navigationBar.compactAppearance    = appearance
+            navigationController?.navigationBar.tintColor = tintColor
+        } else {
+            navigationController?.navigationBar.barTintColor = PhantomTheme.shared.backgroundColor
+            navigationController?.navigationBar.tintColor    = tintColor
+            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: PhantomTheme.shared.textColor]
+            navigationController?.navigationBar.shadowImage = UIImage()
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        }
+    }
 }
 
 extension NSObject {
