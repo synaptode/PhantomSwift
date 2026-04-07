@@ -160,148 +160,183 @@ internal final class PhantomRemoteServer {
 
     private func executeCommand(_ command: String, args: [String: Any], connection: NWConnection) {
         switch command.lowercased() {
-
         case "app-info":
-            let info: [String: Any] = [
-                "type": "response",
-                "command": "app-info",
-                "data": [
-                    "bundle_id": Bundle.main.bundleIdentifier ?? "unknown",
-                    "version": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?",
-                    "build": Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "?",
-                    "device": UIDevice.current.model,
-                    "system": "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)",
-                    "device_name": UIDevice.current.name,
-                ]
-            ]
-            sendJSON(info, to: connection)
-
+            handleAppInfoCommand(connection: connection)
         case "system-status":
-            let pm = PerformanceMonitor.shared
-            let status: [String: Any] = [
-                "type": "response",
-                "command": "system-status",
-                "data": [
-                    "fps": pm.currentFPS,
-                    "log_count": LogStore.shared.getAll().count,
-                    "network_count": PhantomRequestStore.shared.getAll().count,
-                    "thread_violations": PhantomMainThreadChecker.shared.violationCount,
-                    "feature_flag_overrides": PhantomFeatureFlags.shared.overrideCount,
-                ]
-            ]
-            sendJSON(status, to: connection)
-
+            handleSystemStatusCommand(connection: connection)
         case "logs", "logs-stream":
-            let logs = LogStore.shared.getAll().suffix(50)
-            let logData: [[String: Any]] = logs.map {[
-                "level": $0.level.name,
-                "message": $0.message,
-                "tag": $0.tag ?? "",
-                "timestamp": ISO8601DateFormatter().string(from: $0.timestamp),
-                "file": $0.file,
-                "function": $0.function,
-                "line": $0.line,
-            ]}
-            sendJSON([
-                "type": "response",
-                "command": "logs",
-                "data": logData
-            ], to: connection)
-
+            handleLogsCommand(connection: connection)
         case "network-trace":
-            let requests = PhantomRequestStore.shared.getAll().prefix(50)
-            let reqData: [[String: Any]] = requests.map {[
-                "method": $0.method,
-                "url": $0.url.absoluteString,
-                "status": $0.response?.statusCode ?? 0,
-                "duration": $0.response?.duration ?? 0,
-                "timestamp": ISO8601DateFormatter().string(from: $0.timestamp),
-                "is_mocked": $0.mockoonRedirectedURL != nil,
-            ]}
-            sendJSON([
-                "type": "response",
-                "command": "network-trace",
-                "data": reqData
-            ], to: connection)
-
+            handleNetworkTraceCommand(connection: connection)
         case "feature-flags":
-            let flags = PhantomFeatureFlags.shared.allFlagsFlat()
-            let flagData: [[String: Any]] = flags.map {[
-                "key": $0.key,
-                "title": $0.title,
-                "default": $0.defaultValue,
-                "current": $0.currentValue,
-                "overridden": $0.isOverridden,
-                "group": $0.group,
-            ]}
-            sendJSON([
-                "type": "response",
-                "command": "feature-flags",
-                "data": flagData
-            ], to: connection)
-
+            handleFeatureFlagsCommand(connection: connection)
         case "toggle-flag":
-            if let key = args["key"] as? String {
-                PhantomFeatureFlags.shared.toggle(key)
-                sendJSON([
-                    "type": "response",
-                    "command": "toggle-flag",
-                    "data": ["key": key, "success": true]
-                ], to: connection)
-            }
-
+            handleToggleFlagCommand(args: args, connection: connection)
         case "clear-logs":
-            LogStore.shared.clear()
-            sendJSON([
-                "type": "response",
-                "command": "clear-logs",
-                "data": ["success": true]
-            ], to: connection)
-
+            handleClearLogsCommand(connection: connection)
         case "clear-network":
-            PhantomRequestStore.shared.clear()
-            sendJSON([
-                "type": "response",
-                "command": "clear-network",
-                "data": ["success": true]
-            ], to: connection)
-
+            handleClearNetworkCommand(connection: connection)
         case "performance":
-            let pm = PerformanceMonitor.shared
-            let history = pm.history.suffix(30)
-            let histData: [[String: Any]] = history.map {[
-                "fps": $0.fps,
-                "cpu": $0.cpu,
-                "ram": $0.ram,
-            ]}
-            sendJSON([
-                "type": "response",
-                "command": "performance",
-                "data": [
-                    "current_fps": pm.currentFPS,
-                    "history": histData
-                ]
-            ], to: connection)
-
+            handlePerformanceCommand(connection: connection)
         case "help":
+            handleHelpCommand(connection: connection)
+        default:
+            handleUnknownCommand(command: command, connection: connection)
+        }
+    }
+
+    private func handleAppInfoCommand(connection: NWConnection) {
+        let info: [String: Any] = [
+            "type": "response",
+            "command": "app-info",
+            "data": [
+                "bundle_id": Bundle.main.bundleIdentifier ?? "unknown",
+                "version": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?",
+                "build": Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "?",
+                "device": UIDevice.current.model,
+                "system": "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)",
+                "device_name": UIDevice.current.name,
+            ]
+        ]
+        sendJSON(info, to: connection)
+    }
+
+    private func handleSystemStatusCommand(connection: NWConnection) {
+        let pm = PerformanceMonitor.shared
+        let status: [String: Any] = [
+            "type": "response",
+            "command": "system-status",
+            "data": [
+                "fps": pm.currentFPS,
+                "log_count": LogStore.shared.getAll().count,
+                "network_count": PhantomRequestStore.shared.getAll().count,
+                "thread_violations": PhantomMainThreadChecker.shared.violationCount,
+                "feature_flag_overrides": PhantomFeatureFlags.shared.overrideCount,
+            ]
+        ]
+        sendJSON(status, to: connection)
+    }
+
+    private func handleLogsCommand(connection: NWConnection) {
+        let logs = LogStore.shared.getAll().suffix(50)
+        let formatter = ISO8601DateFormatter()
+        let logData: [[String: Any]] = logs.map {[
+            "level": $0.level.name,
+            "message": $0.message,
+            "tag": $0.tag ?? "",
+            "timestamp": formatter.string(from: $0.timestamp),
+            "file": $0.file,
+            "function": $0.function,
+            "line": $0.line,
+        ]}
+        sendJSON([
+            "type": "response",
+            "command": "logs",
+            "data": logData
+        ], to: connection)
+    }
+
+    private func handleNetworkTraceCommand(connection: NWConnection) {
+        let requests = PhantomRequestStore.shared.getAll().prefix(50)
+        let formatter = ISO8601DateFormatter()
+        let reqData: [[String: Any]] = requests.map {[
+            "method": $0.method,
+            "url": $0.url.absoluteString,
+            "status": $0.response?.statusCode ?? 0,
+            "duration": $0.response?.duration ?? 0,
+            "timestamp": formatter.string(from: $0.timestamp),
+            "is_mocked": $0.mockoonRedirectedURL != nil,
+        ]}
+        sendJSON([
+            "type": "response",
+            "command": "network-trace",
+            "data": reqData
+        ], to: connection)
+    }
+
+    private func handleFeatureFlagsCommand(connection: NWConnection) {
+        let flags = PhantomFeatureFlags.shared.allFlagsFlat()
+        let flagData: [[String: Any]] = flags.map {[
+            "key": $0.key,
+            "title": $0.title,
+            "default": $0.defaultValue,
+            "current": $0.currentValue,
+            "overridden": $0.isOverridden,
+            "group": $0.group,
+        ]}
+        sendJSON([
+            "type": "response",
+            "command": "feature-flags",
+            "data": flagData
+        ], to: connection)
+    }
+
+    private func handleToggleFlagCommand(args: [String: Any], connection: NWConnection) {
+        if let key = args["key"] as? String {
+            PhantomFeatureFlags.shared.toggle(key)
             sendJSON([
                 "type": "response",
-                "command": "help",
-                "data": [
-                    "commands": [
-                        "app-info", "system-status", "logs", "network-trace",
-                        "feature-flags", "toggle-flag", "clear-logs",
-                        "clear-network", "performance", "help"
-                    ]
-                ]
-            ], to: connection)
-
-        default:
-            sendJSON([
-                "type": "error",
-                "message": "Unknown command: \(command). Type 'help' for available commands."
+                "command": "toggle-flag",
+                "data": ["key": key, "success": true]
             ], to: connection)
         }
+    }
+
+    private func handleClearLogsCommand(connection: NWConnection) {
+        LogStore.shared.clear()
+        sendJSON([
+            "type": "response",
+            "command": "clear-logs",
+            "data": ["success": true]
+        ], to: connection)
+    }
+
+    private func handleClearNetworkCommand(connection: NWConnection) {
+        PhantomRequestStore.shared.clear()
+        sendJSON([
+            "type": "response",
+            "command": "clear-network",
+            "data": ["success": true]
+        ], to: connection)
+    }
+
+    private func handlePerformanceCommand(connection: NWConnection) {
+        let pm = PerformanceMonitor.shared
+        let history = pm.history.suffix(30)
+        let histData: [[String: Any]] = history.map {[
+            "fps": $0.fps,
+            "cpu": $0.cpu,
+            "ram": $0.ram,
+        ]}
+        sendJSON([
+            "type": "response",
+            "command": "performance",
+            "data": [
+                "current_fps": pm.currentFPS,
+                "history": histData
+            ]
+        ], to: connection)
+    }
+
+    private func handleHelpCommand(connection: NWConnection) {
+        sendJSON([
+            "type": "response",
+            "command": "help",
+            "data": [
+                "commands": [
+                    "app-info", "system-status", "logs", "network-trace",
+                    "feature-flags", "toggle-flag", "clear-logs",
+                    "clear-network", "performance", "help"
+                ]
+            ]
+        ], to: connection)
+    }
+
+    private func handleUnknownCommand(command: String, connection: NWConnection) {
+        sendJSON([
+            "type": "error",
+            "message": "Unknown command: \(command). Type 'help' for available commands."
+        ], to: connection)
     }
 }
 
