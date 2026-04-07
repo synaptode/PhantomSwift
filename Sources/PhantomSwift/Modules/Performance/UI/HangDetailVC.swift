@@ -3,6 +3,13 @@ import UIKit
 
 /// Displays detailed information about a hang event, including the call stack.
 internal final class HangDetailVC: UIViewController {
+
+    private static let dateFormatter: DateFormatter = {
+        let fmt = DateFormatter()
+        fmt.dateStyle = .medium
+        fmt.timeStyle = .long
+        return fmt
+    }()
     private let hang: PhantomHangEvent
     private let scrollView = UIScrollView()
     private let contentView = UIStackView()
@@ -78,10 +85,7 @@ internal final class HangDetailVC: UIViewController {
         stack.addArrangedSubview(screenLabel)
         
         let timeLabel = UILabel()
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .long
-        timeLabel.text = formatter.string(from: hang.timestamp)
+        timeLabel.text = HangDetailVC.dateFormatter.string(from: hang.timestamp)
         timeLabel.font = .systemFont(ofSize: 12, weight: .medium)
         timeLabel.textColor = PhantomTheme.shared.textColor.withAlphaComponent(0.5)
         timeLabel.numberOfLines = 0

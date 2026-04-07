@@ -32,7 +32,7 @@ internal final class AnalyticsListVC: UIViewController {
         f.unitsStyle = .abbreviated
         return f
     }()
-    private let legacyFmt: DateFormatter = {
+    private static let legacyFormatter: DateFormatter = {
         let f = DateFormatter()
         f.timeStyle = .medium
         return f
@@ -228,7 +228,7 @@ extension AnalyticsListVC: UITableViewDataSource, UITableViewDelegate {
         if #available(iOS 13.0, *) {
             cell.configure(with: event, formatter: AnalyticsListVC.sharedFmt, legacyFormatter: nil)
         } else {
-            cell.configure(with: event, formatter: nil, legacyFormatter: legacyFmt)
+            cell.configure(with: event, formatter: nil, legacyFormatter: AnalyticsListVC.legacyFormatter)
         }
         return cell
     }

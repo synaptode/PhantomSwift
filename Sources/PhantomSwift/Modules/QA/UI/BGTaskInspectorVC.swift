@@ -146,9 +146,7 @@ internal final class BGTaskInspectorVC: UITableViewController {
             if records.isEmpty {
                 label.text = "Add BGTaskSchedulerPermittedIdentifiers to Info.plist to register tasks."
             } else if let date = lastRefreshed {
-                let df = DateFormatter()
-                df.dateFormat = "HH:mm:ss"
-                label.text = "Last refreshed: \(df.string(from: date))  ·  Auto-refreshes every 4s"
+                label.text = "Last refreshed: \(BGTaskInspectorVC.timeFormatter.string(from: date))  ·  Auto-refreshes every 4s"
             }
             label.font          = .systemFont(ofSize: 11)
             label.textColor     = UIColor.white.withAlphaComponent(0.25)
@@ -236,6 +234,13 @@ internal final class BGTaskInspectorVC: UITableViewController {
 
 @available(iOS 13.0, *)
 private final class BGTaskCell: UITableViewCell {
+
+    private static let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .none
+        df.timeStyle = .medium
+        return df
+    }()
 
     static let reuseID = "BGTaskCell"
 
@@ -362,16 +367,10 @@ private final class BGTaskCell: UITableViewCell {
         }
 
         if let begin = record.earliestBeginDate {
-            let df = DateFormatter()
-            df.dateStyle = .none
-            df.timeStyle = .medium
-            dateLabel.text      = "Earliest begin: \(df.string(from: begin))"
+            dateLabel.text      = "Earliest begin: \(BGTaskCell.dateFormatter.string(from: begin))"
             dateLabel.textColor = UIColor.Phantom.vibrantOrange.withAlphaComponent(0.8)
         } else if let seen = record.lastSeenPending {
-            let df = DateFormatter()
-            df.dateStyle = .none
-            df.timeStyle = .medium
-            dateLabel.text      = "Last pending: \(df.string(from: seen))"
+            dateLabel.text      = "Last pending: \(BGTaskCell.dateFormatter.string(from: seen))"
             dateLabel.textColor = UIColor.white.withAlphaComponent(0.35)
         } else {
             dateLabel.text      = "Never submitted"
@@ -384,6 +383,13 @@ private final class BGTaskCell: UITableViewCell {
 
 @available(iOS 13.0, *)
 private final class BGTaskDetailVC: UITableViewController {
+
+    private static let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .medium
+        df.timeStyle = .medium
+        return df
+    }()
 
     private let record: BGTaskRecord
 
@@ -417,22 +423,18 @@ private final class BGTaskDetailVC: UITableViewController {
     }
 
     private var rows: [(String, String)] {
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        df.timeStyle = .medium
-
         var result: [(String, String)] = [
             ("Identifier",    record.identifier),
             ("Type",          record.type.rawValue),
             ("Status",        record.isPending ? "Pending" : "Idle"),
         ]
         if let begin = record.earliestBeginDate {
-            result.append(("Earliest Begin", df.string(from: begin)))
+            result.append(("Earliest Begin", BGTaskDetailVC.dateFormatter.string(from: begin)))
         }
         if let seen = record.lastSeenPending {
-            result.append(("Last Seen Pending", df.string(from: seen)))
+            result.append(("Last Seen Pending", BGTaskDetailVC.dateFormatter.string(from: seen)))
         }
-        result.append(("Last Refreshed", df.string(from: record.lastRefreshed)))
+        result.append(("Last Refreshed", BGTaskDetailVC.dateFormatter.string(from: record.lastRefreshed)))
         return result
     }
 

@@ -211,9 +211,7 @@ private final class MemoryObjectCell: UITableViewCell {
         addressLabel.text = obj.address
         locationLabel.text = "📍 \(obj.file):\(obj.line)"
         
-        let formatter = DateFormatter()
-        formatter.timeStyle = .medium
-        timeLabel.text = "Tracked at \(formatter.string(from: obj.timestamp))"
+        timeLabel.text = "Tracked at \(MemoryObjectCell.dateFormatter.string(from: obj.timestamp))"
         
         let isAlive = obj.object != nil
         if isAlive {

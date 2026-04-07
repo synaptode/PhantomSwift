@@ -132,6 +132,13 @@ extension LayoutConflictVC: UITableViewDataSource, UITableViewDelegate {
 // MARK: - LayoutConflictCell
 
 private final class LayoutConflictCell: UITableViewCell {
+
+    private static let dateFormatter: DateFormatter = {
+        let fmt = DateFormatter()
+        fmt.dateStyle = .short
+        fmt.timeStyle = .medium
+        return fmt
+    }()
     static let reuseID = "LayoutConflictCell"
 
     private let indexBadge    = UILabel()
@@ -198,16 +205,20 @@ private final class LayoutConflictCell: UITableViewCell {
         let cnt            = entry.constraints.count
         subtitleLabel.text = "\(cnt) constraint\(cnt == 1 ? "" : "s") involved"
 
-        let fmt = DateFormatter()
-        fmt.dateStyle = .short
-        fmt.timeStyle = .medium
-        dateLabel.text = fmt.string(from: entry.date)
+        dateLabel.text = LayoutConflictCell.dateFormatter.string(from: entry.date)
     }
 }
 
 // MARK: - LayoutConflictDetailVC
 
 private final class LayoutConflictDetailVC: UIViewController {
+
+    private static let dateFormatter: DateFormatter = {
+        let fmt = DateFormatter()
+        fmt.dateStyle = .short
+        fmt.timeStyle = .long
+        return fmt
+    }()
 
     private let entry: LayoutConflictEntry
     private let textView = UITextView()
@@ -262,15 +273,11 @@ private final class LayoutConflictDetailVC: UIViewController {
     }
 
     private func renderContent() {
-        let fmt = DateFormatter()
-        fmt.dateStyle = .short
-        fmt.timeStyle = .long
-
         var text = """
 ╔══════════════════════════════════════
 ║  PHANTOM — AUTO LAYOUT CONFLICT
 ╠══════════════════════════════════════
-║  Date:  \(fmt.string(from: entry.date))
+║  Date:  \(LayoutConflictDetailVC.dateFormatter.string(from: entry.date))
 ║  View:  \(entry.viewClass ?? "unknown")
 ║  Constraints: \(entry.constraints.count)
 ╠══════════════════════════════════════

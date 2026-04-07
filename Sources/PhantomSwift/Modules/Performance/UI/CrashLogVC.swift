@@ -139,6 +139,13 @@ extension CrashLogVC: UITableViewDataSource, UITableViewDelegate {
 // MARK: - CrashLogCell
 
 private final class CrashLogCell: UITableViewCell {
+
+    private static let dateFormatter: DateFormatter = {
+        let fmt = DateFormatter()
+        fmt.dateStyle = .short
+        fmt.timeStyle = .medium
+        return fmt
+    }()
     static let reuseID = "CrashLogCell"
 
     private let typeBadge    = UILabel()
@@ -201,10 +208,7 @@ private final class CrashLogCell: UITableViewCell {
         reasonLabel.text  = entry.reason
         versionLabel.text = "v\(entry.appVersion)"
 
-        let fmt = DateFormatter()
-        fmt.dateStyle = .short
-        fmt.timeStyle = .medium
-        dateLabel.text = fmt.string(from: entry.date)
+        dateLabel.text = CrashLogCell.dateFormatter.string(from: entry.date)
 
         switch entry.type {
         case .exception:
@@ -220,6 +224,13 @@ private final class CrashLogCell: UITableViewCell {
 // MARK: - CrashLogDetailVC
 
 private final class CrashLogDetailVC: UIViewController {
+
+    private static let dateFormatter: DateFormatter = {
+        let fmt = DateFormatter()
+        fmt.dateStyle = .long
+        fmt.timeStyle = .long
+        return fmt
+    }()
 
     private let entry: CrashEntry
     private let textView = UITextView()
@@ -274,16 +285,12 @@ private final class CrashLogDetailVC: UIViewController {
     }
 
     private func renderContent() {
-        let fmt = DateFormatter()
-        fmt.dateStyle = .long
-        fmt.timeStyle = .long
-
         var text = """
 ╔══════════════════════════════════════
 ║  PHANTOM — CRASH REPORT
 ╠══════════════════════════════════════
 ║  Type:    \(entry.type.rawValue)
-║  Date:    \(fmt.string(from: entry.date))
+║  Date:    \(CrashLogDetailVC.dateFormatter.string(from: entry.date))
 ║  App v:   \(entry.appVersion)
 ║  iOS:     \(entry.osVersion)
 ╠══════════════════════════════════════
