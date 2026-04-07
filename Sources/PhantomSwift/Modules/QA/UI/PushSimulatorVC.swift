@@ -41,7 +41,7 @@ internal final class PushSimulatorVC: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        phantom_applyNavBarAppearance()
+        phantomApplyNavBarAppearance()
         refreshPending()
     }
 
@@ -573,7 +573,7 @@ internal final class PushComposeVC: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        phantom_applyNavBarAppearance()
+        phantomApplyNavBarAppearance()
     }
 
     // MARK: - Appearance

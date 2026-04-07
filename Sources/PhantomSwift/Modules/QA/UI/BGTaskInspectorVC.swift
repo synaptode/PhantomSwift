@@ -46,7 +46,7 @@ internal final class BGTaskInspectorVC: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        phantom_applyNavBarAppearance(tintColor: UIColor.Phantom.vibrantOrange)
+        phantomApplyNavBarAppearance(tintColor: UIColor.Phantom.vibrantOrange)
         records = PhantomBGTaskInspector.shared.records
         tableView.reloadData()
         PhantomBGTaskInspector.shared.startAutoRefresh(interval: 4)
@@ -407,7 +407,7 @@ private final class BGTaskDetailVC: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        phantom_applyNavBarAppearance(tintColor: UIColor.Phantom.vibrantOrange)
+        phantomApplyNavBarAppearance(tintColor: UIColor.Phantom.vibrantOrange)
     }
 
     private func applyDarkAppearance() {

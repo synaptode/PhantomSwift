@@ -16,7 +16,7 @@ extension UIViewController {
         return self
     }
 
-    func phantom_applyNavBarAppearance(tintColor: UIColor = PhantomTheme.shared.primaryColor) {
+    func phantomApplyNavBarAppearance(tintColor: UIColor = PhantomTheme.shared.primaryColor) {
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()

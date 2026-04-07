@@ -84,7 +84,7 @@ internal final class ClassDetailVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        phantom_applyNavBarAppearance()
+        phantomApplyNavBarAppearance()
     }
 
     // MARK: - Setup
@@ -107,7 +107,7 @@ internal final class ClassDetailVC: UIViewController {
                 action: #selector(copyClassName)
             )
         }
-        phantom_applyNavBarAppearance()
+        phantomApplyNavBarAppearance()
     }
 
     @objc private func copyClassName() {

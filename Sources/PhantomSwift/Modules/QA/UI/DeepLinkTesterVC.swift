@@ -91,7 +91,7 @@ internal final class DeepLinkTesterVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        phantom_applyNavBarAppearance(tintColor: UIColor.Phantom.neonAzure)
+        phantomApplyNavBarAppearance(tintColor: UIColor.Phantom.neonAzure)
         updateEmptyState()
     }
 
