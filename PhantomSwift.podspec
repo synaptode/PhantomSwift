@@ -21,4 +21,8 @@ An alternative to FLEX, Netfox, and Pulse with no external dependencies required
 
   s.source_files = 'Sources/PhantomSwift/**/*'
   s.frameworks = 'UIKit', 'Security'
+
+  s.test_spec 'Tests' do |test_spec|
+    test_spec.source_files = 'Tests/PhantomSwiftTests/**/*'
+  end
 end
