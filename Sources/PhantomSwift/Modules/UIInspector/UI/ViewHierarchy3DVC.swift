@@ -4,21 +4,6 @@ import QuartzCore
 
 // MARK: - Snapshot metadata
 
-private struct SnapshotMeta {
-    let snapshotLayer: CALayer
-    let sourceView: UIView
-    let depth: Int
-    let originalFrame: CGRect
-    let className: String
-    let alpha: CGFloat
-    let isHidden: Bool
-    let accessibilityID: String?
-    let constraintCount: Int
-    let subviewCount: Int
-    let address: String
-    let parentClassName: String?
-    let backgroundColor: UIColor?
-}
 
 // MARK: - ViewHierarchy3DVC
 
@@ -168,64 +153,106 @@ internal final class ViewHierarchy3DVC: UIViewController {
     // ──────────────────────────────────────────────────────────────────────
 
     private func buildUI() {
-        title = "3D Hierarchy"
-        view.backgroundColor = UIColor.Phantom.backgroundDark
+        view.backgroundColor = PhantomTheme.shared.backgroundColor
 
-        // nav bar
-        if #available(iOS 13.0, *) {
-            let a = UINavigationBarAppearance()
-            a.configureWithOpaqueBackground()
-            a.backgroundColor = UIColor.Phantom.surfaceDark
-            a.titleTextAttributes = [.foregroundColor: UIColor.white]
-            navigationItem.standardAppearance = a
-            navigationItem.scrollEdgeAppearance = a
-        }
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Done", style: .done, target: self, action: #selector(dismissVC))
+        setupMainScene()
+        setupControls()
+        setupGestures()
+    }
 
-        // scene
-        sceneContainer.backgroundColor = .clear
-        sceneContainer.clipsToBounds = false
-        sceneContainer.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(sceneContainer)
+    private func setupMainScene() {
+        sceneView.frame = view.bounds
+        sceneView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        sceneView.backgroundColor = PhantomTheme.shared.backgroundColor
+        view.addSubview(sceneView)
 
-        var perspective = CATransform3DIdentity
-        perspective.m34 = -1.0 / 900.0
-        sceneContainer.layer.sublayerTransform = perspective
-        sceneContainer.layer.addSublayer(transformLayer)
+        let rootLayer = CALayer()
+        rootLayer.frame = sceneView.bounds
+        sceneView.layer.addSublayer(rootLayer)
 
-        // toolbar
-        buildToolbar()
+        transformLayer.frame = rootLayer.bounds
+        rootLayer.addSublayer(transformLayer)
+    }
 
-        // mini-map
-        buildMiniMap()
+    private func setupControls() {
+        let (spacingRow, depthRow, btnRow) = buildSlidersAndButtons()
 
-        // inspector
-        buildInspector()
+        let controlStack = UIStackView(arrangedSubviews: [spacingRow, depthRow, btnRow])
+        controlStack.axis = .vertical
+        controlStack.spacing = 16
+        controlStack.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(controlStack)
 
-        // layout
         NSLayoutConstraint.activate([
-            sceneContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            sceneContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            sceneContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            sceneContainer.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+            controlStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            controlStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            controlStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        ])
+    }
+
+    private func buildSlidersAndButtons() -> (UIView, UIView, UIView) {
+        let spacingRow = UIView()
+        let spacingLabel = UILabel()
+        spacingLabel.text = "Spacing"
+        spacingLabel.font = UIFont.systemFont(ofSize: 12)
+        spacingLabel.textColor = PhantomTheme.shared.textColor
+
+        let spacingSlider = UISlider()
+        spacingSlider.minimumValue = 10
+        spacingSlider.maximumValue = 200
+        spacingSlider.value = Float(baseSpacing)
+        spacingSlider.addTarget(self, action: #selector(spacingChanged(_:)), for: .valueChanged)
+
+        let spacingStack = UIStackView(arrangedSubviews: [spacingLabel, spacingSlider])
+        spacingStack.axis = .horizontal
+        spacingStack.spacing = 10
+        spacingStack.translatesAutoresizingMaskIntoConstraints = false
+        spacingRow.addSubview(spacingStack)
+
+        let depthRow = UIView()
+        let depthLabel = UILabel()
+        depthLabel.text = "Depth"
+        depthLabel.font = UIFont.systemFont(ofSize: 12)
+        depthLabel.textColor = PhantomTheme.shared.textColor
+
+        let depthSlider = UISlider()
+        depthSlider.minimumValue = 0
+        depthSlider.maximumValue = 100
+        depthSlider.value = 100
+        depthSlider.addTarget(self, action: #selector(depthChanged(_:)), for: .valueChanged)
+
+        let depthStack = UIStackView(arrangedSubviews: [depthLabel, depthSlider])
+        depthStack.axis = .horizontal
+        depthStack.spacing = 10
+        depthStack.translatesAutoresizingMaskIntoConstraints = false
+        depthRow.addSubview(depthStack)
+
+        NSLayoutConstraint.activate([
+            spacingStack.leadingAnchor.constraint(equalTo: spacingRow.leadingAnchor),
+            spacingStack.trailingAnchor.constraint(equalTo: spacingRow.trailingAnchor),
+            spacingStack.topAnchor.constraint(equalTo: spacingRow.topAnchor),
+            spacingStack.bottomAnchor.constraint(equalTo: spacingRow.bottomAnchor),
+
+            depthStack.leadingAnchor.constraint(equalTo: depthRow.leadingAnchor),
+            depthStack.trailingAnchor.constraint(equalTo: depthRow.trailingAnchor),
+            depthStack.topAnchor.constraint(equalTo: depthRow.topAnchor),
+            depthStack.bottomAnchor.constraint(equalTo: depthRow.bottomAnchor)
         ])
 
-        // gestures
+        let btnRow = buildActionButtons()
+
+        return (spacingRow, depthRow, btnRow)
+    }
+
+    private func setupGestures() {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        pan.delegate = self
-        sceneContainer.addGestureRecognizer(pan)
+        view.addGestureRecognizer(pan)
 
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
-        pinch.delegate = self
-        sceneContainer.addGestureRecognizer(pinch)
+        view.addGestureRecognizer(pinch)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(resetCamera))
-        doubleTap.numberOfTapsRequired = 2
-        tap.require(toFail: doubleTap)
-        sceneContainer.addGestureRecognizer(tap)
-        sceneContainer.addGestureRecognizer(doubleTap)
+        view.addGestureRecognizer(tap)
     }
 
     // MARK: Toolbar
@@ -698,77 +725,87 @@ internal final class ViewHierarchy3DVC: UIViewController {
 
         for (seq, idx) in filteredIndices.enumerated() {
             let meta = snapshots[idx]
-            let wrapper = CATransformLayer()
-            wrapper.isDoubleSided = false
-            wrapper.name = "\(idx)"
-
+            let wrapper = createWrapperLayer(for: idx)
             let layer = meta.snapshotLayer
+
             let relX = meta.originalFrame.origin.x - cx + meta.originalFrame.width / 2
             let relY = meta.originalFrame.origin.y - cy + meta.originalFrame.height / 2
-            layer.position = CGPoint(x: relX, y: relY)
-            layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            layer.bounds = CGRect(origin: .zero, size: meta.originalFrame.size)
 
-            if isWireframe {
-                layer.contents = nil
-                layer.backgroundColor = UIColor.clear.cgColor
-                layer.borderWidth = 1
-                layer.borderColor = depthColor(meta.depth).withAlphaComponent(0.6).cgColor
-            } else {
-                layer.borderWidth = 0.5
-                layer.borderColor = depthColor(meta.depth).withAlphaComponent(0.35).cgColor
-            }
+            configureSnapshotLayer(layer, meta: meta, relX: relX, relY: relY)
 
-            // class name label layer
             if showLabels && meta.originalFrame.width > 20 && meta.originalFrame.height > 10 {
-                let txt = CATextLayer()
-                txt.string = meta.className
-                txt.font = CTFontCreateWithName("Menlo-Bold" as CFString, 8, nil)
-                txt.fontSize = 8
-                txt.foregroundColor = UIColor.white.withAlphaComponent(0.85).cgColor
-                txt.backgroundColor = depthColor(meta.depth).withAlphaComponent(0.55).cgColor
-                txt.cornerRadius = 3
-                txt.alignmentMode = .center
-                txt.contentsScale = UIScreen.main.scale
-                txt.isWrapped = false
-                let labelW = min(meta.originalFrame.width, CGFloat(meta.className.count) * 5.5 + 8)
-                txt.frame = CGRect(x: relX - labelW / 2,
-                                   y: relY - meta.originalFrame.height / 2 - 12,
-                                   width: labelW, height: 14)
-                txt.isDoubleSided = false
+                let txt = createLabelLayer(for: meta, relX: relX, relY: relY)
                 wrapper.addSublayer(txt)
             }
 
             wrapper.addSublayer(layer)
-
-            let zTarget = CGFloat(meta.depth) * spacing
-            if animated {
-                wrapper.transform = CATransform3DMakeTranslation(0, 0, 0)
-                let anim = CABasicAnimation(keyPath: "transform")
-                anim.fromValue = NSValue(caTransform3D: CATransform3DMakeTranslation(0, 0, 0))
-                anim.toValue = NSValue(caTransform3D: CATransform3DMakeTranslation(0, 0, zTarget))
-                anim.duration = 0.5
-                anim.timingFunction = CAMediaTimingFunction(name: .easeOut)
-                anim.beginTime = CACurrentMediaTime() + Double(seq) * 0.008
-                anim.fillMode = .forwards
-                anim.isRemovedOnCompletion = false
-                wrapper.add(anim, forKey: "entry")
-            }
-            wrapper.transform = CATransform3DMakeTranslation(0, 0, zTarget)
-
             transformLayer.addSublayer(wrapper)
-        }
 
-        applySelection()
-        updateCamera()
-        updateBadges()
-        
-        // On initial load, fit all layers to viewport
-        // Delay to ensure layout is complete
-        if animated && zoom == 1.0 && translateX == 0 && translateY == 0 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                self?.fitAllLayers()
-            }
+            applyTransformAndFocus(to: wrapper, idx: idx, seq: seq, animated: animated)
+        }
+    }
+
+    private func createWrapperLayer(for idx: Int) -> CATransformLayer {
+        let wrapper = CATransformLayer()
+        wrapper.isDoubleSided = false
+        wrapper.name = "\(idx)"
+        return wrapper
+    }
+
+    private func configureSnapshotLayer(_ layer: CALayer, meta: SnapshotMeta, relX: CGFloat, relY: CGFloat) {
+        layer.position = CGPoint(x: relX, y: relY)
+        layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        layer.bounds = CGRect(origin: .zero, size: meta.originalFrame.size)
+
+        if isWireframe {
+            layer.contents = nil
+            layer.backgroundColor = UIColor.clear.cgColor
+            layer.borderWidth = 1
+            layer.borderColor = depthColor(meta.depth).withAlphaComponent(0.6).cgColor
+        } else {
+            layer.borderWidth = 0.5
+            layer.borderColor = depthColor(meta.depth).withAlphaComponent(0.35).cgColor
+        }
+    }
+
+    private func createLabelLayer(for meta: SnapshotMeta, relX: CGFloat, relY: CGFloat) -> CATextLayer {
+        let txt = CATextLayer()
+        txt.string = meta.className
+        txt.font = CTFontCreateWithName("Menlo-Bold" as CFString, 8, nil)
+        txt.fontSize = 8
+        txt.foregroundColor = UIColor.white.withAlphaComponent(0.85).cgColor
+        txt.backgroundColor = depthColor(meta.depth).withAlphaComponent(0.55).cgColor
+        txt.cornerRadius = 3
+        txt.alignmentMode = .center
+        txt.contentsScale = UIScreen.main.scale
+        txt.isWrapped = false
+        let labelW = min(meta.originalFrame.width, CGFloat(meta.className.count) * 5.5 + 8)
+        txt.frame = CGRect(x: relX - labelW / 2,
+                           y: relY - meta.originalFrame.height / 2 - 12,
+                           width: labelW, height: 14)
+        return txt
+    }
+
+    private func applyTransformAndFocus(to wrapper: CALayer, idx: Int, seq: Int, animated: Bool) {
+        let isFocused = focusedIndex == idx
+        let focusZ: CGFloat = isFocused ? 200 : 0
+        let focusAlpha: Float = focusedIndex == nil ? 1.0 : (isFocused ? 1.0 : 0.15)
+        wrapper.opacity = focusAlpha
+
+        let baseZ = CGFloat(seq) * baseSpacing
+        let targetTransform = CATransform3DMakeTranslation(0, 0, baseZ + focusZ)
+
+        if animated {
+            CATransaction.begin()
+            CATransaction.setAnimationDuration(0.5)
+            CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeOut))
+            wrapper.transform = targetTransform
+            CATransaction.commit()
+        } else {
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            wrapper.transform = targetTransform
+            CATransaction.commit()
         }
     }
 

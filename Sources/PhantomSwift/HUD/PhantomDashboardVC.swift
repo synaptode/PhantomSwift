@@ -270,27 +270,45 @@ internal final class PhantomDashboardVC: UIViewController {
     // MARK: - Header
 
     private func setupHeader() {
+        setupDragHandle()
+        setupHeaderView()
+        setupCurrentLetterLabel()
+        setupWordmarkLabel()
+        setupEnvLabel()
+        setupCloseButton()
+        setupHeaderConstraints()
+    }
+
+    private func setupDragHandle() {
         dragHandle.backgroundColor = UIColor.white.withAlphaComponent(0.15)
         dragHandle.layer.cornerRadius = 2.5
         view.addSubview(dragHandle)
         dragHandle.translatesAutoresizingMaskIntoConstraints = false
+    }
 
+    private func setupHeaderView() {
         view.addSubview(headerView)
         headerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.backgroundColor = .clear
+    }
 
+    private func setupCurrentLetterLabel() {
         currentLetterLabel.font = UIFont.systemFont(ofSize: 96, weight: .black)
         currentLetterLabel.textColor = UIColor.white.withAlphaComponent(0.08)
         currentLetterLabel.text = sections.first?.letter ?? ""
         headerView.addSubview(currentLetterLabel)
         currentLetterLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
 
+    private func setupWordmarkLabel() {
         wordmarkLabel.text = "PhantomSwift"
         wordmarkLabel.font = UIFont.systemFont(ofSize: 22, weight: .black)
         wordmarkLabel.textColor = .white
         headerView.addSubview(wordmarkLabel)
         wordmarkLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
 
+    private func setupEnvLabel() {
         let env = PhantomSwift.shared.config.environment.name.lowercased()
         envLabel.text = " \(env) "
         envLabel.font = UIFont.systemFont(ofSize: 9, weight: .bold)
@@ -301,47 +319,45 @@ internal final class PhantomDashboardVC: UIViewController {
         envLabel.clipsToBounds = true
         headerView.addSubview(envLabel)
         envLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
 
-        if #available(iOS 13.0, *) {
-            let cfg = UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
-            closeButton.setImage(UIImage(systemName: "xmark", withConfiguration: cfg), for: .normal)
-        } else {
-            closeButton.setTitle("X", for: .normal)
-        }
-        closeButton.tintColor = UIColor.white.withAlphaComponent(0.4)
-        closeButton.backgroundColor = UIColor.white.withAlphaComponent(0.08)
-        closeButton.layer.cornerRadius = 18
-        if #available(iOS 13.0, *) { closeButton.layer.cornerCurve = .circular }
+    private func setupCloseButton() {
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)
+        let xIcon = UIImage(systemName: "xmark.circle.fill", withConfiguration: config)
+        closeButton.setImage(xIcon, for: .normal)
+        closeButton.tintColor = UIColor.white.withAlphaComponent(0.3)
         closeButton.addTarget(self, action: #selector(dismissDashboard), for: .touchUpInside)
         headerView.addSubview(closeButton)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
+    }
 
+    private func setupHeaderConstraints() {
         NSLayoutConstraint.activate([
-            dragHandle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
+            dragHandle.topAnchor.constraint(equalTo: view.topAnchor, constant: 12),
             dragHandle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dragHandle.widthAnchor.constraint(equalToConstant: 36),
+            dragHandle.widthAnchor.constraint(equalToConstant: 40),
             dragHandle.heightAnchor.constraint(equalToConstant: 5),
 
             headerView.topAnchor.constraint(equalTo: dragHandle.bottomAnchor, constant: 12),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            headerView.heightAnchor.constraint(equalToConstant: 76),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 120),
 
-            currentLetterLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: -4),
-            currentLetterLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 4),
+            currentLetterLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 20),
+            currentLetterLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
 
-            wordmarkLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            wordmarkLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            wordmarkLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
+            wordmarkLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -20),
 
-            envLabel.leadingAnchor.constraint(equalTo: wordmarkLabel.trailingAnchor, constant: 8),
-            envLabel.bottomAnchor.constraint(equalTo: wordmarkLabel.bottomAnchor, constant: -4),
+            envLabel.leadingAnchor.constraint(equalTo: wordmarkLabel.trailingAnchor, constant: 12),
+            envLabel.centerYAnchor.constraint(equalTo: wordmarkLabel.centerYAnchor),
             envLabel.heightAnchor.constraint(equalToConstant: 16),
             envLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 40),
 
-            closeButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            closeButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            closeButton.widthAnchor.constraint(equalToConstant: 36),
-            closeButton.heightAnchor.constraint(equalToConstant: 36),
+            closeButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+            closeButton.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10),
+            closeButton.widthAnchor.constraint(equalToConstant: 44),
+            closeButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
 
@@ -635,45 +651,46 @@ extension PhantomDashboardVC: UITableViewDataSource, UITableViewDelegate {
 
     private func makeVC(for item: DashboardItem) -> UIViewController {
         switch item {
-        case .plugin(let p): return p.rootViewController
         case .feature(let f):
-            switch f {
-            case .network:           return NetworkListVC()
-            case .logger:            return LogConsoleVC()
-            case .memoryLeak:        return LeakListVC()
-            case .interceptor:       return InterceptorListVC()
-            case .storage:           return StorageListVC()
-            case .performance:       return PerformanceDashboardVC()
-            case .qa:                return AppShortcutsVC()
-            case .security:          return SecurityDashboardVC()
-            case .swiftUI:           return RenderListVC()
-            case .accessibility:     return AccessibilityDashboardVC()
-            case .environment:       return EnvironmentDashboardVC()
-            case .extensionSidekick: return ExtensionLogVC()
-            case .badNetwork:        return BadNetworkDashboardVC()
-            case .hangDetector:      return HangListVC()
-            case .stateSnapshot:     return SnapshotListVC()
-            case .analytics:         return AnalyticsListVC()
-            case .memoryGraph:       return MemoryGraphVC()
-            case .assetInspector:    return AssetListVC()
-            case .featureFlags:      return FeatureFlagsDashboardVC()
-            case .mainThreadChecker: return MainThreadCheckerVC()
-            case .waterfall:         return NetworkWaterfallVC()
-            case .remoteServer:
-                if #available(iOS 13.0, *) {
-                    return RemoteServerDashboardVC()
-                }
-                return UIViewController()
-            case .deepLinkTester:    return DeepLinkTesterVC()
-            case .crashLogs:                 return CrashLogVC()
-            case .layoutConflicts:           return LayoutConflictVC()
-            case .pushNotificationSimulator: return PushSimulatorVC()
-            case .backgroundTaskInspector:
-                if #available(iOS 13.0, *) { return BGTaskInspectorVC() }
-                return UIViewController()
-            case .runtimeBrowser:    return RuntimeBrowserVC()
-            case .uiInspector:       return UIViewController()
-            }
+            return makeVC(forFeature: f)
+        case .plugin(let p):
+            let nc = UINavigationController(rootViewController: p.viewController)
+            nc.phantomApplyNavBarAppearance()
+            return nc
+        }
+    }
+
+    private func makeVC(forFeature f: PhantomFeature) -> UIViewController {
+        switch f {
+        case .network:           return PhantomNav(rootViewController: NetworkListVC())
+        case .interceptor:       return PhantomNav(rootViewController: InterceptorListVC())
+        case .logger:            return PhantomNav(rootViewController: LogConsoleVC())
+        case .memoryLeak:        return PhantomNav(rootViewController: LeakListVC())
+        case .uiInspector:       return PhantomNav(rootViewController: PhantomUIInspector())
+        case .storage:           return PhantomNav(rootViewController: StorageDashboardVC())
+        case .performance:       return PhantomNav(rootViewController: PerformanceDashboardVC())
+        case .qa:                return PhantomNav(rootViewController: QAShortcutsVC())
+        case .security:          return PhantomNav(rootViewController: SecurityDashboardVC())
+        case .swiftUI:           return PhantomNav(rootViewController: SwiftUIInspectorVC())
+        case .accessibility:     return PhantomNav(rootViewController: AccessibilityAuditVC())
+        case .environment:       return PhantomNav(rootViewController: EnvironmentDashboardVC())
+        case .extensionSidekick: return PhantomNav(rootViewController: ExtensionSidekickVC())
+        case .badNetwork:        return PhantomNav(rootViewController: BadNetworkVC())
+        case .hangDetector:      return PhantomNav(rootViewController: HangListVC())
+        case .stateSnapshot:     return PhantomNav(rootViewController: StateSnapshotVC())
+        case .analytics:         return PhantomNav(rootViewController: AnalyticsListVC())
+        case .memoryGraph:       return PhantomNav(rootViewController: ObjectRetainGraphVC())
+        case .assetInspector:    return PhantomNav(rootViewController: AssetInspectorVC())
+        case .featureFlags:      return PhantomNav(rootViewController: FeatureFlagsDashboardVC())
+        case .mainThreadChecker: return PhantomNav(rootViewController: MainThreadCheckerVC())
+        case .waterfall:         return PhantomNav(rootViewController: NetworkWaterfallVC())
+        case .remoteServer:      return PhantomNav(rootViewController: RemoteServerVC())
+        case .deepLinkTester:    return PhantomNav(rootViewController: DeepLinkTesterVC())
+        case .crashLogs:         return PhantomNav(rootViewController: CrashLogVC())
+        case .layoutConflicts:   return PhantomNav(rootViewController: LayoutConflictVC())
+        case .pushNotificationSimulator: return PhantomNav(rootViewController: PushSimulatorVC())
+        case .backgroundTaskInspector:   return PhantomNav(rootViewController: BGTaskInspectorVC())
+        case .runtimeBrowser:    return PhantomNav(rootViewController: RuntimeBrowserVC())
         }
     }
 
@@ -768,115 +785,6 @@ extension PhantomDashboardVC: UISearchBarDelegate {
 
 // MARK: - NiagaraModuleCell
 
-private final class NiagaraModuleCell: UITableViewCell {
-    static let reuseID = "NiagaraModuleCell"
-
-    private let circleContainer = UIView()
-    private let iconView        = UIImageView()
-    private let titleLabel      = UILabel()
-    private let badgeLabel      = UILabel()
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
-    }
-    required init?(coder: NSCoder) { fatalError() }
-
-    private func setup() {
-        backgroundColor             = .clear
-        contentView.backgroundColor = .clear
-        selectedBackgroundView = {
-            let v = UIView()
-            v.backgroundColor = UIColor.white.withAlphaComponent(0.06)
-            return v
-        }()
-
-        circleContainer.layer.cornerRadius = 27
-        if #available(iOS 13.0, *) { circleContainer.layer.cornerCurve = .circular }
-        circleContainer.clipsToBounds = true
-        contentView.addSubview(circleContainer)
-        circleContainer.translatesAutoresizingMaskIntoConstraints = false
-
-        iconView.contentMode = .scaleAspectFit
-        circleContainer.addSubview(iconView)
-        iconView.translatesAutoresizingMaskIntoConstraints = false
-
-        titleLabel.font      = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        titleLabel.textColor = .white
-        contentView.addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        // Badge — red pill on top-right of circle
-        badgeLabel.font            = UIFont.systemFont(ofSize: 9, weight: .bold)
-        badgeLabel.textColor       = .white
-        badgeLabel.textAlignment   = .center
-        badgeLabel.backgroundColor = UIColor.Phantom.vibrantRed
-        badgeLabel.layer.cornerRadius = 8
-        badgeLabel.clipsToBounds   = true
-        badgeLabel.isHidden        = true
-        contentView.addSubview(badgeLabel)
-        badgeLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            circleContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            circleContainer.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            circleContainer.widthAnchor.constraint(equalToConstant: 54),
-            circleContainer.heightAnchor.constraint(equalToConstant: 54),
-
-            iconView.centerXAnchor.constraint(equalTo: circleContainer.centerXAnchor),
-            iconView.centerYAnchor.constraint(equalTo: circleContainer.centerYAnchor),
-            iconView.widthAnchor.constraint(equalToConstant: 24),
-            iconView.heightAnchor.constraint(equalToConstant: 24),
-
-            titleLabel.leadingAnchor.constraint(equalTo: circleContainer.trailingAnchor, constant: 18),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -44),
-
-            badgeLabel.topAnchor.constraint(equalTo: circleContainer.topAnchor, constant: -4),
-            badgeLabel.trailingAnchor.constraint(equalTo: circleContainer.trailingAnchor, constant: 4),
-            badgeLabel.heightAnchor.constraint(equalToConstant: 16),
-            badgeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 16),
-        ])
-    }
-
-    func configure(title: String, icon: String, accent: UIColor, badge: Int = 0) {
-        titleLabel.text                 = title
-        circleContainer.backgroundColor = accent.withAlphaComponent(0.18)
-        iconView.tintColor              = accent
-
-        if #available(iOS 15.0, *) {
-            let cfg = UIImage.SymbolConfiguration(hierarchicalColor: accent)
-            iconView.image = UIImage(systemName: icon, withConfiguration: cfg)
-                ?? UIImage(systemName: "questionmark.circle", withConfiguration: cfg)
-        } else if #available(iOS 13.0, *) {
-            iconView.image = UIImage(systemName: icon) ?? UIImage(systemName: "questionmark.circle")
-        }
-
-        // Badge update
-        if badge > 0 {
-            let count = badge > 999 ? "999+" : "\(badge)"
-            badgeLabel.text     = " \(count) "
-            badgeLabel.isHidden = false
-        } else {
-            badgeLabel.isHidden = true
-        }
-    }
-
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        super.setHighlighted(highlighted, animated: animated)
-        UIView.animate(
-            withDuration: highlighted ? 0.10 : 0.30,
-            delay: 0,
-            usingSpringWithDamping: highlighted ? 1.0 : 0.65,
-            initialSpringVelocity: highlighted ? 0 : 0.5,
-            options: [.beginFromCurrentState, .allowUserInteraction]
-        ) {
-            let s: CGFloat = highlighted ? 0.96 : 1.0
-            self.contentView.transform = CGAffineTransform(scaleX: s, y: s)
-            self.contentView.alpha     = highlighted ? 0.70 : 1.0
-        }
-    }
-}
 // MARK: - AlphaScrubberView
 /// Custom A–Z index scrubber — Niagara style.
 ///
