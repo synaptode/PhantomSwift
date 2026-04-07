@@ -171,12 +171,12 @@ extension GridOverlayVC: UITableViewDataSource {
         // MARK: Columns section
         case (.columns, _):
             let cell = tableView.dequeueReusableCell(withIdentifier: "StepperCell") as! StepperCell
-            cell.configure(
+            cell.configure(with: .init(
                 label: "Columns",
                 icon: "rectangle.split.3x1",
                 iconColor: UIColor.Phantom.vibrantGreen,
                 value: Double(localConfig.columns),
-                minValue: 1, maxValue: 24, step: 1)
+                minValue: 1, maxValue: 24, step: 1))
             cell.onChange = { [weak self] val in
                 self?.apply { $0.columns = Int(val) }
             }
@@ -185,12 +185,12 @@ extension GridOverlayVC: UITableViewDataSource {
         // MARK: Spacing section
         case (.spacing, 0):
             let cell = tableView.dequeueReusableCell(withIdentifier: "SliderCell") as! SliderCell
-            cell.configure(
+            cell.configure(with: .init(
                 label: "Margin",
                 icon: "arrow.left.and.right",
                 iconColor: UIColor.Phantom.vibrantPurple,
                 value: Float(localConfig.margin),
-                min: 0, max: 60, format: "%.0f pt")
+                min: 0, max: 60, format: "%.0f pt"))
             cell.onChange = { [weak self] val in
                 self?.apply { $0.margin = CGFloat(val) }
             }
@@ -198,12 +198,12 @@ extension GridOverlayVC: UITableViewDataSource {
 
         case (.spacing, 1):
             let cell = tableView.dequeueReusableCell(withIdentifier: "SliderCell") as! SliderCell
-            cell.configure(
+            cell.configure(with: .init(
                 label: "Gutter",
                 icon: "equal.square",
                 iconColor: UIColor.Phantom.vibrantPurple,
                 value: Float(localConfig.gutter),
-                min: 0, max: 40, format: "%.0f pt")
+                min: 0, max: 40, format: "%.0f pt"))
             cell.onChange = { [weak self] val in
                 self?.apply { $0.gutter = CGFloat(val) }
             }
@@ -223,12 +223,12 @@ extension GridOverlayVC: UITableViewDataSource {
 
         case (.baseline, 1):
             let cell = tableView.dequeueReusableCell(withIdentifier: "SliderCell") as! SliderCell
-            cell.configure(
+            cell.configure(with: .init(
                 label: "Baseline Spacing",
                 icon: "timeline.selection",
                 iconColor: UIColor.Phantom.vibrantOrange,
                 value: Float(localConfig.baselineSpacing),
-                min: 4, max: 32, format: "%.0f pt")
+                min: 4, max: 32, format: "%.0f pt"))
             cell.onChange = { [weak self] val in
                 self?.apply { $0.baselineSpacing = CGFloat(val) }
             }
@@ -430,19 +430,29 @@ private final class SliderCell: UITableViewCell {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    func configure(label: String, icon: String, iconColor: UIColor, value: Float, min: Float, max: Float, format: String) {
-        fmt = format
-        titleLbl.text = label
-        iconView.backgroundColor = iconColor.withAlphaComponent(0.15)
+    struct Configuration {
+        let label: String
+        let icon: String
+        let iconColor: UIColor
+        let value: Float
+        let min: Float
+        let max: Float
+        let format: String
+    }
+
+    func configure(with config: Configuration) {
+        fmt = config.format
+        titleLbl.text = config.label
+        iconView.backgroundColor = config.iconColor.withAlphaComponent(0.15)
         if #available(iOS 13.0, *) {
-            iconImage.image = UIImage(systemName: icon)?
+            iconImage.image = UIImage(systemName: config.icon)?
                 .withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
-            iconImage.tintColor = iconColor
+            iconImage.tintColor = config.iconColor
         }
-        slider.minimumValue = min
-        slider.maximumValue = max
-        slider.value        = value
-        valueLbl.text       = String(format: fmt, value)
+        slider.minimumValue = config.min
+        slider.maximumValue = config.max
+        slider.value        = config.value
+        valueLbl.text       = String(format: fmt, config.value)
     }
 
     @objc private func slid() {
@@ -512,20 +522,29 @@ private final class StepperCell: UITableViewCell {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    func configure(label: String, icon: String, iconColor: UIColor, value: Double,
-                   minValue: Double, maxValue: Double, step: Double) {
-        titleLbl.text = label
-        iconView.backgroundColor = iconColor.withAlphaComponent(0.15)
+    struct Configuration {
+        let label: String
+        let icon: String
+        let iconColor: UIColor
+        let value: Double
+        let minValue: Double
+        let maxValue: Double
+        let step: Double
+    }
+
+    func configure(with config: Configuration) {
+        titleLbl.text = config.label
+        iconView.backgroundColor = config.iconColor.withAlphaComponent(0.15)
         if #available(iOS 13.0, *) {
-            iconImage.image = UIImage(systemName: icon)?
+            iconImage.image = UIImage(systemName: config.icon)?
                 .withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
-            iconImage.tintColor = iconColor
+            iconImage.tintColor = config.iconColor
         }
-        stepper.minimumValue = minValue
-        stepper.maximumValue = maxValue
-        stepper.stepValue    = step
-        stepper.value        = value
-        valueLbl.text        = "\(Int(value))"
+        stepper.minimumValue = config.minValue
+        stepper.maximumValue = config.maxValue
+        stepper.stepValue    = config.step
+        stepper.value        = config.value
+        valueLbl.text        = "\(Int(config.value))"
     }
 
     @objc private func stepped() {
