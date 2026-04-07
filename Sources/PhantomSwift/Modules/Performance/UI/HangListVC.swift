@@ -170,15 +170,24 @@ private final class HangEventCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle  = .none
 
-        // Container
+        setupContainer()
+        setupIconContainer()
+        setupTopRow()
+        setupInfoStack()
+        setupIntensityBar()
+        setupConstraints()
+    }
+
+    private func setupContainer() {
         containerView.backgroundColor   = PhantomTheme.shared.surfaceColor.withAlphaComponent(0.6)
         containerView.layer.cornerRadius = 20
         containerView.layer.borderWidth  = 1
         containerView.layer.borderColor  = UIColor.white.withAlphaComponent(0.08).cgColor
         containerView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(containerView)
+    }
 
-        // Icon container
+    private func setupIconContainer() {
         iconContainer.backgroundColor       = UIColor.Phantom.vibrantRed.withAlphaComponent(0.12)
         iconContainer.layer.cornerRadius    = 14
         iconContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -189,7 +198,9 @@ private final class HangEventCell: UITableViewCell {
         iconLabel.setContentHuggingPriority(.required, for: .horizontal)
         iconLabel.translatesAutoresizingMaskIntoConstraints = false
         iconContainer.addSubview(iconLabel)
+    }
 
+    private func setupTopRow() {
         // Severity badge
         severityBadge.layer.cornerRadius    = 6
         severityBadge.translatesAutoresizingMaskIntoConstraints = false
@@ -221,6 +232,10 @@ private final class HangEventCell: UITableViewCell {
         topSpacer.setContentHuggingPriority(.defaultLow, for: .horizontal)
         topRow.addArrangedSubview(topSpacer)
 
+        containerView.addSubview(topRow)
+    }
+
+    private func setupInfoStack() {
         // Screen label
         screenLabel.font                = .systemFont(ofSize: 13, weight: .semibold)
         screenLabel.textColor           = PhantomTheme.shared.primaryColor
@@ -243,6 +258,10 @@ private final class HangEventCell: UITableViewCell {
         infoStack.addArrangedSubview(screenLabel)
         infoStack.addArrangedSubview(timestampLabel)
 
+        containerView.addSubview(infoStack)
+    }
+
+    private func setupIntensityBar() {
         // Intensity bar
         intensityBar.backgroundColor    = PhantomTheme.shared.textColor.withAlphaComponent(0.06)
         intensityBar.layer.cornerRadius = 2.5
@@ -253,10 +272,10 @@ private final class HangEventCell: UITableViewCell {
         intensityFill.translatesAutoresizingMaskIntoConstraints = false
         intensityBar.addSubview(intensityFill)
 
-        // Add all to container
-        [topRow, infoStack, intensityBar].forEach { containerView.addSubview($0) }
+        containerView.addSubview(intensityBar)
+    }
 
-        // MARK: Constraints
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             // Container
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
