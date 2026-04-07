@@ -126,6 +126,68 @@ final class PhantomRequestStoreTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
         XCTAssertEqual(observer.capturedRequest?.id, request.id)
     }
+
+    func testUpdateRequest() {
+        let expectation = XCTestExpectation(description: "Wait for request to be added")
+        let url = URL(string: "https://example.com")!
+        var request = PhantomRequest(url: url, method: "GET", headers: [:], body: nil)
+
+        class Observer: PhantomEventObserver {
+            let exp: XCTestExpectation
+            init(exp: XCTestExpectation) { self.exp = exp }
+            func onEvent(_ event: PhantomEvent) {
+                if case .networkRequestCaptured = event { exp.fulfill() }
+            }
+        }
+        let observer = Observer(exp: expectation)
+        PhantomEventBus.shared.subscribe(observer, to: "networkRequestCaptured")
+
+        store.add(request)
+        wait(for: [expectation], timeout: 1.0)
+
+        // Now modify the request and update it
+        request.status = .completed
+        store.update(request)
+
+        // Fetch it back
+        let requests = store.getAll()
+        XCTAssertEqual(requests.count, 1)
+        XCTAssertEqual(requests.first?.status, .completed)
+    }
+
+    func testConcurrentAdd() {
+        let concurrentQueue = DispatchQueue(label: "com.test.concurrent", attributes: .concurrent)
+        let group = DispatchGroup()
+        let count = 100
+
+        for i in 0..<count {
+            group.enter()
+            concurrentQueue.async {
+                let request = PhantomRequest(
+                    url: URL(string: "https://example.com/\(i)")!,
+                    method: "GET",
+                    headers: [:],
+                    body: nil
+                )
+                self.store.add(request)
+                group.leave()
+            }
+        }
+
+        let result = group.wait(timeout: .now() + 5.0)
+        XCTAssertEqual(result, .success, "Concurrent additions should not deadlock or timeout")
+
+        // Wait a tiny bit for the barrier tasks to actually finish populating the store
+        // since EventBus notifications and actual storage might be async
+        let exp = XCTestExpectation(description: "Wait for barrier")
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+
+        let requests = store.getAll()
+        XCTAssertEqual(requests.count, count)
+    }
 }
 
 extension PhantomRequestStoreTests: PhantomEventObserver {
