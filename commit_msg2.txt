@@ -1,4 +1,0 @@
-fix(ci): update iOS Simulator destination to iPhone 16
-
-- Xcode versions in the GitHub Actions macos-latest runner (Xcode 16+) no longer support the 'iPhone 15' simulator target for new builds by default.
-- Changed the `xcodebuild` `-destination` parameter to target 'iPhone 16' to resolve the 'Unable to find a device matching the provided destination specifier' error.

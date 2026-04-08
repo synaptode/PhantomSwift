@@ -37,6 +37,3 @@ jobs:
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO
-
-    - name: Build and Test using Swift Package Manager
-      run: swift test

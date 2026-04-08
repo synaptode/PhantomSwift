@@ -1,0 +1,6 @@
+fix(ci): remove failing swift test step from workflow
+
+- The `swift test` command implicitly attempts to build the Swift Package for macOS on `macos-latest` runners.
+- Because `PhantomSwift` is an iOS-exclusive framework containing extensive `UIKit` imports and targeting iOS 12.0 minimum, this macOS-targeted compilation process resulted in an immediate Exit Code 65.
+- The repository already safely handles its UI components using `@available` guards; the failure was isolated to the SPM test execution environment.
+- Removed the redundant `swift test` action since `xcodebuild test` comprehensively handles the building and verification process natively targeting the iOS 16 simulator destination.
