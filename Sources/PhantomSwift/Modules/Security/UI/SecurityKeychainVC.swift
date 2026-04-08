@@ -98,11 +98,8 @@ internal final class SecurityKeychainVC: UIViewController {
             exportBtn.tintColor  = UIColor.Phantom.vibrantGreen
             navigationItem.rightBarButtonItems = [refreshBtn, exportBtn]
         } else {
-            let refreshBtn = UIBarButtonItem(title: "Refresh", style: .plain, target: self, action: #selector(refresh)
-)
-            let exportBtn = UIBarButtonItem(
-                image: UIImage(systemName: "square.and.arrow.up"), style: .plain,
-                target: self, action: #selector(exportItems))
+            let refreshBtn = UIBarButtonItem(title: "Refresh", style: .plain, target: self, action: #selector(refresh))
+            let exportBtn = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportItems))
             refreshBtn.tintColor = UIColor.Phantom.neonAzure
             exportBtn.tintColor  = UIColor.Phantom.vibrantGreen
             navigationItem.rightBarButtonItems = [refreshBtn, exportBtn]
