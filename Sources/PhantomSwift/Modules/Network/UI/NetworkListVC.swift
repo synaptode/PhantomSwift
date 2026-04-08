@@ -319,7 +319,7 @@ internal final class RequestDetailVC: UIViewController, UITableViewDataSource, U
         } else if #available(iOS 13.0, *) {
             actionItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
         } else {
-            actionItem = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(showActionSheet))
+            actionItem = UIBarButtonItem(title: "...", style: .plain, target: self, action: #selector(showActionSheet))
         }
         navigationItem.rightBarButtonItem = actionItem
     }

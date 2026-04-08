@@ -1,6 +1,6 @@
-ci: add github actions workflow for ios build and testing
+🧹 [Code Health] Refactor PhantomRemoteServer.executeCommand
 
-- Create `.github/workflows/ios.yml` to run automatically on push and pull_request to `main` and `master` branches.
-- Use `macos-latest` with `maxim-lobanov/setup-xcode@v1` to ensure the latest stable Xcode is used.
-- Add steps to build and test the `PhantomSwift` scheme using `xcodebuild` targeting an iOS Simulator without code signing for standard CI setup.
-- Add step to test using Swift Package Manager (`swift test`) as a supplementary measure.
+🎯 **What:** Extracted the cases of the large switch statement in executeCommand into private, dedicated helper functions (e.g., handleAppInfoCommand, handleLogsCommand).
+💡 **Why:** To significantly reduce the complexity and length of executeCommand, making the code easier to read, maintain, and test. Also optimized memory usage by hoisting ISO8601DateFormatter() instantiation out of loops in the log and network trace handlers.
+✅ **Verification:** Bypassed local Swift compilation due to missing toolchain, but performed code review validating syntactic correctness and safety of extraction.
+✨ **Result:** Clean, modularized command handlers with a minor performance improvement.

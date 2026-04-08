@@ -568,8 +568,7 @@ private final class LogDetailVC: UIViewController {
             let copyBtn = UIBarButtonItem(image: UIImage(systemName: "doc.on.doc"), style: .plain, target: self, action: #selector(copyMessage))
             navigationItem.rightBarButtonItem = copyBtn
         } else {
-            let copyBtn = UIBarButtonItem(title: "Copy", style: .plain, target: self, action: #selector(copyMessage))
-            navigationItem.rightBarButtonItem = copyBtn
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Copy", style: .plain, target: self, action: #selector(copyMessage))
         }
 
         tableView.backgroundColor = .clear
