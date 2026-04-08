@@ -24,7 +24,7 @@ jobs:
       run: |
         xcodebuild clean build \
           -scheme PhantomSwift \
-          -destination 'platform=iOS Simulator,name=iPhone 15' \
+          -destination 'platform=iOS Simulator,name=iPhone 16' \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO
@@ -33,7 +33,7 @@ jobs:
       run: |
         xcodebuild test \
           -scheme PhantomSwift \
-          -destination 'platform=iOS Simulator,name=iPhone 15' \
+          -destination 'platform=iOS Simulator,name=iPhone 16' \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO
