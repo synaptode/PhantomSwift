@@ -368,7 +368,9 @@ internal final class PerformanceDashboardVC: UIViewController {
         container.backgroundColor = PhantomTheme.shared.surfaceColor
 
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: icon)
+        if #available(iOS 13.0, *) {
+            imageView.image = UIImage(systemName: icon)
+        }
         imageView.tintColor = accent ?? PhantomTheme.shared.primaryColor.withAlphaComponent(0.7)
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -440,6 +442,8 @@ private final class MetricView: UIView {
         unitLabel.text = unit
         if #available(iOS 13.0, *) {
             iconView.image = UIImage(systemName: icon)
+        } else {
+            // iOS 12 Fallback text is placed in init usually, skipping since it's just decorative.
         }
         setup()
     }
