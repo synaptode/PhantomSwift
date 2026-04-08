@@ -1,5 +1,0 @@
-fix(ci): Resolve syntax errors caused by upstream merge
-
-- Resolved `exit code 65` caused by a malformed upstream merge from `master`.
-- Fixed duplicated `} else {` statements in `LogConsoleVC.swift`, `NetworkListVC.swift`, and `UserDefaultsInspectorVC.swift` that were preventing the iOS Simulator build from completing.
-- Maintained the removal of the unsupported `swift test` step for this iOS-only package.
