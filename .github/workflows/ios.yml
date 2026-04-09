@@ -20,18 +20,9 @@ jobs:
       with:
         xcode-version: latest-stable
 
-    - name: Build with xcodebuild
+    - name: Build and Test with xcodebuild
       run: |
-        xcodebuild clean build \
-          -scheme PhantomSwift \
-          -destination 'platform=iOS Simulator,name=iPhone 16' \
-          CODE_SIGN_IDENTITY="" \
-          CODE_SIGNING_REQUIRED=NO \
-          CODE_SIGNING_ALLOWED=NO
-
-    - name: Test with xcodebuild
-      run: |
-        xcodebuild test \
+        xcodebuild clean build test \
           -scheme PhantomSwift \
           -destination 'platform=iOS Simulator,name=iPhone 16' \
           CODE_SIGN_IDENTITY="" \
