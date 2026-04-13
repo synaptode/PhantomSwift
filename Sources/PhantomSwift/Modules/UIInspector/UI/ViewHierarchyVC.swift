@@ -345,8 +345,7 @@ private final class HierarchyNodeCell: UITableViewCell {
         if hasChildren {
             if #available(iOS 13.0, *) {
                 let icon = node.isExpanded ? "chevron.down" : "chevron.right"
-                chevronBtn.setImage(UIImage(systemName: icon)?.withConfiguration(
-                    UIImage.SymbolConfiguration(pointSize: 10, weight: .bold)), for: .normal)
+                chevronBtn.setImage(UIImage.phantomSymbol(icon, config: PhantomSymbolConfig(pointSize: 10, weight: .bold)), for: .normal)
                 chevronBtn.setTitle(nil, for: .normal)
             } else {
                 chevronBtn.setTitle(node.isExpanded ? "v" : ">", for: .normal)

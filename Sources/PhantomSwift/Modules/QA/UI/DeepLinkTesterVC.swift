@@ -453,8 +453,8 @@ private final class DeepLinkCell: UITableViewCell {
         card.addSubview(pathLabel)
 
         if #available(iOS 13.0, *) {
-            let cfg = UIImage.SymbolConfiguration(pointSize: 14, weight: .semibold)
-            launchBtn.setImage(UIImage(systemName: "paperplane.fill", withConfiguration: cfg), for: .normal)
+            let cfg = PhantomSymbolConfig(pointSize: 14, weight: .semibold)
+            launchBtn.setImage(UIImage.phantomSymbol("paperplane.fill", config: cfg), for: .normal)
         } else {
             launchBtn.setTitle("Go", for: .normal)
         }
@@ -510,8 +510,8 @@ private final class DeepLinkCell: UITableViewCell {
         iconBg.backgroundColor      = c.withAlphaComponent(0.12)
 
         if #available(iOS 13.0, *) {
-            let cfg = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
-            iconView.image = UIImage(systemName: entry.sfSymbol, withConfiguration: cfg)
+            let cfg = PhantomSymbolConfig(pointSize: 15, weight: .medium)
+            iconView.image = UIImage.phantomSymbol(entry.sfSymbol, config: cfg)
         }
         iconView.tintColor = c
 
@@ -604,8 +604,8 @@ private final class DeepLinkEmptyState: UIView {
 
     func configure(icon: String, title: String, subtitle: String) {
         if #available(iOS 13.0, *) {
-            let cfg = UIImage.SymbolConfiguration(pointSize: 38, weight: .thin)
-            iconView.image = UIImage(systemName: icon, withConfiguration: cfg)
+            let cfg = PhantomSymbolConfig(pointSize: 38, weight: .thin)
+            iconView.image = UIImage.phantomSymbol(icon, config: cfg)
         }
         titleLabel.text    = title
         subtitleLabel.text = subtitle
@@ -650,8 +650,8 @@ private final class URLInputBar: UIView {
         addSubview(container)
 
         if #available(iOS 13.0, *) {
-            let cfg = UIImage.SymbolConfiguration(pointSize: 14, weight: .medium)
-            pasteButton.setImage(UIImage(systemName: "doc.on.clipboard", withConfiguration: cfg), for: .normal)
+            let cfg = PhantomSymbolConfig(pointSize: 14, weight: .medium)
+            pasteButton.setImage(UIImage.phantomSymbol("doc.on.clipboard", config: cfg), for: .normal)
         } else {
             pasteButton.setTitle("Paste", for: .normal)
         }

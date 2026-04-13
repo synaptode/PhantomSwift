@@ -353,8 +353,8 @@ private final class PushTemplateCell: UITableViewCell {
         contentView.addSubview(iconBg)
 
         if #available(iOS 13.0, *) {
-            let cfg = UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
-            iconView.image = UIImage(systemName: "bell.fill", withConfiguration: cfg)
+            let cfg = PhantomSymbolConfig(pointSize: 13, weight: .semibold)
+            iconView.image = UIImage.phantomSymbol("bell.fill", config: cfg)
         }
         iconView.tintColor   = PhantomTheme.shared.primaryColor
         iconView.contentMode = .scaleAspectFit
@@ -388,8 +388,8 @@ private final class PushTemplateCell: UITableViewCell {
 
         // ── Fire button ──────────────────────────────────────────────────
         if #available(iOS 13.0, *) {
-            let cfg = UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold)
-            fireButton.setImage(UIImage(systemName: "paperplane.fill", withConfiguration: cfg), for: .normal)
+            let cfg = PhantomSymbolConfig(pointSize: 16, weight: .semibold)
+            fireButton.setImage(UIImage.phantomSymbol("paperplane.fill", config: cfg), for: .normal)
         } else {
             fireButton.setTitle("Fire", for: .normal)
             fireButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
@@ -463,11 +463,9 @@ private final class PushTemplateCell: UITableViewCell {
 
         // Silent push gets a different icon
         if #available(iOS 13.0, *) {
-            let cfg = UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
+            let cfg = PhantomSymbolConfig(pointSize: 13, weight: .semibold)
             let isSilent = template.sound == "none" && template.title.isEmpty
-            iconView.image = UIImage(
-                systemName: isSilent ? "antenna.radiowaves.left.and.right" : "bell.fill",
-                withConfiguration: cfg
+            iconView.image = UIImage.phantomSymbol(isSilent ? "antenna.radiowaves.left.and.right" : "bell.fill", config: cfg
             )
         }
     }

@@ -370,8 +370,8 @@ private final class RuntimeClassCell: UITableViewCell {
 
         // ── Chevron ────────────────────────────────────────────────────────
         if #available(iOS 13.0, *) {
-            let config = UIImage.SymbolConfiguration(pointSize: 10, weight: .medium)
-            chevron.image = UIImage(systemName: "chevron.right", withConfiguration: config)
+            let config = PhantomSymbolConfig(pointSize: 10, weight: .medium)
+            chevron.image = UIImage.phantomSymbol("chevron.right", config: config)
         }
         chevron.tintColor   = UIColor.white.withAlphaComponent(0.18)
         chevron.contentMode = .scaleAspectFit

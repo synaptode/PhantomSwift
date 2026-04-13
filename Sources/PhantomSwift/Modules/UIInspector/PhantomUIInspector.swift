@@ -379,8 +379,8 @@ internal final class PhantomOverlayView: UIView {
         addSubview(stopButton)
 
         if #available(iOS 13.0, *) {
-            let config = UIImage.SymbolConfiguration(pointSize: 11, weight: .bold)
-            let img = UIImage(systemName: "xmark", withConfiguration: config)
+            let config = PhantomSymbolConfig(pointSize: 11, weight: .bold)
+            let img = UIImage.phantomSymbol("xmark", config: config)
             stopButton.setImage(img, for: .normal)
             stopButton.setTitle("  STOP", for: .normal)
         } else {

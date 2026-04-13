@@ -279,8 +279,8 @@ private final class BGTaskCell: UITableViewCell {
         iconBg.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(iconBg)
 
-        let cfg = UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
-        iconView.image       = UIImage(systemName: "clock.arrow.2.circlepath", withConfiguration: cfg)
+        let cfg = PhantomSymbolConfig(pointSize: 13, weight: .semibold)
+        iconView.image       = UIImage.phantomSymbol("clock.arrow.2.circlepath", config: cfg)
         iconView.tintColor   = UIColor.Phantom.vibrantOrange
         iconView.contentMode = .scaleAspectFit
         iconView.translatesAutoresizingMaskIntoConstraints = false

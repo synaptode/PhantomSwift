@@ -241,9 +241,9 @@ internal final class PerformanceDashboardVC: UIViewController {
     private func setupMemoryDiffButton() {
         let diffItem: UIBarButtonItem
         if #available(iOS 13.0, *) {
-            let cfg = UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
+            let cfg = PhantomSymbolConfig(pointSize: 13, weight: .semibold)
             diffItem = UIBarButtonItem(
-                image: UIImage(systemName: "arrow.left.arrow.right", withConfiguration: cfg),
+                image: UIImage.phantomSymbol("arrow.left.arrow.right", config: cfg),
                 style: .plain, target: self, action: #selector(openMemoryDiff))
         } else {
             diffItem = UIBarButtonItem(
@@ -260,8 +260,8 @@ internal final class PerformanceDashboardVC: UIViewController {
         row.heightAnchor.constraint(equalToConstant: 44).isActive = true
 
         if #available(iOS 13.0, *) {
-            let cfg      = UIImage.SymbolConfiguration(pointSize: 14, weight: .semibold)
-            let iconView = UIImageView(image: UIImage(systemName: icon, withConfiguration: cfg))
+            let cfg      = PhantomSymbolConfig(pointSize: 14, weight: .semibold)
+            let iconView = UIImageView(image: UIImage.phantomSymbol(icon, config: cfg))
             iconView.tintColor        = color
             iconView.contentMode      = .scaleAspectFit
             iconView.translatesAutoresizingMaskIntoConstraints = false
@@ -368,7 +368,9 @@ internal final class PerformanceDashboardVC: UIViewController {
         container.backgroundColor = PhantomTheme.shared.surfaceColor
 
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: icon)
+        if #available(iOS 13.0, *) {
+            imageView.image = UIImage(systemName: icon)
+        }
         imageView.tintColor = accent ?? PhantomTheme.shared.primaryColor.withAlphaComponent(0.7)
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -440,6 +442,8 @@ private final class MetricView: UIView {
         unitLabel.text = unit
         if #available(iOS 13.0, *) {
             iconView.image = UIImage(systemName: icon)
+        } else {
+            // iOS 12 Fallback text is placed in init usually, skipping since it's just decorative.
         }
         setup()
     }

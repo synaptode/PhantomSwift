@@ -80,8 +80,8 @@ internal final class StorageDashboardCell: UICollectionViewCell {
         subtitleLabel.text = subtitle
         
         if #available(iOS 15.0, *) {
-            let config = UIImage.SymbolConfiguration(hierarchicalColor: iconColor)
-            iconImage.image = UIImage(systemName: icon, withConfiguration: config)
+            let config = PhantomSymbolConfig(hierarchicalColor: iconColor)
+            iconImage.image = UIImage.phantomSymbol(icon, config: config)
         } else if #available(iOS 13.0, *) {
             iconImage.image = UIImage(systemName: icon)
         }

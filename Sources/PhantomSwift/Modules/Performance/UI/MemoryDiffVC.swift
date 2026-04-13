@@ -91,8 +91,8 @@ internal final class MemoryDiffVC: UIViewController {
 
         // Arrow icon
         if #available(iOS 13.0, *) {
-            let cfg   = UIImage.SymbolConfiguration(pointSize: 14, weight: .bold)
-            let arrow = UIImageView(image: UIImage(systemName: "arrow.right", withConfiguration: cfg))
+            let cfg   = PhantomSymbolConfig(pointSize: 14, weight: .bold)
+            let arrow = UIImageView(image: UIImage.phantomSymbol("arrow.right", config: cfg))
             arrow.tintColor = UIColor.white.withAlphaComponent(0.25)
             arrow.translatesAutoresizingMaskIntoConstraints = false
             headerCard.addSubview(arrow)

@@ -364,8 +364,7 @@ private final class ToggleCell: UITableViewCell {
         iconView.backgroundColor = iconColor.withAlphaComponent(0.15)
         toggle.isOn       = isOn
         if #available(iOS 13.0, *) {
-            iconImage.image = UIImage(systemName: icon)?
-                .withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
+            iconImage.image = UIImage.phantomSymbol(icon, config: PhantomSymbolConfig(pointSize: 12, weight: .bold))
             iconImage.tintColor = iconColor
         } else {
             iconImage.isHidden = true
@@ -455,8 +454,7 @@ private final class SliderCell: UITableViewCell {
         titleLbl.text = config.label
         iconView.backgroundColor = config.iconColor.withAlphaComponent(0.15)
         if #available(iOS 13.0, *) {
-            iconImage.image = UIImage(systemName: config.icon)?
-                .withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
+            iconImage.image = UIImage.phantomSymbol(config.icon, config: PhantomSymbolConfig(pointSize: 12, weight: .bold))
             iconImage.tintColor = config.iconColor
         }
         slider.minimumValue = config.min
@@ -546,8 +544,7 @@ private final class StepperCell: UITableViewCell {
         titleLbl.text = config.label
         iconView.backgroundColor = config.iconColor.withAlphaComponent(0.15)
         if #available(iOS 13.0, *) {
-            iconImage.image = UIImage(systemName: config.icon)?
-                .withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
+            iconImage.image = UIImage.phantomSymbol(config.icon, config: PhantomSymbolConfig(pointSize: 12, weight: .bold))
             iconImage.tintColor = config.iconColor
         }
         stepper.minimumValue = config.minValue

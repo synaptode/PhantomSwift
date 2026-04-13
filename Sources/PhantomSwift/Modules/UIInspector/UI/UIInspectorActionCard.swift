@@ -129,8 +129,7 @@ internal final class UIInspectorActionCard: UIView {
 
     private func configureActionBtn(_ button: UIButton, title: String, icon: String, color: UIColor) {
         if #available(iOS 13.0, *) {
-            button.setImage(UIImage(systemName: icon)?.withConfiguration(
-                UIImage.SymbolConfiguration(pointSize: 11, weight: .semibold)), for: .normal)
+            button.setImage(UIImage.phantomSymbol(icon, config: PhantomSymbolConfig(pointSize: 11, weight: .semibold)), for: .normal)
         }
         button.setTitle(" \(title)", for: .normal)
         button.tintColor = color
@@ -192,8 +191,7 @@ internal final class UIInspectorActionCard: UIView {
         let icon = view.isHidden ? "eye" : "eye.slash"
         hideButton.setTitle(" \(title)", for: .normal)
         if #available(iOS 13.0, *) {
-            hideButton.setImage(UIImage(systemName: icon)?.withConfiguration(
-                UIImage.SymbolConfiguration(pointSize: 11, weight: .semibold)), for: .normal)
+            hideButton.setImage(UIImage.phantomSymbol(icon, config: PhantomSymbolConfig(pointSize: 11, weight: .semibold)), for: .normal)
         }
     }
 

@@ -322,8 +322,8 @@ internal final class PhantomDashboardVC: UIViewController {
     }
 
     private func setupCloseButton() {
-        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)
-        let xIcon = UIImage(systemName: "xmark.circle.fill", withConfiguration: config)
+        let config = PhantomSymbolConfig(pointSize: 18, weight: .bold)
+        let xIcon = UIImage.phantomSymbol("xmark.circle.fill", config: config)
         closeButton.setImage(xIcon, for: .normal)
         closeButton.tintColor = UIColor.white.withAlphaComponent(0.3)
         closeButton.addTarget(self, action: #selector(dismissDashboard), for: .touchUpInside)

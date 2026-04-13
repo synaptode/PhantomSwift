@@ -276,8 +276,7 @@ internal final class ViewDetailVC: PhantomTableVC {
     private func createHeaderAction(title: String, icon: String, color: UIColor) -> UIButton {
         let btn = UIButton(type: .system)
         if #available(iOS 13.0, *) {
-            btn.setImage(UIImage(systemName: icon)?.withConfiguration(
-                UIImage.SymbolConfiguration(pointSize: 10, weight: .bold)), for: .normal)
+            btn.setImage(UIImage.phantomSymbol(icon, config: PhantomSymbolConfig(pointSize: 10, weight: .bold)), for: .normal)
         }
         btn.setTitle(" " + title, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .bold)
