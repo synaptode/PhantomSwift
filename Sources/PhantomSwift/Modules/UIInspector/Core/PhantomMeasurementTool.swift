@@ -175,8 +175,6 @@ internal final class MeasurementOverlayView: UIView {
         let path = UIBezierPath()
 
         // Horizontal distance line (between closest horizontal edges)
-        let hLeft   = max(r1.minX, r2.minX)
-        let hRight  = min(r1.maxX, r2.maxX)
         let hGap: CGFloat
         let lineY = (min(r1.midY, r2.midY) + max(r1.midY, r2.midY)) / 2
 

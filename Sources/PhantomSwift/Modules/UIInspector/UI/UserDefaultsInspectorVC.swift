@@ -141,7 +141,7 @@ internal final class UserDefaultsInspectorVC: PhantomTableVC {
         let entry = filteredGroups[indexPath.section].entries[indexPath.row]
         if entry.type == .boolean {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UDToggleCell", for: indexPath) as! UDToggleCell
-            cell.configure(entry: entry) { [weak self] newValue in
+            cell.configure(entry: entry) { newValue in
                 UserDefaults.standard.set(newValue, forKey: entry.key)
             }
             return cell

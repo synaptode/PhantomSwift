@@ -76,8 +76,6 @@ internal final class AccessibilityAuditVC: UIViewController {
         let className = String(describing: type(of: view))
         if className.hasPrefix("Phantom") || className.hasPrefix("_") { return }
 
-        let isInteractive = view is UIButton || view is UIControl || view.isUserInteractionEnabled
-
         // 1. Touch target size
         if view is UIButton || view is UIControl {
             if view.frame.width < 44 || view.frame.height < 44 {
