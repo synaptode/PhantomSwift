@@ -217,7 +217,7 @@ public final class PhantomLeakTracker {
             guard let label = child.label else { continue }
             let value: String
             switch child.value {
-            case let v as AnyObject where type(of: v) is AnyClass:
+            case let v as AnyObject:
                 value = "<\(type(of: child.value))> @ \(String(format: "0x%llx", UInt(bitPattern: ObjectIdentifier(v))))"
             default:
                 value = "\(child.value)"

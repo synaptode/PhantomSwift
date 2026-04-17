@@ -51,6 +51,10 @@ internal final class LeakListVC: PhantomTableVC, PhantomEventObserver {
         PhantomEventBus.shared.subscribe(self, to: "memoryLeakDetected")
     }
 
+    deinit {
+        PhantomEventBus.shared.unsubscribe(self, from: "memoryLeakDetected")
+    }
+
     // MARK: - Navigation
 
     private func setupNavigation() {
@@ -545,4 +549,3 @@ internal final class LeakDetailVC: UIViewController {
     }
 }
 #endif
-
