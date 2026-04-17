@@ -68,10 +68,11 @@ internal final class LogConsoleVC: UIViewController, PhantomEventObserver {
         let clearBtn: UIBarButtonItem
         let exportBtn: UIBarButtonItem
         if #available(iOS 13.0, *) {
-            clearBtn  = UIBarButtonItem(image: UIImage(systemName: "trash"),        style: .plain, target: self, action: #selector(clearLogs))
+            clearBtn = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(clearLogs))
             exportBtn = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(exportLogs))
-        } else {
-            clearBtn  = UIBarButtonItem(title: "Clear",  style: .plain, target: self, action: #selector(clearLogs))
+        }
+        else {
+            clearBtn = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearLogs))
             exportBtn = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportLogs))
         }
         clearBtn.tintColor = UIColor.Phantom.error

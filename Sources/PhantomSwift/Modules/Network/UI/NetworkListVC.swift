@@ -320,11 +320,11 @@ internal final class RequestDetailVC: UIViewController, UITableViewDataSource, U
                 UIAction(title: "Edit & Mock", image: UIImage(systemName: "pencil.and.outline"), handler: { [weak self] _ in self?.editAndMock() })
             ])
             actionItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), menu: menu)
-        } else if #available(iOS 13.0, *) {
+        }
+        else if #available(iOS 13.0, *) {
             actionItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
-        } else {
-            actionItem = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(showActionSheet))
-        } else {
+        }
+        else {
             actionItem = UIBarButtonItem(title: "...", style: .plain, target: self, action: #selector(showActionSheet))
         }
         navigationItem.rightBarButtonItem = actionItem

@@ -44,7 +44,8 @@ internal final class UserDefaultsInspectorVC: PhantomTableVC {
             exportBtn = UIBarButtonItem(
                 image: UIImage(systemName: "square.and.arrow.up"),
                 style: .plain, target: self, action: #selector(exportJSON))
-        } else {
+        }
+        else {
             exportBtn = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportJSON))
         } else {
             exportBtn = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportJSON))
@@ -55,7 +56,8 @@ internal final class UserDefaultsInspectorVC: PhantomTableVC {
                 image: UIImage(systemName: "plus.circle.fill"),
                 style: .plain, target: self, action: #selector(addKey))
             addBtn.tintColor = UIColor.Phantom.vibrantGreen
-        } else {
+        }
+        else {
             addBtn = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addKey))
         }
 
