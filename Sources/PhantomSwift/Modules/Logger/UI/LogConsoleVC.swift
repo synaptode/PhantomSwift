@@ -43,9 +43,13 @@ internal final class LogConsoleVC: UIViewController, PhantomEventObserver {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if isMovingFromParent {
+        if isMovingFromParent || isBeingDismissed {
             PhantomEventBus.shared.unsubscribe(self, from: "logAdded")
         }
+    }
+
+    deinit {
+        PhantomEventBus.shared.unsubscribe(self, from: "logAdded")
     }
 
     // MARK: - UI Setup

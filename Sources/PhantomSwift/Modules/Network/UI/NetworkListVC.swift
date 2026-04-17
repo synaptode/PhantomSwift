@@ -88,9 +88,13 @@ internal final class NetworkListVC: PhantomTableVC, PhantomEventObserver {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if isMovingFromParent {
+        if isMovingFromParent || isBeingDismissed {
             PhantomEventBus.shared.unsubscribe(self, from: "networkRequestCaptured")
         }
+    }
+
+    deinit {
+        PhantomEventBus.shared.unsubscribe(self, from: "networkRequestCaptured")
     }
 
     private func setupNavigation() {
