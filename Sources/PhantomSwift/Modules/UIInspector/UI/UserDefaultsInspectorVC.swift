@@ -47,8 +47,6 @@ internal final class UserDefaultsInspectorVC: PhantomTableVC {
         }
         else {
             exportBtn = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportJSON))
-        } else {
-            exportBtn = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportJSON))
         }
         let addBtn: UIBarButtonItem
         if #available(iOS 13.0, *) {

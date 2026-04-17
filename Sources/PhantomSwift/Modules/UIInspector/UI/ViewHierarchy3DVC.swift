@@ -5,6 +5,23 @@ import QuartzCore
 // MARK: - Snapshot metadata
 
 
+struct SnapshotMeta {
+    let snapshotLayer: CALayer
+    let sourceView: UIView
+    let depth: Int
+    let originalFrame: CGRect
+    let className: String
+    let alpha: CGFloat
+    let isHidden: Bool
+    let accessibilityID: String?
+    let constraintCount: Int
+    let subviewCount: Int
+    let address: String
+    let parentClassName: String
+    let backgroundColor: UIColor?
+}
+
+
 // MARK: - ViewHierarchy3DVC
 
 /// FLEX / DebugSwift-style 3D exploded view of a live UIView hierarchy.
