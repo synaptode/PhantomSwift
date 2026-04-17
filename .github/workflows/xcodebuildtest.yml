@@ -1,0 +1,82 @@
+name: xcodebuildtest
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 16.4
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "16.4"
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Install XcodeGen
+        run: |
+          if ! command -v xcodegen >/dev/null 2>&1; then
+            HOMEBREW_NO_AUTO_UPDATE=1 brew install xcodegen
+          fi
+          xcodegen --version
+
+      - name: Generate project
+        run: xcodegen --spec Example/project.yml
+
+      - name: Build PhantomExample app scheme
+        run: |
+          xcodebuild \
+            -project Example/PhantomExample.xcodeproj \
+            -scheme PhantomExample \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData-PhantomExample" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Resolve simulator destination
+        run: |
+          SIMULATOR_ID="$(
+            xcodebuild \
+              -project Example/PhantomExample.xcodeproj \
+              -scheme PhantomExample \
+              -showdestinations 2>/dev/null \
+            | awk '/platform:iOS Simulator/ && /id:/ {
+                if (match($0, /id:([^,}]+)/)) {
+                  value = substr($0, RSTART + 3, RLENGTH - 3)
+                  gsub(/^[[:space:]]+|[[:space:]]+$/, "", value)
+                  print value
+                  exit
+                }
+              }'
+          )"
+
+          if [ -z "$SIMULATOR_ID" ]; then
+            echo "No iOS Simulator destination found"
+            xcodebuild -project Example/PhantomExample.xcodeproj -scheme PhantomExample -showdestinations
+            exit 1
+          fi
+
+          echo "Using simulator id=$SIMULATOR_ID"
+          echo "TEST_DESTINATION=platform=iOS Simulator,id=$SIMULATOR_ID" >> "$GITHUB_ENV"
+
+      - name: Run xcodebuild tests
+        run: |
+          xcodebuild \
+            -project Example/PhantomExample.xcodeproj \
+            -scheme PhantomExample \
+            -configuration Debug \
+            -destination "$TEST_DESTINATION" \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData-PhantomExampleTests" \
+            CODE_SIGNING_ALLOWED=NO \
+            test
