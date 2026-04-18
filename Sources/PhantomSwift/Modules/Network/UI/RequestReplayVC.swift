@@ -1,5 +1,6 @@
 #if DEBUG
 import UIKit
+import PhantomSwiftNetworking
 
 /// Allows editing and replaying a captured network request with modified headers/body.
 internal final class RequestReplayVC: UIViewController {

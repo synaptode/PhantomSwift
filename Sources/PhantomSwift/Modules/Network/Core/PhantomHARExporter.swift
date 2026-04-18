@@ -1,5 +1,6 @@
 #if DEBUG
 import UIKit
+import PhantomSwiftNetworking
 
 /// Exports captured network requests as HAR (HTTP Archive) 1.2 JSON.
 /// Compatible with Chrome DevTools, Postman, Proxyman, and Charles Proxy.

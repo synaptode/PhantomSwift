@@ -1,5 +1,6 @@
 #if DEBUG
 import UIKit
+import PhantomSwiftNetworking
 
 /// A high-fidelity, modern card for displaying interception rules with glassmorphism.
 internal final class InterceptorCardCell: UICollectionViewCell {

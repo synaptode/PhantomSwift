@@ -1,5 +1,6 @@
 #if DEBUG
 import UIKit
+import PhantomSwiftNetworking
 
 /// A premium card-style cell for the Network Trace list.
 internal final class PhantomNetworkCell: UITableViewCell {
@@ -327,4 +328,3 @@ internal final class PhantomNetworkCell: UITableViewCell {
     }
 }
 #endif
-

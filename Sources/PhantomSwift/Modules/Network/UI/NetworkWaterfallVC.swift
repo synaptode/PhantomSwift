@@ -1,5 +1,6 @@
 #if DEBUG
 import UIKit
+import PhantomSwiftNetworking
 
 /// Chrome DevTools-style network waterfall timeline visualization.
 /// Each row = one request, X axis = time since first request.

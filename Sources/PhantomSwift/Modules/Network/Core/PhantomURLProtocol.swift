@@ -1,5 +1,6 @@
 #if DEBUG
 import Foundation
+import PhantomSwiftNetworking
 
 /// Intercepts all network traffic via URLProtocol.
 public final class PhantomURLProtocol: URLProtocol {

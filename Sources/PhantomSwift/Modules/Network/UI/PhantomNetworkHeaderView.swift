@@ -1,5 +1,6 @@
 #if DEBUG
 import UIKit
+import PhantomSwiftNetworking
 
 /// A premium header view for displaying network request summaries.
 internal final class PhantomNetworkHeaderView: UIView {

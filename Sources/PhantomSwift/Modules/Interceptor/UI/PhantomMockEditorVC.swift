@@ -1,5 +1,6 @@
 #if DEBUG
 import UIKit
+import PhantomSwiftNetworking
 
 /// A visual editor for modifying and mocking network responses.
 internal final class PhantomMockEditorVC: UIViewController {

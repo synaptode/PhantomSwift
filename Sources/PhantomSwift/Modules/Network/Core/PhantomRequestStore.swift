@@ -1,5 +1,6 @@
 #if DEBUG
 import Foundation
+import PhantomSwiftNetworking
 
 /// Thread-safe storage for captured network requests.
 public final class PhantomRequestStore {
