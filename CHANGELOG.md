@@ -5,6 +5,30 @@ All notable changes to PhantomSwift will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-04-18
+
+### Added
+- 🧪 **Automated Test Coverage**: Added broad unit test coverage for configuration, event bus, feature catalog, launch planning, request store, analytics monitoring, interceptor flows, logger bridge, render store, feature flags, and location handling
+- 🌐 **WKWebView Console Bridge**: Added WebView console capture plus auto-install support so hybrid app logs flow into PhantomSwift's logger pipeline
+- 🚀 **Launch Planning & Feature Catalog**: Added launch planner and centralized feature catalog to improve feature discovery, gating, and module registration
+- 🛠️ **Example App Test Infrastructure**: Added Example test target, shared scheme support, and project generation config to make the sample app verifiable in CI and locally
+
+### Changed
+- 🧱 **Networking Boundaries**: Split reusable networking primitives into `PhantomSwiftNetworking` to improve package structure and reduce coupling between transport logic and UI/debug surfaces
+- 🎛️ **Module UX Polish**: Refined interceptor, dashboard, network list, grid overlay, view hierarchy, and other inspector flows for more reliable navigation and better ergonomics
+- 🤖 **CI/CD Pipeline**: Added and iterated on GitHub Actions workflows for iOS builds and tests, improving release confidence and repo automation
+- 📚 **Documentation**: Clarified compatibility and setup guidance for iOS 12 and Swift 5-era consumers
+
+### Fixed
+- 🩹 **iOS 12 Compatibility**: Filled in missing SF Symbol fallbacks and other availability-safe UI paths across multiple modules
+- 🔒 **Presentation & Lifecycle Safety**: Improved presentation resolution, dismissal behavior, cleanup paths, and event subscription handling to reduce UI inconsistencies and retain-cycle risk
+- 🧠 **Memory & Diagnostics Accuracy**: Improved heap snapshot and leak-tracking behavior, request replay/supporting inspectors, and several diagnostic views
+- ✅ **Build/Test Reliability**: Fixed multiple CI, package-test, and example-project issues that previously made verification brittle
+
+### Technical Notes
+- **SemVer rationale**: Released as a minor because this ships new capabilities, architectural refactoring, and substantially expanded verification surface without intentionally breaking the public integration model
+- **Release focus**: Stability, observability, and maintainability after the recent PR train leading up to PR #48
+- **Recommended upgrade**: Consumers on `1.0.x` can move to `1.1.0` directly for better CI/test confidence and improved iOS 12 compatibility
 ## [1.0.2] - 2026-03-31
 
 ### Fixed

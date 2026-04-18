@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/synaptode/PhantomSwift/releases/tag/1.0.3">
-    <img src="https://img.shields.io/badge/version-1.0.3-blue.svg?style=flat" alt="Version 1.0.3">
+  <a href="https://github.com/synaptode/PhantomSwift/releases/tag/v1.1.0">
+    <img src="https://img.shields.io/badge/version-1.1.0-blue.svg?style=flat" alt="Version 1.1.0">
   </a>
   <a href="https://github.com/synaptode/PhantomSwift/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat" alt="MIT License">
@@ -188,7 +188,7 @@ Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/synaptode/PhantomSwift.git", from: "1.0.3")
+    .package(url: "https://github.com/synaptode/PhantomSwift.git", from: "1.1.0")
 ]
 ```
 
