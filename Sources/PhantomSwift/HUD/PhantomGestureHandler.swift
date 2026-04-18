@@ -4,8 +4,12 @@ import UIKit
 /// Handles gesture-based triggers for PhantomSwift.
 internal final class PhantomGestureHandler {
     internal static let shared = PhantomGestureHandler()
+    private var isStarted = false
     
     internal func start() {
+        guard !isStarted else { return }
+        isStarted = true
+
         // Swizzle UIApplication to intercept events globally (including Shake)
         let cls = UIApplication.self
         let original = #selector(cls.sendEvent(_:))
