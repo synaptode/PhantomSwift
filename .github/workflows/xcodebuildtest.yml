@@ -51,7 +51,7 @@ jobs:
               -project Example/PhantomExample.xcodeproj \
               -scheme PhantomExample \
               -showdestinations 2>/dev/null \
-            | awk '/platform:iOS Simulator/ && /id:/ {
+            | awk '/platform:iOS Simulator/ && /id:/ && /OS:/ && $0 !~ /name:Any iOS Simulator Device/ {
                 if (match($0, /id:([^,}]+)/)) {
                   value = substr($0, RSTART + 3, RLENGTH - 3)
                   gsub(/^[[:space:]]+|[[:space:]]+$/, "", value)

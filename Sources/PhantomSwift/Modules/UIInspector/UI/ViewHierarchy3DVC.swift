@@ -5,7 +5,7 @@ import QuartzCore
 // MARK: - Snapshot metadata
 
 
-struct SnapshotMeta {
+private struct SnapshotMeta {
     let snapshotLayer: CALayer
     let sourceView: UIView
     let depth: Int
@@ -17,7 +17,7 @@ struct SnapshotMeta {
     let constraintCount: Int
     let subviewCount: Int
     let address: String
-    let parentClassName: String
+    let parentClassName: String?
     let backgroundColor: UIColor?
 }
 
@@ -39,7 +39,11 @@ internal final class ViewHierarchy3DVC: UIViewController {
     private var filteredIndices: [Int] = []       // indices into `snapshots` after depth filter
     private var maxDepth: Int = 0
     private var selectedIndex: Int? {             // index into `snapshots`
-        didSet { applySelection() }
+        didSet {
+            guard !isCleanedUp else { return }
+            rebuildScene()
+            applySelection()
+        }
     }
 
     // MARK: - 3D Scene
@@ -173,103 +177,38 @@ internal final class ViewHierarchy3DVC: UIViewController {
         view.backgroundColor = PhantomTheme.shared.backgroundColor
 
         setupMainScene()
-        setupControls()
+        buildToolbar()
+        buildMiniMap()
+        buildInspector()
         setupGestures()
+        updateBadges()
     }
 
     private func setupMainScene() {
-        sceneView.frame = view.bounds
-        sceneView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        sceneView.backgroundColor = PhantomTheme.shared.backgroundColor
-        view.addSubview(sceneView)
+        sceneContainer.frame = view.bounds
+        sceneContainer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        sceneContainer.backgroundColor = PhantomTheme.shared.backgroundColor
+        view.addSubview(sceneContainer)
 
         let rootLayer = CALayer()
-        rootLayer.frame = sceneView.bounds
-        sceneView.layer.addSublayer(rootLayer)
+        rootLayer.frame = sceneContainer.bounds
+        sceneContainer.layer.addSublayer(rootLayer)
 
         transformLayer.frame = rootLayer.bounds
         rootLayer.addSublayer(transformLayer)
     }
 
-    private func setupControls() {
-        let (spacingRow, depthRow, btnRow) = buildSlidersAndButtons()
-
-        let controlStack = UIStackView(arrangedSubviews: [spacingRow, depthRow, btnRow])
-        controlStack.axis = .vertical
-        controlStack.spacing = 16
-        controlStack.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(controlStack)
-
-        NSLayoutConstraint.activate([
-            controlStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            controlStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            controlStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
-        ])
-    }
-
-    private func buildSlidersAndButtons() -> (UIView, UIView, UIView) {
-        let spacingRow = UIView()
-        let spacingLabel = UILabel()
-        spacingLabel.text = "Spacing"
-        spacingLabel.font = UIFont.systemFont(ofSize: 12)
-        spacingLabel.textColor = PhantomTheme.shared.textColor
-
-        let spacingSlider = UISlider()
-        spacingSlider.minimumValue = 10
-        spacingSlider.maximumValue = 200
-        spacingSlider.value = Float(baseSpacing)
-        spacingSlider.addTarget(self, action: #selector(spacingChanged(_:)), for: .valueChanged)
-
-        let spacingStack = UIStackView(arrangedSubviews: [spacingLabel, spacingSlider])
-        spacingStack.axis = .horizontal
-        spacingStack.spacing = 10
-        spacingStack.translatesAutoresizingMaskIntoConstraints = false
-        spacingRow.addSubview(spacingStack)
-
-        let depthRow = UIView()
-        let depthLabel = UILabel()
-        depthLabel.text = "Depth"
-        depthLabel.font = UIFont.systemFont(ofSize: 12)
-        depthLabel.textColor = PhantomTheme.shared.textColor
-
-        let depthSlider = UISlider()
-        depthSlider.minimumValue = 0
-        depthSlider.maximumValue = 100
-        depthSlider.value = 100
-        depthSlider.addTarget(self, action: #selector(depthChanged(_:)), for: .valueChanged)
-
-        let depthStack = UIStackView(arrangedSubviews: [depthLabel, depthSlider])
-        depthStack.axis = .horizontal
-        depthStack.spacing = 10
-        depthStack.translatesAutoresizingMaskIntoConstraints = false
-        depthRow.addSubview(depthStack)
-
-        NSLayoutConstraint.activate([
-            spacingStack.leadingAnchor.constraint(equalTo: spacingRow.leadingAnchor),
-            spacingStack.trailingAnchor.constraint(equalTo: spacingRow.trailingAnchor),
-            spacingStack.topAnchor.constraint(equalTo: spacingRow.topAnchor),
-            spacingStack.bottomAnchor.constraint(equalTo: spacingRow.bottomAnchor),
-
-            depthStack.leadingAnchor.constraint(equalTo: depthRow.leadingAnchor),
-            depthStack.trailingAnchor.constraint(equalTo: depthRow.trailingAnchor),
-            depthStack.topAnchor.constraint(equalTo: depthRow.topAnchor),
-            depthStack.bottomAnchor.constraint(equalTo: depthRow.bottomAnchor)
-        ])
-
-        let btnRow = buildActionButtons()
-
-        return (spacingRow, depthRow, btnRow)
-    }
-
     private func setupGestures() {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        view.addGestureRecognizer(pan)
+        pan.delegate = self
+        sceneContainer.addGestureRecognizer(pan)
 
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
-        view.addGestureRecognizer(pinch)
+        pinch.delegate = self
+        sceneContainer.addGestureRecognizer(pinch)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        view.addGestureRecognizer(tap)
+        sceneContainer.addGestureRecognizer(tap)
     }
 
     // MARK: Toolbar
@@ -670,6 +609,7 @@ internal final class ViewHierarchy3DVC: UIViewController {
         depthRangeSlider.value = Float(maxDepth)
         depthMax = maxDepth
         depthValueLabel.text = "≤ \(maxDepth)"
+        updateBadges()
     }
 
     private func captureView(_ view: UIView, depth: Int, parentClass: String?) {
@@ -760,6 +700,8 @@ internal final class ViewHierarchy3DVC: UIViewController {
 
             applyTransformAndFocus(to: wrapper, idx: idx, seq: seq, animated: animated)
         }
+
+        updateBadges()
     }
 
     private func createWrapperLayer(for idx: Int) -> CATransformLayer {
@@ -804,12 +746,12 @@ internal final class ViewHierarchy3DVC: UIViewController {
     }
 
     private func applyTransformAndFocus(to wrapper: CALayer, idx: Int, seq: Int, animated: Bool) {
-        let isFocused = focusedIndex == idx
+        let isFocused = selectedIndex == idx
         let focusZ: CGFloat = isFocused ? 200 : 0
-        let focusAlpha: Float = focusedIndex == nil ? 1.0 : (isFocused ? 1.0 : 0.15)
+        let focusAlpha: Float = selectedIndex == nil ? 1.0 : (isFocused ? 1.0 : 0.15)
         wrapper.opacity = focusAlpha
 
-        let baseZ = CGFloat(seq) * baseSpacing
+        let baseZ = CGFloat(seq) * spacing
         let targetTransform = CATransform3DMakeTranslation(0, 0, baseZ + focusZ)
 
         if animated {

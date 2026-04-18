@@ -173,7 +173,7 @@ internal final class LeakListVC: PhantomTableVC, PhantomEventObserver {
         let leak = indexPath.section == Section.critical.rawValue
             ? criticalLeaks[indexPath.row]
             : potentialLeaks[indexPath.row]
-        cell.configure(with: leak, formatter: fmt)
+        cell.configure(with: leak, formatter: Self.dateFormatter)
         return cell
     }
 

@@ -6,6 +6,12 @@ import BackgroundTasks
 
 @available(iOS 13.0, *)
 internal final class BGTaskInspectorVC: UITableViewController {
+    private static let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .medium
+        return formatter
+    }()
 
     // MARK: - State
 

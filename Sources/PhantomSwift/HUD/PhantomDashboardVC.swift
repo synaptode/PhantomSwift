@@ -322,9 +322,14 @@ internal final class PhantomDashboardVC: UIViewController {
     }
 
     private func setupCloseButton() {
-        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)
-        let xIcon = UIImage(systemName: "xmark.circle.fill", withConfiguration: config)
-        closeButton.setImage(xIcon, for: .normal)
+        if #available(iOS 13.0, *) {
+            let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)
+            let xIcon = UIImage(systemName: "xmark.circle.fill", withConfiguration: config)
+            closeButton.setImage(xIcon, for: .normal)
+        } else {
+            closeButton.setTitle("Close", for: .normal)
+            closeButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        }
         closeButton.tintColor = UIColor.white.withAlphaComponent(0.3)
         closeButton.addTarget(self, action: #selector(dismissDashboard), for: .touchUpInside)
         headerView.addSubview(closeButton)
@@ -636,9 +641,15 @@ extension PhantomDashboardVC: UITableViewDataSource, UITableViewDelegate {
             dismiss(animated: true) { PhantomUIInspector.shared.startInspecting() }
             return
         }
-        let vc = makeVC(for: item)
-        let nav = UINavigationController(rootViewController: vc)
-        styleNav(nav, backTarget: vc)
+        let rootViewController = makeVC(for: item)
+        if let nav = rootViewController as? UINavigationController {
+            styleNav(nav, backTarget: nav.topViewController ?? nav)
+            present(nav, animated: true)
+            return
+        }
+
+        let nav = UINavigationController(rootViewController: rootViewController)
+        styleNav(nav, backTarget: rootViewController)
         present(nav, animated: true)
     }
 
@@ -654,44 +665,85 @@ extension PhantomDashboardVC: UITableViewDataSource, UITableViewDelegate {
         case .feature(let f):
             return makeVC(forFeature: f)
         case .plugin(let p):
-            let nc = UINavigationController(rootViewController: p.viewController)
-            nc.phantomApplyNavBarAppearance()
-            return nc
+            return p.rootViewController
         }
     }
 
     private func makeVC(forFeature f: PhantomFeature) -> UIViewController {
         switch f {
-        case .network:           return PhantomNav(rootViewController: NetworkListVC())
-        case .interceptor:       return PhantomNav(rootViewController: InterceptorListVC())
-        case .logger:            return PhantomNav(rootViewController: LogConsoleVC())
-        case .memoryLeak:        return PhantomNav(rootViewController: LeakListVC())
-        case .uiInspector:       return PhantomNav(rootViewController: PhantomUIInspector())
-        case .storage:           return PhantomNav(rootViewController: StorageDashboardVC())
-        case .performance:       return PhantomNav(rootViewController: PerformanceDashboardVC())
-        case .qa:                return PhantomNav(rootViewController: QAShortcutsVC())
-        case .security:          return PhantomNav(rootViewController: SecurityDashboardVC())
-        case .swiftUI:           return PhantomNav(rootViewController: SwiftUIInspectorVC())
-        case .accessibility:     return PhantomNav(rootViewController: AccessibilityAuditVC())
-        case .environment:       return PhantomNav(rootViewController: EnvironmentDashboardVC())
-        case .extensionSidekick: return PhantomNav(rootViewController: ExtensionSidekickVC())
-        case .badNetwork:        return PhantomNav(rootViewController: BadNetworkVC())
-        case .hangDetector:      return PhantomNav(rootViewController: HangListVC())
-        case .stateSnapshot:     return PhantomNav(rootViewController: StateSnapshotVC())
-        case .analytics:         return PhantomNav(rootViewController: AnalyticsListVC())
-        case .memoryGraph:       return PhantomNav(rootViewController: ObjectRetainGraphVC())
-        case .assetInspector:    return PhantomNav(rootViewController: AssetInspectorVC())
-        case .featureFlags:      return PhantomNav(rootViewController: FeatureFlagsDashboardVC())
-        case .mainThreadChecker: return PhantomNav(rootViewController: MainThreadCheckerVC())
-        case .waterfall:         return PhantomNav(rootViewController: NetworkWaterfallVC())
-        case .remoteServer:      return PhantomNav(rootViewController: RemoteServerVC())
-        case .deepLinkTester:    return PhantomNav(rootViewController: DeepLinkTesterVC())
-        case .crashLogs:         return PhantomNav(rootViewController: CrashLogVC())
-        case .layoutConflicts:   return PhantomNav(rootViewController: LayoutConflictVC())
-        case .pushNotificationSimulator: return PhantomNav(rootViewController: PushSimulatorVC())
-        case .backgroundTaskInspector:   return PhantomNav(rootViewController: BGTaskInspectorVC())
-        case .runtimeBrowser:    return PhantomNav(rootViewController: RuntimeBrowserVC())
+        case .network:           return NetworkListVC()
+        case .interceptor:       return InterceptorListVC()
+        case .logger:            return LogConsoleVC()
+        case .memoryLeak:        return LeakListVC()
+        case .uiInspector:       return ViewHierarchyVC(rootView: inspectedRootView)
+        case .storage:           return StorageListVC()
+        case .performance:       return PerformanceDashboardVC()
+        case .qa:                return AppShortcutsVC()
+        case .security:          return SecurityDashboardVC()
+        case .swiftUI:           return RenderListVC()
+        case .accessibility:     return AccessibilityDashboardVC()
+        case .environment:       return EnvironmentDashboardVC()
+        case .extensionSidekick: return ExtensionLogVC()
+        case .badNetwork:        return BadNetworkDashboardVC()
+        case .hangDetector:      return HangListVC()
+        case .stateSnapshot:     return SnapshotListVC()
+        case .analytics:         return AnalyticsListVC()
+        case .memoryGraph:       return MemoryGraphVC()
+        case .assetInspector:    return AssetListVC()
+        case .featureFlags:      return FeatureFlagsDashboardVC()
+        case .mainThreadChecker: return MainThreadCheckerVC()
+        case .waterfall:         return NetworkWaterfallVC()
+        case .remoteServer:      return makeRemoteServerVC()
+        case .deepLinkTester:    return DeepLinkTesterVC()
+        case .crashLogs:         return CrashLogVC()
+        case .layoutConflicts:   return LayoutConflictVC()
+        case .pushNotificationSimulator: return PushSimulatorVC()
+        case .backgroundTaskInspector:   return makeBGTaskInspectorVC()
+        case .runtimeBrowser:    return RuntimeBrowserVC()
         }
+    }
+
+    private var inspectedRootView: UIView {
+        presentingViewController?.view ?? view
+    }
+
+    private func makeRemoteServerVC() -> UIViewController {
+        if #available(iOS 13.0, *) {
+            return RemoteServerDashboardVC()
+        }
+        return makeUnavailableVC(
+            title: "Remote Server",
+            message: "Remote Server requires iOS 13 or newer."
+        )
+    }
+
+    private func makeBGTaskInspectorVC() -> UIViewController {
+        if #available(iOS 13.0, *) {
+            return BGTaskInspectorVC()
+        }
+        return makeUnavailableVC(
+            title: "Background Tasks",
+            message: "Background task inspection requires iOS 13 or newer."
+        )
+    }
+
+    private func makeUnavailableVC(title: String, message: String) -> UIViewController {
+        let vc = UIViewController()
+        vc.title = title
+        vc.view.backgroundColor = PhantomTheme.shared.backgroundColor
+
+        let emptyState = PhantomEmptyStateView(emoji: "ℹ️", title: title, message: message)
+        emptyState.translatesAutoresizingMaskIntoConstraints = false
+        vc.view.addSubview(emptyState)
+
+        NSLayoutConstraint.activate([
+            emptyState.topAnchor.constraint(equalTo: vc.view.safeAreaLayoutGuide.topAnchor),
+            emptyState.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor),
+            emptyState.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor),
+            emptyState.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor),
+        ])
+
+        return vc
     }
 
     private func styleNav(_ nav: UINavigationController, backTarget vc: UIViewController) {
@@ -784,6 +836,134 @@ extension PhantomDashboardVC: UISearchBarDelegate {
 }
 
 // MARK: - NiagaraModuleCell
+
+private final class NiagaraModuleCell: UITableViewCell {
+    static let reuseID = "NiagaraModuleCell"
+
+    private let cardView = UIView()
+    private let iconContainer = UIView()
+    private let iconImageView = UIImageView()
+    private let iconFallbackLabel = UILabel()
+    private let titleLabel = UILabel()
+    private let badgeLabel = UILabel()
+    private let chevronView = UIImageView()
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setup()
+    }
+
+    required init?(coder: NSCoder) { fatalError() }
+
+    private func setup() {
+        backgroundColor = .clear
+        selectionStyle = .none
+
+        cardView.backgroundColor = UIColor.white.withAlphaComponent(0.04)
+        cardView.layer.cornerRadius = 18
+        cardView.layer.borderWidth = 1
+        cardView.layer.borderColor = UIColor.white.withAlphaComponent(0.06).cgColor
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(cardView)
+
+        iconContainer.layer.cornerRadius = 16
+        iconContainer.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(iconContainer)
+
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        iconContainer.addSubview(iconImageView)
+
+        iconFallbackLabel.font = UIFont.systemFont(ofSize: 20)
+        iconFallbackLabel.textAlignment = .center
+        iconFallbackLabel.translatesAutoresizingMaskIntoConstraints = false
+        iconContainer.addSubview(iconFallbackLabel)
+
+        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        titleLabel.textColor = .white
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(titleLabel)
+
+        if #available(iOS 13.0, *) {
+            badgeLabel.font = .monospacedDigitSystemFont(ofSize: 10, weight: .bold)
+        } else {
+            badgeLabel.font = .systemFont(ofSize: 10, weight: .bold)
+        }
+        badgeLabel.textAlignment = .center
+        badgeLabel.layer.cornerRadius = 9
+        badgeLabel.layer.masksToBounds = true
+        badgeLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(badgeLabel)
+
+        chevronView.image = UIImage.phantomSymbol("chevron.right")
+        chevronView.tintColor = UIColor.white.withAlphaComponent(0.25)
+        chevronView.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(chevronView)
+
+        NSLayoutConstraint.activate([
+            cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+
+            iconContainer.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            iconContainer.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
+            iconContainer.widthAnchor.constraint(equalToConstant: 46),
+            iconContainer.heightAnchor.constraint(equalToConstant: 46),
+
+            iconImageView.centerXAnchor.constraint(equalTo: iconContainer.centerXAnchor),
+            iconImageView.centerYAnchor.constraint(equalTo: iconContainer.centerYAnchor),
+            iconImageView.widthAnchor.constraint(equalToConstant: 22),
+            iconImageView.heightAnchor.constraint(equalToConstant: 22),
+
+            iconFallbackLabel.leadingAnchor.constraint(equalTo: iconContainer.leadingAnchor),
+            iconFallbackLabel.trailingAnchor.constraint(equalTo: iconContainer.trailingAnchor),
+            iconFallbackLabel.topAnchor.constraint(equalTo: iconContainer.topAnchor),
+            iconFallbackLabel.bottomAnchor.constraint(equalTo: iconContainer.bottomAnchor),
+
+            titleLabel.leadingAnchor.constraint(equalTo: iconContainer.trailingAnchor, constant: 14),
+            titleLabel.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
+
+            chevronView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            chevronView.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
+            chevronView.widthAnchor.constraint(equalToConstant: 12),
+            chevronView.heightAnchor.constraint(equalToConstant: 12),
+
+            badgeLabel.trailingAnchor.constraint(equalTo: chevronView.leadingAnchor, constant: -10),
+            badgeLabel.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
+            badgeLabel.heightAnchor.constraint(equalToConstant: 18),
+            badgeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 18),
+
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: badgeLabel.leadingAnchor, constant: -10),
+        ])
+    }
+
+    func configure(title: String, icon: String, accent: UIColor, badge: Int) {
+        titleLabel.text = title
+        iconContainer.backgroundColor = accent.withAlphaComponent(0.18)
+
+        if let symbol = UIImage.phantomSymbol(icon) {
+            iconImageView.image = symbol
+            iconImageView.tintColor = accent
+            iconImageView.isHidden = false
+            iconFallbackLabel.isHidden = true
+        } else {
+            iconFallbackLabel.text = icon
+            iconFallbackLabel.isHidden = false
+            iconImageView.isHidden = true
+        }
+
+        if badge > 0 {
+            badgeLabel.text = " \(badge) "
+            badgeLabel.backgroundColor = accent.withAlphaComponent(0.18)
+            badgeLabel.textColor = accent
+            badgeLabel.isHidden = false
+        } else {
+            badgeLabel.isHidden = true
+            badgeLabel.text = nil
+        }
+    }
+}
 
 // MARK: - AlphaScrubberView
 /// Custom A–Z index scrubber — Niagara style.
