@@ -120,6 +120,9 @@ public final class PhantomSwift {
         case .osLogBridge:
             PhantomOSLogBridge.shared.start()
 
+        case .automaticWebViewConsoleBridge:
+            PhantomWebViewConsoleAutoInstaller.shared.start()
+
         case .uiKitRenderTracking:
             PhantomUIKitTracker.shared.start()
             PhantomRenderStore.shared.isUIKitTrackingEnabled = true

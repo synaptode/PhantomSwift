@@ -245,7 +245,11 @@ internal final class PhantomDashboardVC: UIViewController {
             closeButton.setTitle("Close", for: .normal)
             closeButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         }
-        closeButton.tintColor = UIColor.white.withAlphaComponent(0.3)
+        closeButton.tintColor = UIColor.white.withAlphaComponent(0.72)
+        closeButton.backgroundColor = UIColor.white.withAlphaComponent(0.06)
+        closeButton.layer.cornerRadius = 18
+        closeButton.layer.borderWidth = 1
+        closeButton.layer.borderColor = UIColor.white.withAlphaComponent(0.08).cgColor
         closeButton.addTarget(self, action: #selector(dismissDashboard), for: .touchUpInside)
         headerView.addSubview(closeButton)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -275,9 +279,9 @@ internal final class PhantomDashboardVC: UIViewController {
             envLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 40),
 
             closeButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
-            closeButton.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10),
-            closeButton.widthAnchor.constraint(equalToConstant: 44),
-            closeButton.heightAnchor.constraint(equalToConstant: 44)
+            closeButton.centerYAnchor.constraint(equalTo: wordmarkLabel.centerYAnchor),
+            closeButton.widthAnchor.constraint(equalToConstant: 36),
+            closeButton.heightAnchor.constraint(equalToConstant: 36)
         ])
     }
 

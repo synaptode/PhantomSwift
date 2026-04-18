@@ -44,7 +44,7 @@ final class PhantomLaunchPlannerTests: XCTestCase {
         loggerConfig.enableOSLogBridge = true
 
         let loggerPlan = Set(PhantomLaunchPlanner.makePlan(config: loggerConfig, pluginCount: 0))
-        XCTAssertEqual(loggerPlan, [.osLogBridge])
+        XCTAssertEqual(loggerPlan, [.osLogBridge, .automaticWebViewConsoleBridge])
 
         var nonLoggerConfig = PhantomConfig()
         nonLoggerConfig.environment = .custom([.network])
@@ -53,6 +53,20 @@ final class PhantomLaunchPlannerTests: XCTestCase {
 
         let nonLoggerPlan = Set(PhantomLaunchPlanner.makePlan(config: nonLoggerConfig, pluginCount: 0))
         XCTAssertFalse(nonLoggerPlan.contains(.osLogBridge))
+    }
+
+    func testAutomaticWebViewConsoleBridgeRequiresLoggerFeatureAndCanBeDisabled() {
+        var loggerConfig = PhantomConfig()
+        loggerConfig.environment = .custom([.logger])
+        loggerConfig.triggers = []
+
+        let loggerPlan = Set(PhantomLaunchPlanner.makePlan(config: loggerConfig, pluginCount: 0))
+        XCTAssertTrue(loggerPlan.contains(.automaticWebViewConsoleBridge))
+
+        var disabledConfig = loggerConfig
+        disabledConfig.enableAutomaticWebViewConsoleBridge = false
+        let disabledPlan = Set(PhantomLaunchPlanner.makePlan(config: disabledConfig, pluginCount: 0))
+        XCTAssertFalse(disabledPlan.contains(.automaticWebViewConsoleBridge))
     }
 
     func testMultiFeaturePlanOnlyStartsRequestedRuntimes() {

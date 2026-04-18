@@ -418,9 +418,16 @@ PhantomLog.error("Failed to decode response", tag: "Network")
 - Timestamp with millisecond precision
 - Export logs as text file
 - OSLog bridge for unified logging (iOS 14+)
-- Optional `WKWebView` console bridge for `console.log`, `console.warn`, `console.error`, and JS bridge payloads
+- Plug-and-play `WKWebView` console capture for `console.log`, `console.warn`, `console.error`, and JS bridge payloads
 
-**Capture HTML / JS bridge logs from `WKWebView`:**
+**Plug-and-play for hybrid HTML/native apps:**
+
+After `PhantomSwift.launch()`, new `WKWebView` instances are instrumented automatically when the
+Logger module is enabled. That means browser-side logs like `console.log("bridge ready")` and
+`console.error("checkout failed", payload)` will appear in PhantomSwift's **Console Logger**
+without you wiring each web view manually.
+
+If you want explicit control over handler naming or tagging, you can still install the bridge yourself:
 
 ```swift
 import WebKit
@@ -445,10 +452,7 @@ final class CheckoutWebVC: UIViewController {
 }
 ```
 
-Once installed, browser-side logs such as `console.log("bridge ready")` and
-`console.error("checkout failed", payload)` will appear inside PhantomSwift's
-**Console Logger**. If you already have your own JS bridge, you can also forward
-messages manually from native:
+If you already have your own JS bridge, you can also forward messages manually from native:
 
 ```swift
 #if DEBUG
@@ -458,6 +462,16 @@ PhantomWebViewConsoleBridge.capture(
     tag: "CheckoutJS",
     sourceURL: webView.url?.absoluteString
 )
+#endif
+```
+
+You can disable the automatic mode if your host app needs stricter ownership over `WKWebView` setup:
+
+```swift
+#if DEBUG
+PhantomSwift.configure { config in
+    config.enableAutomaticWebViewConsoleBridge = false
+}
 #endif
 ```
 

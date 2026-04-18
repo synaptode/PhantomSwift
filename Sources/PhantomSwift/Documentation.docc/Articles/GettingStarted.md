@@ -133,8 +133,16 @@ full-text search and tag filtering.
 
 ### Capturing `WKWebView` / HTML console logs
 
-If part of your app renders HTML inside `WKWebView`, you can forward browser-side
-`console.log`, `console.warn`, and `console.error` output into PhantomSwift:
+If part of your app renders HTML inside `WKWebView`, PhantomSwift can capture browser-side
+`console.log`, `console.warn`, and `console.error` output automatically for new web views
+created after `PhantomSwift.launch()`.
+
+That makes the feature plug-and-play for most hybrid HTML/native flows, including apps that
+render pages through a JS bridge and want those logs to appear in the **Console Logger**
+without adding per-screen setup.
+
+If you want explicit control over the message handler name or tag, you can still install the
+bridge manually:
 
 ```swift
 import WebKit
@@ -162,3 +170,13 @@ final class HybridWebViewController: UIViewController {
 The bridge injects a lightweight `console.*` hook and forwards messages to the
 **Console Logger**. If you already own a custom JS bridge, you can also inject log
 entries manually from native code with ``PhantomWebViewConsoleBridge/capture(level:message:tag:sourceURL:pageTitle:)``.
+
+To opt out of automatic installation:
+
+```swift
+#if DEBUG
+PhantomSwift.configure { config in
+    config.enableAutomaticWebViewConsoleBridge = false
+}
+#endif
+```

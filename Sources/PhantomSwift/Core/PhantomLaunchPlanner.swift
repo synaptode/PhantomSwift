@@ -13,6 +13,7 @@ internal enum PhantomLaunchService: String, Hashable {
     case pushNotificationSimulation
     case backgroundTaskInspection
     case osLogBridge
+    case automaticWebViewConsoleBridge
     case uiKitRenderTracking
     case mainThreadChecking
     case environmentMonitoring
@@ -106,6 +107,13 @@ internal enum PhantomLaunchPlanner {
             requiredFeatures: [.logger],
             additionalRequirement: { context in
                 context.config.enableOSLogBridge
+            }
+        ),
+        Descriptor(
+            service: .automaticWebViewConsoleBridge,
+            requiredFeatures: [.logger],
+            additionalRequirement: { context in
+                context.config.enableAutomaticWebViewConsoleBridge
             }
         ),
         Descriptor(
