@@ -43,6 +43,8 @@ public final class PhantomSwift {
     private var hudWindow: PhantomHUDWindow?
     private var dynamicIsland: PhantomDynamicIsland?
     private var plugins: [PhantomPlugin] = []
+    private var activeLaunchServices = Set<PhantomLaunchService>()
+    private var isHUDSetupScheduled = false
     
     /// Returns all registered plugins.
     internal var registeredPlugins: [PhantomPlugin] {
@@ -52,145 +54,154 @@ public final class PhantomSwift {
     /// Register a custom plugin to appear in the dashboard.
     public func register(plugin: PhantomPlugin) {
         plugins.append(plugin)
+
+        guard isLaunched else { return }
+        if Thread.isMainThread {
+            refreshDashboardInfrastructure()
+        } else {
+            DispatchQueue.main.async {
+                self.refreshDashboardInfrastructure()
+            }
+        }
     }
     
     private func setup() {
+        let config = self.config
+
         guard config.environment != .release else {
             return
         }
-        
-        // Register URLProtocol
-        URLProtocol.registerClass(PhantomURLProtocol.self)
-        
-        // Swizzle URLSessionConfiguration to automatically include our protocol
-        swizzleURLSessionConfiguration()
-        
-        // Initialize Gesture Handler
-        PhantomGestureHandler.shared.start()
-        
-        // Initialize Leak Tracker
-        PhantomLeakTracker.shared.start()
-        
-        // Initialize HUD with a slightly longer delay to ensure SwiftUI UIWindowScene is fully formed
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.setupHUD()
-        }
-        
-        // Start Hang Detector
-        PhantomHangDetector.shared.start()
 
-        // Start Crash Log Store (exception handler + persist prior sessions)
-        PhantomCrashLogStore.shared.start()
-
-        // Start Auto Layout Conflict Detector (stderr tap)
-        PhantomLayoutConflictDetector.shared.start()
-
-        // Start Push Simulator (loads persisted templates)
-        PhantomPushSimulator.shared.start()
-
-        // Start Background Task Inspector (iOS 13+)
-        if #available(iOS 13.0, *) {
-            PhantomBGTaskInspector.shared.start()
-        }
-
-        // Start OSLog bridge if opted in (iOS 15+ only; no-op on older)
-        if config.enableOSLogBridge {
-            PhantomOSLogBridge.shared.start()
-        }
-        
-        // Start UIKit Layout Tracker
-        PhantomUIKitTracker.shared.start()
-        PhantomRenderStore.shared.isUIKitTrackingEnabled = true
-        
-        // Start Main Thread Checker
-        PhantomMainThreadChecker.shared.start()
-        
-        // Eagerly init environment monitor so battery monitoring begins at launch
-        _ = PhantomEnvironmentMonitor.shared
+        let launchPlan = PhantomLaunchPlanner.makePlan(config: config, pluginCount: plugins.count)
+        applyLaunchPlan(launchPlan)
         
         PhantomEventBus.shared.post(.appLaunched)
         print("🚀 PhantomSwift launched in \(config.environment) environment.")
     }
     
-    private func setupHUD() {
-        let screenBounds = UIScreen.main.bounds
-        hudWindow = PhantomHUDWindow(frame: screenBounds)
-        
-        // Dynamic Island
-        if config.triggers.contains(.dynamicIsland) {
-            let width: CGFloat = 60   // icon + dot only — no text label
-            let height: CGFloat = 36
-            let x = (screenBounds.width - width) / 2
-            let y: CGFloat = 12 // Positioned below the notch/island
-            
-            dynamicIsland = PhantomDynamicIsland(frame: CGRect(x: x, y: y, width: width, height: height))
-            dynamicIsland?.onAction = { [weak self] in
-                self?.showDashboard()
+    private func applyLaunchPlan(_ services: [PhantomLaunchService]) {
+        services.forEach(startLaunchService(_:))
+    }
+
+    private func startLaunchService(_ service: PhantomLaunchService) {
+        guard activeLaunchServices.insert(service).inserted else { return }
+
+        switch service {
+        case .dashboardShakeTrigger:
+            PhantomGestureHandler.shared.start()
+
+        case .dashboardDynamicIsland:
+            scheduleHUDSetup()
+
+        case .networkInterception:
+            URLProtocol.registerClass(PhantomURLProtocol.self)
+            swizzleURLSessionConfiguration()
+
+        case .memoryLeakTracking:
+            PhantomLeakTracker.shared.start()
+
+        case .hangDetection:
+            PhantomHangDetector.shared.start()
+
+        case .crashLogCapture:
+            PhantomCrashLogStore.shared.start()
+
+        case .layoutConflictMonitoring:
+            PhantomLayoutConflictDetector.shared.start()
+
+        case .pushNotificationSimulation:
+            PhantomPushSimulator.shared.start()
+
+        case .backgroundTaskInspection:
+            if #available(iOS 13.0, *) {
+                PhantomBGTaskInspector.shared.start()
             }
-            hudWindow?.addSubview(dynamicIsland!)
+
+        case .osLogBridge:
+            PhantomOSLogBridge.shared.start()
+
+        case .automaticWebViewConsoleBridge:
+            PhantomWebViewConsoleAutoInstaller.shared.start()
+
+        case .uiKitRenderTracking:
+            PhantomUIKitTracker.shared.start()
+            PhantomRenderStore.shared.isUIKitTrackingEnabled = true
+
+        case .mainThreadChecking:
+            PhantomMainThreadChecker.shared.start()
+
+        case .environmentMonitoring:
+            _ = PhantomEnvironmentMonitor.shared
         }
+    }
+
+    private func refreshDashboardInfrastructure() {
+        let services = PhantomLaunchPlanner.makePlan(config: config, pluginCount: plugins.count)
+        let shellServices = services.filter {
+            $0 == .dashboardShakeTrigger || $0 == .dashboardDynamicIsland
+        }
+        applyLaunchPlan(shellServices)
+    }
+
+    private func scheduleHUDSetup() {
+        guard !isHUDSetupScheduled else { return }
+        isHUDSetupScheduled = true
+
+        // Delay slightly so SwiftUI UIWindowScene is fully formed before overlay setup.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            guard let self else { return }
+            self.isHUDSetupScheduled = false
+            self.setupHUD()
+        }
+    }
+
+    private func setupHUD() {
+        guard config.triggers.contains(.dynamicIsland) else { return }
+
+        let screenBounds = UIScreen.main.bounds
+        if hudWindow == nil {
+            hudWindow = PhantomHUDWindow(frame: screenBounds)
+        }
+
+        guard dynamicIsland == nil else { return }
+
+        let width: CGFloat = 60
+        let height: CGFloat = 36
+        let x = (screenBounds.width - width) / 2
+        let y: CGFloat = 12
+
+        let island = PhantomDynamicIsland(frame: CGRect(x: x, y: y, width: width, height: height))
+        island.onAction = { [weak self] in
+            self?.showDashboard()
+        }
+        dynamicIsland = island
+        hudWindow?.addSubview(island)
     }
     
     /// Manually show the PhantomSwift dashboard.
     public func showDashboard() {
-        // Find the main application window to present the dashboard on.
-        // This is much more reliable than using our own HUD window for full-screen UI.
-        guard let mainAppWindow = findActiveWindow() else {
-            // Last resort: try HUD window
-            if let window = hudWindow {
-                presentDashboard(on: window)
-            }
-            return
-        }
-        
-        presentDashboard(on: mainAppWindow)
+        guard let presenter = PhantomPresentationResolver.topPresenter() else { return }
+        presentDashboard(from: presenter)
     }
     
-    private func presentDashboard(on window: UIWindow) {
-        // Ensure no existing dashboard is being presented
-        if let presented = window.rootViewController?.presentedViewController, presented is PhantomDashboardVC {
-            return // Already showing
-        }
-        
-        // If it's presenting something else, we should present on THAT instead of the root
-        var presenter = window.rootViewController
+    private func presentDashboard(from presenter: UIViewController) {
+        if presenter is PhantomDashboardVC { return }
+
+        var finalPresenter: UIViewController? = presenter
         var depth = 0
-        while let nextPresenter = presenter?.presentedViewController, depth < 10 {
+        while let nextPresenter = finalPresenter?.presentedViewController, depth < 10 {
             if nextPresenter is PhantomDashboardVC { return } // Already showing
-            presenter = nextPresenter
+            finalPresenter = nextPresenter
             depth += 1
         }
-        
-        guard let finalPresenter = presenter else {
-            // If window has no rootVC, we must provide one
-            let tempVC = UIViewController()
-            tempVC.view.backgroundColor = .clear
-            window.rootViewController = tempVC
-            presentDashboard(on: window) // Retry with new root
-            return
-        }
-        
+
+        guard let finalPresenter else { return }
+
         let dashboard = PhantomDashboardVC()
         dashboard.modalPresentationStyle = .fullScreen
         
         finalPresenter.present(dashboard, animated: true) {
             PhantomEventBus.shared.post(.dashboardPresented)
-        }
-    }
-    
-    private func findActiveWindow() -> UIWindow? {
-        if #available(iOS 13.0, *) {
-            // Priority 1: Key window of active scene
-            let scene = UIApplication.shared.connectedScenes
-                .filter { $0.activationState == .foregroundActive }
-                .compactMap { $0 as? UIWindowScene }
-                .first
-            
-            return scene?.windows.first { $0.isKeyWindow } ?? 
-                   scene?.windows.first ?? 
-                   UIApplication.shared.windows.first { $0.isKeyWindow }
-        } else {
-            return UIApplication.shared.keyWindow
         }
     }
     

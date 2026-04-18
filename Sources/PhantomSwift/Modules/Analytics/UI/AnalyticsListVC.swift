@@ -144,7 +144,6 @@ internal final class AnalyticsListVC: UIViewController {
     private func reloadData() {
         let all = PhantomAnalyticsMonitor.shared.events(for: nil) // most recent first
         let provs = PhantomAnalyticsMonitor.shared.allProviders()
-        let freq  = PhantomAnalyticsMonitor.shared.frequencyMap()
         let q = searchText.lowercased()
 
         // Feed mode

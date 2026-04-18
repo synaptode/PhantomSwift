@@ -102,6 +102,13 @@ extension MemoryGraphVC: UISearchBarDelegate {
 // MARK: - Custom UI Components
 
 private final class MemoryObjectCell: UITableViewCell {
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .medium
+        return formatter
+    }()
+
     private let containerView = UIView()
     private let titleLabel = UILabel()
     private let addressBadge = UIView()

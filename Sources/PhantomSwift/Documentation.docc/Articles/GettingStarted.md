@@ -130,3 +130,53 @@ PhantomLog.error("Decode failed",           tag: "Network")
 
 All entries are stored in-memory and surfaced in the **Console Logger** module with
 full-text search and tag filtering.
+
+### Capturing `WKWebView` / HTML console logs
+
+If part of your app renders HTML inside `WKWebView`, PhantomSwift can capture browser-side
+`console.log`, `console.warn`, and `console.error` output automatically for new web views
+created after `PhantomSwift.launch()`.
+
+That makes the feature plug-and-play for most hybrid HTML/native flows, including apps that
+render pages through a JS bridge and want those logs to appear in the **Console Logger**
+without adding per-screen setup.
+
+If you want explicit control over the message handler name or tag, you can still install the
+bridge manually:
+
+```swift
+import WebKit
+#if DEBUG
+import PhantomSwift
+#endif
+
+final class HybridWebViewController: UIViewController {
+    #if DEBUG
+    private let phantomConsoleBridge = PhantomWebViewConsoleBridge(
+        configuration: .init(handlerName: "phantomConsole", tag: "HybridJS")
+    )
+    #endif
+
+    private lazy var webView: WKWebView = {
+        let configuration = WKWebViewConfiguration()
+        #if DEBUG
+        phantomConsoleBridge.install(into: configuration)
+        #endif
+        return WKWebView(frame: .zero, configuration: configuration)
+    }()
+}
+```
+
+The bridge injects a lightweight `console.*` hook and forwards messages to the
+**Console Logger**. If you already own a custom JS bridge, you can also inject log
+entries manually from native code with ``PhantomWebViewConsoleBridge/capture(level:message:tag:sourceURL:pageTitle:)``.
+
+To opt out of automatic installation:
+
+```swift
+#if DEBUG
+PhantomSwift.configure { config in
+    config.enableAutomaticWebViewConsoleBridge = false
+}
+#endif
+```

@@ -176,6 +176,7 @@ internal final class MemoryDiffVC: UIViewController {
         tableView.rowHeight           = UITableView.automaticDimension
         tableView.estimatedRowHeight  = 60
         tableView.dataSource          = self
+        tableView.delegate            = self
         tableView.tableFooterView     = UIView()
         tableView.register(DiffObjectCell.self, forCellReuseIdentifier: DiffObjectCell.reuseID)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -275,6 +276,11 @@ extension MemoryDiffVC: UITableViewDataSource {
         return cell
     }
 
+}
+
+// MARK: - UITableViewDelegate
+
+extension MemoryDiffVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard !diffedObjects.isEmpty else { return nil }
         let label = UILabel()

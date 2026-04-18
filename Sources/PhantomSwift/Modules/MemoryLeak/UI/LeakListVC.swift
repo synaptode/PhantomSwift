@@ -51,6 +51,10 @@ internal final class LeakListVC: PhantomTableVC, PhantomEventObserver {
         PhantomEventBus.shared.subscribe(self, to: "memoryLeakDetected")
     }
 
+    deinit {
+        PhantomEventBus.shared.unsubscribe(self, from: "memoryLeakDetected")
+    }
+
     // MARK: - Navigation
 
     private func setupNavigation() {
@@ -169,7 +173,7 @@ internal final class LeakListVC: PhantomTableVC, PhantomEventObserver {
         let leak = indexPath.section == Section.critical.rawValue
             ? criticalLeaks[indexPath.row]
             : potentialLeaks[indexPath.row]
-        cell.configure(with: leak, formatter: fmt)
+        cell.configure(with: leak, formatter: Self.dateFormatter)
         return cell
     }
 
@@ -545,4 +549,3 @@ internal final class LeakDetailVC: UIViewController {
     }
 }
 #endif
-

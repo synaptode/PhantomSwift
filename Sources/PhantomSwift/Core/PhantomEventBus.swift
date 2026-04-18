@@ -1,5 +1,6 @@
 #if DEBUG
 import Foundation
+import PhantomSwiftNetworking
 
 /// Internal event bus for cross-module communication.
 public final class PhantomEventBus {

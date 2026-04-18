@@ -1,5 +1,6 @@
 #if DEBUG
 import UIKit
+import PhantomSwiftNetworking
 
 /// A premium dashboard to configure and test bad network conditions.
 internal final class BadNetworkDashboardVC: PhantomTableVC {

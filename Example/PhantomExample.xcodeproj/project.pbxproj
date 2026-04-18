@@ -7,39 +7,55 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		189ABC09858604A46CDD9069 /* build_output.txt in Resources */ = {isa = PBXBuildFile; fileRef = 16683B8D8290DB67B5D2F3FE /* build_output.txt */; };
 		2F34B963359B936FDE80ACEF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7D17053B02A69B745462CA /* ContentView.swift */; };
-		3F1AAC7B4E79126A76AE157D /* build_error.txt in Resources */ = {isa = PBXBuildFile; fileRef = D38AC01B64580E89F86E3D5B /* build_error.txt */; };
+		4F7C2E24C7F29BEDCEB6E9C6 /* PhantomSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AAB731D8B16A4DFFBD1FAB9F /* PhantomSwift */; };
 		67A7A245BDAA826E19B109CD /* NetworkDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E153680C3F87AE15356D9B3 /* NetworkDemoView.swift */; };
 		6AF9C0E93C615268989458C3 /* LoggerDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7F327A3405A0F17D5FD568 /* LoggerDemoView.swift */; };
 		6EFF3691B920FD849E79F0B2 /* StorageDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389694098CCA1B53A7F09FA /* StorageDemoView.swift */; };
 		7B3CAFC78CE0704158F010BF /* SwiftUIDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789CF5367A4E1237946A9AC9 /* SwiftUIDemoView.swift */; };
 		8170AC12547D8D6C7422B08D /* PerformanceDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F53997D021C3BC33A2D120 /* PerformanceDemoView.swift */; };
-		8C874CDB5CA56AC027A86125 /* build_output_final.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8D487A58554C6FB72955AFC6 /* build_output_final.txt */; };
 		B2F7119508470CFD27CA1B5C /* PhantomSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B6ED3C43948A7B2D48AC4845 /* PhantomSwift */; };
 		BF662228FD5972F25FD728DC /* AnalyticsDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9445A0B02B22BB284A400 /* AnalyticsDemoView.swift */; };
+		C39D6EDC8DEF8DBD59E1C223 /* PhantomExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5EF21CE20B97BB4CA8F128 /* PhantomExampleTests.swift */; };
 		D7AE7EFB6FCCB174377D3863 /* QADemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB068C875C56FE57377BD381 /* QADemoView.swift */; };
 		EA68D725692EA1658202BD53 /* PhantomExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62676114550109B6FD5D3C18 /* PhantomExampleApp.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C424C87E73789BC6BD5063D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 593B270C49862E8DDC217B83 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D4557607B798C428E457A17;
+			remoteInfo = PhantomExample;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		16683B8D8290DB67B5D2F3FE /* build_output.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = build_output.txt; sourceTree = "<group>"; };
+		3F5EF21CE20B97BB4CA8F128 /* PhantomExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomExampleTests.swift; sourceTree = "<group>"; };
 		54B9445A0B02B22BB284A400 /* AnalyticsDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsDemoView.swift; sourceTree = "<group>"; };
+		5969BD52D1D02435154E42A9 /* PhantomExampleTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PhantomExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E153680C3F87AE15356D9B3 /* NetworkDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDemoView.swift; sourceTree = "<group>"; };
 		62676114550109B6FD5D3C18 /* PhantomExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomExampleApp.swift; sourceTree = "<group>"; };
 		62DD2E4031B6233F24F704EA /* PhantomExample.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PhantomExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		789CF5367A4E1237946A9AC9 /* SwiftUIDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIDemoView.swift; sourceTree = "<group>"; };
-		8D487A58554C6FB72955AFC6 /* build_output_final.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = build_output_final.txt; sourceTree = "<group>"; };
 		8F7F327A3405A0F17D5FD568 /* LoggerDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerDemoView.swift; sourceTree = "<group>"; };
 		9389694098CCA1B53A7F09FA /* StorageDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDemoView.swift; sourceTree = "<group>"; };
 		AD9CFBDD66336B970065C74B /* PhantomSwift */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PhantomSwift; path = ..; sourceTree = SOURCE_ROOT; };
-		D38AC01B64580E89F86E3D5B /* build_error.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = build_error.txt; sourceTree = "<group>"; };
 		E5F53997D021C3BC33A2D120 /* PerformanceDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceDemoView.swift; sourceTree = "<group>"; };
 		FB068C875C56FE57377BD381 /* QADemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QADemoView.swift; sourceTree = "<group>"; };
 		FD7D17053B02A69B745462CA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		679FD392F70FBFD08DD16F58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F7C2E24C7F29BEDCEB6E9C6 /* PhantomSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		927296CD4B2F64A7C5FAB842 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -51,6 +67,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08307C6E1DC66FE2B129BA1B /* PhantomExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				3F5EF21CE20B97BB4CA8F128 /* PhantomExampleTests.swift */,
+			);
+			path = PhantomExampleTests;
+			sourceTree = "<group>";
+		};
 		0AF6A87F0DF82AF5172E9DF7 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -63,9 +87,6 @@
 			isa = PBXGroup;
 			children = (
 				54B9445A0B02B22BB284A400 /* AnalyticsDemoView.swift */,
-				D38AC01B64580E89F86E3D5B /* build_error.txt */,
-				8D487A58554C6FB72955AFC6 /* build_output_final.txt */,
-				16683B8D8290DB67B5D2F3FE /* build_output.txt */,
 				FD7D17053B02A69B745462CA /* ContentView.swift */,
 				8F7F327A3405A0F17D5FD568 /* LoggerDemoView.swift */,
 				5E153680C3F87AE15356D9B3 /* NetworkDemoView.swift */,
@@ -84,6 +105,7 @@
 			children = (
 				2EA6A89EEAC1CD6ADE40AEAD /* Example */,
 				0AF6A87F0DF82AF5172E9DF7 /* Packages */,
+				08307C6E1DC66FE2B129BA1B /* PhantomExampleTests */,
 				B0D90F082EFCF77E90E0ED9C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				62DD2E4031B6233F24F704EA /* PhantomExample.app */,
+				5969BD52D1D02435154E42A9 /* PhantomExampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -104,7 +127,6 @@
 			buildConfigurationList = 4D9A73943FD007569CB24706 /* Build configuration list for PBXNativeTarget "PhantomExample" */;
 			buildPhases = (
 				7CF64DFD60B549A039326652 /* Sources */,
-				14032432E8D7336A75EC5A59 /* Resources */,
 				927296CD4B2F64A7C5FAB842 /* Frameworks */,
 			);
 			buildRules = (
@@ -118,6 +140,26 @@
 			productName = PhantomExample;
 			productReference = 62DD2E4031B6233F24F704EA /* PhantomExample.app */;
 			productType = "com.apple.product-type.application";
+		};
+		4112A811BD74152E9C75ECB9 /* PhantomExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07699D7DA110705CD9E62604 /* Build configuration list for PBXNativeTarget "PhantomExampleTests" */;
+			buildPhases = (
+				A2B567994F59C246EFE5D59F /* Sources */,
+				679FD392F70FBFD08DD16F58 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3F55157F9461D7751D1120E /* PBXTargetDependency */,
+			);
+			name = PhantomExampleTests;
+			packageProductDependencies = (
+				AAB731D8B16A4DFFBD1FAB9F /* PhantomSwift */,
+			);
+			productName = PhantomExampleTests;
+			productReference = 5969BD52D1D02435154E42A9 /* PhantomExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -141,22 +183,10 @@
 			projectRoot = "";
 			targets = (
 				2D4557607B798C428E457A17 /* PhantomExample */,
+				4112A811BD74152E9C75ECB9 /* PhantomExampleTests */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		14032432E8D7336A75EC5A59 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3F1AAC7B4E79126A76AE157D /* build_error.txt in Resources */,
-				189ABC09858604A46CDD9069 /* build_output.txt in Resources */,
-				8C874CDB5CA56AC027A86125 /* build_output_final.txt in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7CF64DFD60B549A039326652 /* Sources */ = {
@@ -175,7 +205,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A2B567994F59C246EFE5D59F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C39D6EDC8DEF8DBD59E1C223 /* PhantomExampleTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D3F55157F9461D7751D1120E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D4557607B798C428E457A17 /* PhantomExample */;
+			targetProxy = C424C87E73789BC6BD5063D6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		37F9003B5354C17B797C0ACF /* Debug */ = {
@@ -237,6 +283,23 @@
 			};
 			name = Debug;
 		};
+		A9FE87C324C99FF6A6A6104B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.phantomswift.ExampleTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhantomExample.app/PhantomExample";
+			};
+			name = Debug;
+		};
 		B2C55B808456DD2735E98821 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -253,6 +316,23 @@
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B394100D207656E08B3DDDBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.phantomswift.ExampleTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhantomExample.app/PhantomExample";
 			};
 			name = Release;
 		};
@@ -329,6 +409,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		07699D7DA110705CD9E62604 /* Build configuration list for PBXNativeTarget "PhantomExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9FE87C324C99FF6A6A6104B /* Debug */,
+				B394100D207656E08B3DDDBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		4D9A73943FD007569CB24706 /* Build configuration list for PBXNativeTarget "PhantomExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -350,6 +439,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AAB731D8B16A4DFFBD1FAB9F /* PhantomSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PhantomSwift;
+		};
 		B6ED3C43948A7B2D48AC4845 /* PhantomSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PhantomSwift;

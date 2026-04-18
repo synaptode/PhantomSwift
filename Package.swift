@@ -14,8 +14,13 @@ let package = Package(
     dependencies: [],
     targets: [
         .target(
-            name: "PhantomSwift",
+            name: "PhantomSwiftNetworking",
             dependencies: [],
+            path: "Sources/PhantomSwiftNetworking"
+        ),
+        .target(
+            name: "PhantomSwift",
+            dependencies: ["PhantomSwiftNetworking"],
             path: "Sources/PhantomSwift"
         ),
         .testTarget(

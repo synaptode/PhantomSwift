@@ -21,8 +21,8 @@ internal final class PhantomHUDWindow: UIWindow {
         guard #available(iOS 13.0, *) else { return }
         
         if self.windowScene == nil {
-            if let windowScene = UIApplication.shared.connectedScenes
-                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            if let windowScene = PhantomPresentationResolver.hostWindows()
+                .first?.windowScene {
                 self.windowScene = windowScene
                 
                 // Ensure it stays visible after attachment

@@ -1,7 +1,7 @@
 import XCTest
 @testable import PhantomSwift
 
-final class PhantomAnalyticsMonitorTests: XCTestCase {
+final class PhantomAnalyticsMonitorQueryTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
@@ -22,7 +22,7 @@ final class PhantomAnalyticsMonitorTests: XCTestCase {
 
         let firebaseEvents = monitor.events(for: "Firebase")
         XCTAssertEqual(firebaseEvents.count, 2)
-        XCTAssertEqual(firebaseEvents[0].name, "logout") // Should be reversed
+        XCTAssertEqual(firebaseEvents[0].name, "logout")
         XCTAssertEqual(firebaseEvents[1].name, "login")
 
         let amplitudeEvents = monitor.events(for: "Amplitude")
@@ -31,7 +31,7 @@ final class PhantomAnalyticsMonitorTests: XCTestCase {
 
         let allEvents = monitor.events(for: nil)
         XCTAssertEqual(allEvents.count, 3)
-        XCTAssertEqual(allEvents[0].name, "logout") // Most recent first
+        XCTAssertEqual(allEvents[0].name, "logout")
         XCTAssertEqual(allEvents[1].name, "purchase")
         XCTAssertEqual(allEvents[2].name, "login")
 

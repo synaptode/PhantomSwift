@@ -130,6 +130,12 @@ internal final class HangListVC: PhantomTableVC {
 // MARK: - HangEventCell
 
 private final class HangEventCell: UITableViewCell {
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .medium
+        return formatter
+    }()
 
     // Container
     private let containerView     = UIView()

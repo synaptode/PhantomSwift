@@ -4,6 +4,7 @@ import UIKit
 /// A UITextView with basic syntax highlighting support.
 internal final class PhantomCodeView: UIView {
     private let textView = UITextView()
+    internal var onTextChange: ((String) -> Void)?
     
     internal var isEditable: Bool {
         get { return textView.isEditable }
@@ -33,6 +34,7 @@ internal final class PhantomCodeView: UIView {
         textView.font = UIFont.phantomMonospaced(size: 12, weight: .regular)
         textView.isEditable = false
         textView.layer.cornerRadius = 8
+        textView.delegate = self
         
         addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -66,6 +68,13 @@ internal final class PhantomCodeView: UIView {
         for match in matches {
             attributedString.addAttribute(.foregroundColor, value: color, range: match.range)
         }
+    }
+}
+
+extension PhantomCodeView: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        applyHighlighting()
+        onTextChange?(textView.text)
     }
 }
 #endif

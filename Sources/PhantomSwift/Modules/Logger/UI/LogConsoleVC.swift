@@ -43,9 +43,13 @@ internal final class LogConsoleVC: UIViewController, PhantomEventObserver {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if isMovingFromParent {
+        if isMovingFromParent || isBeingDismissed {
             PhantomEventBus.shared.unsubscribe(self, from: "logAdded")
         }
+    }
+
+    deinit {
+        PhantomEventBus.shared.unsubscribe(self, from: "logAdded")
     }
 
     // MARK: - UI Setup
@@ -64,10 +68,11 @@ internal final class LogConsoleVC: UIViewController, PhantomEventObserver {
         let clearBtn: UIBarButtonItem
         let exportBtn: UIBarButtonItem
         if #available(iOS 13.0, *) {
-            clearBtn  = UIBarButtonItem(image: UIImage(systemName: "trash"),        style: .plain, target: self, action: #selector(clearLogs))
+            clearBtn = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(clearLogs))
             exportBtn = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(exportLogs))
-        } else {
-            clearBtn  = UIBarButtonItem(title: "Clear",  style: .plain, target: self, action: #selector(clearLogs))
+        }
+        else {
+            clearBtn = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearLogs))
             exportBtn = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportLogs))
         }
         clearBtn.tintColor = UIColor.Phantom.error
@@ -570,8 +575,6 @@ private final class LogDetailVC: UIViewController {
         } else {
             let copyBtn = UIBarButtonItem(title: "Copy", style: .plain, target: self, action: #selector(copyMessage))
             navigationItem.rightBarButtonItem = copyBtn
-        } else {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Copy", style: .plain, target: self, action: #selector(copyMessage))
         }
 
         tableView.backgroundColor = .clear

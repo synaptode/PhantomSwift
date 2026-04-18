@@ -108,7 +108,7 @@ internal final class DevToolsVC: UIViewController {
         case 1: style = .dark
         default: style = .unspecified
         }
-        UIApplication.shared.windows.forEach { $0.overrideUserInterfaceStyle = style }
+        PhantomPresentationResolver.hostWindows().forEach { $0.overrideUserInterfaceStyle = style }
     }
 
     private func applyDynamicType(index: Int) {
@@ -132,7 +132,7 @@ internal final class DevToolsVC: UIViewController {
         let semanticAttr: UISemanticContentAttribute = enabled ? .forceRightToLeft : .forceLeftToRight
         UIView.appearance().semanticContentAttribute = semanticAttr
         // Refresh visible windows
-        UIApplication.shared.windows.forEach { window in
+        PhantomPresentationResolver.hostWindows().forEach { window in
             let subs = window.subviews
             subs.forEach { $0.removeFromSuperview() }
             subs.forEach { window.addSubview($0) }

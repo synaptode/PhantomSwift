@@ -4,6 +4,13 @@ import MetricKit
 
 /// Displays real-time performance metrics in a dashboard.
 internal final class PerformanceDashboardVC: UIViewController {
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return formatter
+    }()
+
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let statsStack = UIStackView()
@@ -418,7 +425,7 @@ internal final class PerformanceDashboardVC: UIViewController {
     }
 
     private func formatDate(_ date: Date) -> String {
-        return SessionSummaryCell.dateFormatter.string(from: date)
+        return Self.dateFormatter.string(from: date)
     }
 }
 

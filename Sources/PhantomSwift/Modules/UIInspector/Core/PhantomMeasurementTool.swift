@@ -116,8 +116,7 @@ internal final class MeasurementOverlayView: UIView {
         guard let touch = touches.first else { return }
         let point = touch.location(in: self)
 
-        let windows = UIApplication.shared.windows
-        guard let appWindow = windows.first(where: { !($0 is PhantomHUDWindow) }) else { return }
+        guard let appWindow = PhantomPresentationResolver.activeHostWindow() else { return }
         let converted = convert(point, to: appWindow)
         guard let hit = appWindow.hitTest(converted, with: nil),
               hit !== appWindow else { return }
@@ -175,8 +174,6 @@ internal final class MeasurementOverlayView: UIView {
         let path = UIBezierPath()
 
         // Horizontal distance line (between closest horizontal edges)
-        let hLeft   = max(r1.minX, r2.minX)
-        let hRight  = min(r1.maxX, r2.maxX)
         let hGap: CGFloat
         let lineY = (min(r1.midY, r2.midY) + max(r1.midY, r2.midY)) / 2
 

@@ -117,7 +117,7 @@ final class PhantomAnalyticsMonitorTests: XCTestCase {
         if case let .analyticsEvent(name, provider, parameters) = mockObserver.receivedEvents.first! {
             XCTAssertEqual(name, "BusEvent")
             XCTAssertEqual(provider, "BusProvider")
-            XCTAssertEqual(parameters["foo"] as? String, "bar")
+            XCTAssertEqual(parameters["foo"], "bar")
         } else {
             XCTFail("Expected .analyticsEvent but got something else")
         }

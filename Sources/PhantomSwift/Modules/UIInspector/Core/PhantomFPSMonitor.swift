@@ -148,10 +148,7 @@ internal final class PhantomFPSMonitor {
             } else {
                 nav.modalPresentationStyle = .formSheet
             }
-            let win = UIApplication.shared.windows.first(where: { !($0 is FPSOverlayWindow) })
-            var top = win?.rootViewController
-            while let p = top?.presentedViewController { top = p }
-            top?.present(nav, animated: true)
+            PhantomPresentationResolver.topPresenter()?.present(nav, animated: true)
         }
 
         let window = FPSOverlayWindow(hud: hud)
@@ -169,7 +166,7 @@ internal final class PhantomFPSMonitor {
         // Position after makeKeyAndVisible so safeAreaInsets are populated
         let safeTop = window.safeAreaInsets.top > 0
             ? window.safeAreaInsets.top
-            : (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 44)
+            : PhantomPresentationResolver.topSafeAreaInset()
         hud.frame = CGRect(
             x: window.bounds.width - FPSHUDView.hudSize.width - 12,
             y: safeTop + 8,
@@ -194,7 +191,7 @@ private final class FPSOverlayWindow: UIWindow {
         backgroundColor = .clear
         isUserInteractionEnabled = true
 
-        let safeTop = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 44
+        let safeTop = PhantomPresentationResolver.topSafeAreaInset()
         hud.frame = CGRect(
             x: bounds.width - FPSHUDView.hudSize.width - 10,
             y: safeTop + 8,

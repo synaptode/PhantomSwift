@@ -21,6 +21,15 @@ public struct PhantomConfig {
     /// Entries from non-app subsystems below `warning` level are filtered.
     /// Has no effect on iOS < 15. Defaults to `false`.
     public var enableOSLogBridge: Bool = false
+
+    /// When `true`, PhantomSwift automatically instruments new `WKWebView`
+    /// instances created after launch so browser-side `console.*` output can
+    /// flow into the Console Logger. Defaults to `true`.
+    ///
+    /// This is best-effort and only affects web views instantiated after
+    /// `PhantomSwift.launch()`. Existing host JS bridges remain supported via
+    /// `PhantomWebViewConsoleBridge.capture(...)`.
+    public var enableAutomaticWebViewConsoleBridge: Bool = true
     
     /// Defines how PhantomSwift is triggered.
     public enum TriggerType {

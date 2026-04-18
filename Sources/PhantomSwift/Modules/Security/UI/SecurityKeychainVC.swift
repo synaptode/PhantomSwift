@@ -226,7 +226,6 @@ internal final class SecurityKeychainVC: UIViewController {
         let map: [(CFString, String)] = [
             (kSecAttrAccessibleWhenUnlocked,                    "WhenUnlocked"),
             (kSecAttrAccessibleAfterFirstUnlock,                "AfterFirstUnlock"),
-            (kSecAttrAccessibleAlways,                          "Always"),
             (kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,   "WhenPasscodeSet"),
             (kSecAttrAccessibleWhenUnlockedThisDeviceOnly,      "WhenUnlocked (ThisDevice)"),
             (kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,  "AfterFirstUnlock (ThisDevice)"),

@@ -28,7 +28,7 @@ public final class PhantomCURLExporter {
     }
 
     /// Generates a cURL command from a `PhantomRequest`.
-    internal static func export(from request: PhantomRequest) -> String {
+    public static func export(from request: PhantomRequest) -> String {
         var parts = ["curl \"\(request.url.absoluteString)\""]
         parts.append("-X \(request.method)")
 

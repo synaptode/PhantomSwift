@@ -9,11 +9,19 @@ targets:
     sources:
       - path: .
         excludes:
+          - .DS_Store
+          - PhantomExampleTests
           - project.yml
           - Info.plist
+          - build_error.txt
+          - build_output.txt
+          - build_output_final.txt
           - "*.xcodeproj"
     dependencies:
       - package: PhantomSwift
+    scheme:
+      testTargets:
+        - PhantomExampleTests
     settings:
       base:
         INFOPLIST_FILE: Info.plist
@@ -22,6 +30,18 @@ targets:
         GENERATE_INFOPLIST_FILE: NO
         SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
         TARGETED_DEVICE_FAMILY: "1,2"
+  PhantomExampleTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: PhantomExampleTests
+    dependencies:
+      - target: PhantomExample
+      - package: PhantomSwift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.phantomswift.ExampleTests
 packages:
   PhantomSwift:
     path: ../

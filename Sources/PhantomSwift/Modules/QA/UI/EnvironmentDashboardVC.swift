@@ -417,7 +417,7 @@ internal final class EnvironmentDashboardVC: UIViewController {
         styleSegmented(ctrl, accent: UIColor.Phantom.vibrantPurple)
         ctrl.selectedSegmentIndex = 0
         if #available(iOS 13.0, *) {
-            switch UIApplication.shared.windows.first?.overrideUserInterfaceStyle ?? .unspecified {
+            switch PhantomPresentationResolver.activeHostWindow()?.overrideUserInterfaceStyle ?? .unspecified {
             case .light: ctrl.selectedSegmentIndex = 1
             case .dark:  ctrl.selectedSegmentIndex = 2
             default:     ctrl.selectedSegmentIndex = 0
@@ -546,7 +546,7 @@ internal final class EnvironmentDashboardVC: UIViewController {
         if #available(iOS 13.0, *) {
             let style: UIUserInterfaceStyle = sender.selectedSegmentIndex == 1 ? .light
                                             : sender.selectedSegmentIndex == 2 ? .dark : .unspecified
-            UIApplication.shared.windows.forEach { $0.overrideUserInterfaceStyle = style }
+            PhantomPresentationResolver.hostWindows().forEach { $0.overrideUserInterfaceStyle = style }
         }
     }
 

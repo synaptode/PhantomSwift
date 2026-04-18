@@ -17,7 +17,7 @@ internal final class AccessibilityDashboardVC: PhantomTableVC {
     }
     
     @objc private func runAudit() {
-        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+        let window = PhantomPresentationResolver.activeHostWindow()
         self.issues = PhantomAccessibilityAuditor.shared.audit(window: window)
         self.tableView.reloadData()
         

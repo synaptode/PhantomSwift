@@ -445,7 +445,7 @@ internal final class ViewDetailVC: PhantomTableVC {
     }
 
     @objc private func showHierarchy() {
-        let hierarchyVC = ViewHierarchyVC(rootView: UIApplication.shared.keyWindow ?? targetView)
+        let hierarchyVC = ViewHierarchyVC(rootView: PhantomPresentationResolver.inspectedRootView(fallback: targetView))
         navigationController?.pushViewController(hierarchyVC, animated: true)
     }
 

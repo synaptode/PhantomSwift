@@ -20,11 +20,50 @@ jobs:
       with:
         xcode-version: latest-stable
 
+    - name: Resolve build and test destinations
+      run: |
+        DESTINATIONS="$(
+          xcodebuild \
+            -scheme PhantomSwift \
+            -showdestinations 2>&1
+        )"
+
+        SIMULATOR_ID="$(
+          printf '%s\n' "$DESTINATIONS" \
+          | awk '/platform:iOS Simulator/ && /id:/ && /OS:/ && $0 !~ /name:Any iOS Simulator Device/ {
+              if (match($0, /id:([^,}]+)/)) {
+                value = substr($0, RSTART + 3, RLENGTH - 3)
+                gsub(/^[[:space:]]+|[[:space:]]+$/, "", value)
+                print value
+                exit
+              }
+            }'
+        )"
+
+        if [ -n "$SIMULATOR_ID" ]; then
+          echo "Using concrete iOS Simulator id=$SIMULATOR_ID"
+          echo "BUILD_DESTINATION=generic/platform=iOS Simulator" >> "$GITHUB_ENV"
+          echo "TEST_DESTINATION=platform=iOS Simulator,id=$SIMULATOR_ID" >> "$GITHUB_ENV"
+          exit 0
+        fi
+
+        if printf '%s\n' "$DESTINATIONS" | grep -F 'platform:macOS' | grep -F 'variant:Mac Catalyst' >/dev/null; then
+          echo "No concrete iOS Simulator destination found, falling back to Mac Catalyst"
+          echo "BUILD_DESTINATION=platform=macOS,variant=Mac Catalyst" >> "$GITHUB_ENV"
+          echo "TEST_DESTINATION=platform=macOS,variant=Mac Catalyst" >> "$GITHUB_ENV"
+          exit 0
+        fi
+
+        echo "No supported concrete destination found"
+        printf '%s\n' "$DESTINATIONS"
+        exit 1
+
     - name: Build with xcodebuild
       run: |
         xcodebuild clean build \
           -scheme PhantomSwift \
-          -destination 'platform=iOS Simulator,name=iPhone 16' \
+          -destination "$BUILD_DESTINATION" \
+          -derivedDataPath "$RUNNER_TEMP/DerivedData-PhantomSwiftBuild" \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO
@@ -33,7 +72,8 @@ jobs:
       run: |
         xcodebuild test \
           -scheme PhantomSwift \
-          -destination 'platform=iOS Simulator,name=iPhone 16' \
+          -destination "$TEST_DESTINATION" \
+          -derivedDataPath "$RUNNER_TEMP/DerivedData-PhantomSwiftTests" \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO

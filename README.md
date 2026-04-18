@@ -30,7 +30,7 @@
 PhantomSwift is an open-source iOS debugging library for Swift developers.
 It provides network inspection, memory leak detection, UI hierarchy exploration,
 and 25+ diagnostic tools — all in a single zero-dependency package.
-Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods.
+Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods, with a minimum runtime target of iOS 12 and a validated Swift 5.9+ toolchain.
 </p>
 
 ---
@@ -69,7 +69,8 @@ Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods.
 
 - **Zero external dependencies** — built entirely with Apple frameworks
 - **`#if DEBUG` safe** — every file is wrapped; nothing ships to the App Store
-- **iOS 12+ compatible** — with `#available` guards for newer APIs
+- **iOS 12+ runtime support** — with `#available` guards for newer APIs
+- **Swift 5.x aligned** — validated with Swift 5.9+ toolchains
 - **Glassmorphic UI** — premium dark theme with blur, shadows, and micro-animations
 - **Modular architecture** — enable or disable any module independently
 
@@ -198,6 +199,8 @@ pod 'PhantomSwift', :configurations => ['Debug']
 ```
 
 > **Important:** Always add PhantomSwift to your **Debug** configuration only. All code is wrapped in `#if DEBUG`, but restricting the dependency ensures zero bytes in release builds.
+>
+> **Compatibility:** PhantomSwift supports **iOS 12.0+** at runtime. The current package manifest and CocoaPods spec are validated with **Swift 5.9+** toolchains, which keeps the library within the Swift 5 generation while matching the repo's actual build settings.
 
 ---
 
@@ -415,6 +418,62 @@ PhantomLog.error("Failed to decode response", tag: "Network")
 - Timestamp with millisecond precision
 - Export logs as text file
 - OSLog bridge for unified logging (iOS 14+)
+- Plug-and-play `WKWebView` console capture for `console.log`, `console.warn`, `console.error`, and JS bridge payloads
+
+**Plug-and-play for hybrid HTML/native apps:**
+
+After `PhantomSwift.launch()`, new `WKWebView` instances are instrumented automatically when the
+Logger module is enabled. That means browser-side logs like `console.log("bridge ready")` and
+`console.error("checkout failed", payload)` will appear in PhantomSwift's **Console Logger**
+without you wiring each web view manually.
+
+If you want explicit control over handler naming or tagging, you can still install the bridge yourself:
+
+```swift
+import WebKit
+#if DEBUG
+import PhantomSwift
+#endif
+
+final class CheckoutWebVC: UIViewController {
+    #if DEBUG
+    private let phantomConsoleBridge = PhantomWebViewConsoleBridge(
+        configuration: .init(handlerName: "phantomConsole", tag: "CheckoutJS")
+    )
+    #endif
+
+    private lazy var webView: WKWebView = {
+        let configuration = WKWebViewConfiguration()
+        #if DEBUG
+        phantomConsoleBridge.install(into: configuration)
+        #endif
+        return WKWebView(frame: .zero, configuration: configuration)
+    }()
+}
+```
+
+If you already have your own JS bridge, you can also forward messages manually from native:
+
+```swift
+#if DEBUG
+PhantomWebViewConsoleBridge.capture(
+    level: .error,
+    message: "window.checkoutBridge rejected payload",
+    tag: "CheckoutJS",
+    sourceURL: webView.url?.absoluteString
+)
+#endif
+```
+
+You can disable the automatic mode if your host app needs stricter ownership over `WKWebView` setup:
+
+```swift
+#if DEBUG
+PhantomSwift.configure { config in
+    config.enableAutomaticWebViewConsoleBridge = false
+}
+#endif
+```
 
 ---
 
@@ -809,6 +868,10 @@ PhantomSwift.configure { config in
 > - **iOS 13+:** Full SF Symbols, `UINavigationBarAppearance`, monospaced digit fonts.
 > - **iOS 13+:** Remote WebSocket Server requires `Network.framework` (`NWListener`).
 > - **iOS 14+:** OSLog bridge for unified logging.
+>
+> **Swift Compatibility Notes:**
+> - **Swift 5.x:** PhantomSwift is maintained in the Swift 5 family.
+> - **Swift 5.9+:** Current package manifest, CocoaPods spec, CI verification, and documentation are validated against Swift 5.9+ toolchains.
 
 ---
 

@@ -9,14 +9,14 @@ public final class PhantomBugReporter {
 
     /// Captures the current screen and opens the reporter.
     public func initiateReport() {
-        guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
+        guard let window = PhantomPresentationResolver.activeHostWindow(),
               let screenshot = captureScreenshot(window: window) else { return }
 
         let reporterVC = BugReporterVC(screenshot: screenshot)
         let nav = UINavigationController(rootViewController: reporterVC)
         nav.modalPresentationStyle = .fullScreen
 
-        window.rootViewController?.present(nav, animated: true)
+        PhantomPresentationResolver.topPresenter()?.present(nav, animated: true)
     }
 
     private func captureScreenshot(window: UIWindow) -> UIImage? {

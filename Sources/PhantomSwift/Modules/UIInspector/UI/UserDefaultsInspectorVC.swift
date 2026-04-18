@@ -44,9 +44,8 @@ internal final class UserDefaultsInspectorVC: PhantomTableVC {
             exportBtn = UIBarButtonItem(
                 image: UIImage(systemName: "square.and.arrow.up"),
                 style: .plain, target: self, action: #selector(exportJSON))
-        } else {
-            exportBtn = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportJSON))
-        } else {
+        }
+        else {
             exportBtn = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportJSON))
         }
         let addBtn: UIBarButtonItem
@@ -55,7 +54,8 @@ internal final class UserDefaultsInspectorVC: PhantomTableVC {
                 image: UIImage(systemName: "plus.circle.fill"),
                 style: .plain, target: self, action: #selector(addKey))
             addBtn.tintColor = UIColor.Phantom.vibrantGreen
-        } else {
+        }
+        else {
             addBtn = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addKey))
         }
 
@@ -141,7 +141,7 @@ internal final class UserDefaultsInspectorVC: PhantomTableVC {
         let entry = filteredGroups[indexPath.section].entries[indexPath.row]
         if entry.type == .boolean {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UDToggleCell", for: indexPath) as! UDToggleCell
-            cell.configure(entry: entry) { [weak self] newValue in
+            cell.configure(entry: entry) { newValue in
                 UserDefaults.standard.set(newValue, forKey: entry.key)
             }
             return cell

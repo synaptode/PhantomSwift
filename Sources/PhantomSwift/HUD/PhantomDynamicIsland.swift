@@ -1,5 +1,6 @@
 #if DEBUG
 import UIKit
+import PhantomSwiftNetworking
 
 /// Minimal floating pill trigger — Niagara style.
 /// Icon-only with a live pulsing dot; no text label for maximum compactness.

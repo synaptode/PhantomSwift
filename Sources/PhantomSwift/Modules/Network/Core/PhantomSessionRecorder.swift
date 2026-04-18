@@ -1,5 +1,6 @@
 #if DEBUG
 import Foundation
+import PhantomSwiftNetworking
 
 /// Service to record a sequence of network requests.
 public final class PhantomSessionRecorder {

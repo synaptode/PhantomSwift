@@ -181,7 +181,7 @@ internal final class HeapSnapshotVC: UIViewController {
                 self.current = counts
 
                 // Build delta rows — only show classes with any instances in either snapshot
-                var allKeys = Set(self.baseline.keys).union(counts.keys)
+                let allKeys = Set(self.baseline.keys).union(counts.keys)
                 var deltaRows: [DeltaRow] = allKeys.compactMap { cls in
                     let before = self.baseline[cls] ?? 0
                     let after  = counts[cls] ?? 0
