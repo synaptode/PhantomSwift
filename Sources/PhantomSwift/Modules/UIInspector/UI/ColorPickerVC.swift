@@ -448,7 +448,7 @@ private final class CrosshairView: UIView {
 extension UIView {
     /// Convenience: capture a UIImage of the full app window before presenting ColorPickerVC.
     static func captureAppWindow() -> UIImage? {
-        guard let window = UIApplication.shared.windows.first(where: { !($0 is PhantomHUDWindow) }) else {
+        guard let window = PhantomPresentationResolver.activeHostWindow() else {
             return nil
         }
         let renderer = UIGraphicsImageRenderer(bounds: window.bounds)

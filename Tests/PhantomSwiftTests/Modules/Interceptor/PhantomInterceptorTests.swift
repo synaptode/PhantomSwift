@@ -34,13 +34,6 @@ final class PhantomInterceptorTests: XCTestCase {
 
         let request = URLRequest(url: URL(string: "https://api.example.com/users")!)
 
-        // Wait a tiny bit for the async add to complete
-        let exp = expectation(description: "wait")
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
-
         // Act
         let returnedRule = PhantomInterceptor.shared.rule(for: request)
 
@@ -67,11 +60,6 @@ final class PhantomInterceptorTests: XCTestCase {
         // Arrange
         let mockRule = InterceptRule.block(urlPattern: "*/users*")
         PhantomInterceptor.shared.add(rule: mockRule)
-
-        // Wait for add
-        let exp1 = expectation(description: "wait add")
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) { exp1.fulfill() }
-        wait(for: [exp1], timeout: 1.0)
 
         let allRules = PhantomInterceptor.shared.getAll()
         guard let firstRuleId = allRules.first?.id else {
@@ -101,11 +89,6 @@ final class PhantomInterceptorTests: XCTestCase {
         let mockRule = InterceptRule.mockResponse(urlPattern: "*/posts*", method: "POST", statusCode: 200, headers: [:], body: nil)
         PhantomInterceptor.shared.add(rule: mockRule)
 
-        // Wait for add
-        let exp1 = expectation(description: "wait add")
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) { exp1.fulfill() }
-        wait(for: [exp1], timeout: 1.0)
-
         var getRequest = URLRequest(url: URL(string: "https://api.example.com/posts")!)
         getRequest.httpMethod = "GET"
 
@@ -121,11 +104,6 @@ final class PhantomInterceptorTests: XCTestCase {
         // Arrange
         let mockRule = InterceptRule.mockResponse(urlPattern: "*/posts*", method: "post", statusCode: 200, headers: [:], body: nil)
         PhantomInterceptor.shared.add(rule: mockRule)
-
-        // Wait for add
-        let exp1 = expectation(description: "wait add")
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) { exp1.fulfill() }
-        wait(for: [exp1], timeout: 1.0)
 
         var postRequest = URLRequest(url: URL(string: "https://api.example.com/posts")!)
         postRequest.httpMethod = "POST"
@@ -145,11 +123,6 @@ final class PhantomInterceptorTests: XCTestCase {
         PhantomInterceptor.shared.add(rule: rule1)
         PhantomInterceptor.shared.add(rule: rule2)
 
-        // Wait for add
-        let exp1 = expectation(description: "wait add")
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) { exp1.fulfill() }
-        wait(for: [exp1], timeout: 1.0)
-
         let request = URLRequest(url: URL(string: "https://api.example.com/api/users")!)
 
         // Act
@@ -162,6 +135,48 @@ final class PhantomInterceptorTests: XCTestCase {
         } else {
             XCTFail("Expected .block rule")
         }
+    }
+
+    func testSnapshotReflectsRuleCountsAndMockoonState() {
+        PhantomInterceptor.shared.add(rule: .block(urlPattern: "*/blocked*"))
+        PhantomInterceptor.shared.add(rule: .delay(urlPattern: "*/slow*", seconds: 1.5))
+
+        let rules = PhantomInterceptor.shared.getAll()
+        XCTAssertEqual(rules.count, 2)
+
+        if let firstID = rules.first?.id {
+            PhantomInterceptor.shared.toggle(id: firstID)
+        }
+
+        var config = MockoonConfig.defaultConfig
+        config.isEnabled = true
+        PhantomInterceptor.shared.updateMockoon(config)
+
+        let snapshot = PhantomInterceptor.shared.snapshot()
+        XCTAssertEqual(snapshot.totalRules, 2)
+        XCTAssertEqual(snapshot.enabledRules, 1)
+        XCTAssertTrue(snapshot.mockoonEnabled)
+    }
+
+    func testRecentEventsCaptureLatestMatches() {
+        PhantomInterceptor.shared.add(rule: .delay(urlPattern: "*/timeline*", seconds: 0.5))
+
+        var request = URLRequest(url: URL(string: "https://api.example.com/timeline?id=42")!)
+        request.httpMethod = "POST"
+
+        XCTAssertNotNil(PhantomInterceptor.shared.rule(for: request))
+
+        let exp = expectation(description: "wait event log")
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+
+        let events = PhantomInterceptor.shared.recentEvents(limit: 5)
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events.first?.method, "POST")
+        XCTAssertEqual(events.first?.ruleName, "Network Delay")
+        XCTAssertEqual(events.first?.requestURL.absoluteString, "https://api.example.com/timeline?id=42")
     }
 }
 #endif

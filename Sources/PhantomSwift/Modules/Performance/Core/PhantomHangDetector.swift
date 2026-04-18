@@ -15,24 +15,39 @@ public struct PhantomHangEvent: Identifiable {
 public final class PhantomHangDetector {
     public static let shared = PhantomHangDetector()
     
-    public private(set) var hangs: [PhantomHangEvent] = []
-    
+    private let lock = NSLock()
+    private var _hangs: [PhantomHangEvent] = []
+    public var hangs: [PhantomHangEvent] {
+        lock.lock()
+        defer { lock.unlock() }
+        return _hangs
+    }
+
     private var isStarted = false
+    private let stateLock = NSLock()
     private let threshold: TimeInterval = 0.4 // 400ms (Professional threshold)
     
     private init() {}
     
     public func start() {
+        stateLock.lock()
+        defer { stateLock.unlock() }
         guard !isStarted else { return }
         isStarted = true
         
         Thread.detachNewThread { [weak self] in
             guard let self = self else { return }
             
-            while self.isStarted {
+            while self.shouldContinueMonitoring {
                 self.checkMainThreadHang()
             }
         }
+    }
+
+    private var shouldContinueMonitoring: Bool {
+        stateLock.lock()
+        defer { stateLock.unlock() }
+        return isStarted
     }
     
     private func checkMainThreadHang() {
@@ -63,7 +78,7 @@ public final class PhantomHangDetector {
             // This usually still points to the end of the causing operation.
             let stack = Thread.callStackSymbols
 
-            let topVC = UIApplication.shared.keyWindow?.rootViewController?.topMost
+            let topVC = PhantomPresentationResolver.activeHostWindow()?.rootViewController?.topMost
             let screenName = topVC?.className ?? "Unknown"
 
             let event = PhantomHangEvent(
@@ -72,7 +87,9 @@ public final class PhantomHangDetector {
                 screenName: screenName,
                 callStack: stack
             )
-            self.hangs.append(event)
+            self.lock.lock()
+            self._hangs.append(event)
+            self.lock.unlock()
 
             NotificationCenter.default.post(name: NSNotification.Name("PhantomHangDetected"), object: nil)
             print("⚠️ [PhantomSwift] Main thread hang detected in \(screenName): \(String(format: "%.2f", duration))s")
@@ -80,11 +97,15 @@ public final class PhantomHangDetector {
     }
 
     public func stop() {
+        stateLock.lock()
         isStarted = false
+        stateLock.unlock()
     }
     
     public func clearLogs() {
-        self.hangs.removeAll()
+        lock.lock()
+        self._hangs.removeAll()
+        lock.unlock()
         NotificationCenter.default.post(name: NSNotification.Name("PhantomHangDetected"), object: nil)
     }
 }

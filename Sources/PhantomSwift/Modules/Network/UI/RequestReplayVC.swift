@@ -253,29 +253,20 @@ internal final class RequestReplayVC: UIViewController {
               let httpResp = responseData.response as? HTTPURLResponse,
               let body = responseData.data else { return }
 
-        let urlPattern = originalRequest.url.path
-        let headers = Dictionary(uniqueKeysWithValues:
-            httpResp.allHeaderFields.compactMap { key, value -> (String, String)? in
-                guard let k = key as? String, let v = value as? String else { return nil }
-                return (k, v)
-            }
-        )
+        let headers = Dictionary(uniqueKeysWithValues: httpResp.allHeaderFields.compactMap { key, value -> (String, String)? in
+            guard let k = key as? String, let v = value as? String else { return nil }
+            return (k, v)
+        })
 
-        let rule = InterceptRule.mockResponse(
-            urlPattern: "*\(urlPattern)*",
-            method: originalRequest.method,
+        let replayResponse = PhantomResponse(
             statusCode: httpResp.statusCode,
             headers: headers,
-            body: body
+            body: body,
+            duration: 0
         )
-
-        PhantomInterceptor.shared.add(rule: rule)
-
-        let alert = UIAlertController(title: "Rule Saved",
-                                      message: "Mock response rule created for \(urlPattern)",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+        let draft = PhantomInterceptorDraft.mock(from: originalRequest, response: replayResponse)
+        let editor = RuleEditorVC(draft: draft)
+        navigationController?.pushViewController(editor, animated: true)
     }
 
     // MARK: - UI Helpers

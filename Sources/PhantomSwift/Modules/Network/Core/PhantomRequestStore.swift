@@ -18,11 +18,11 @@ public final class PhantomRequestStore {
     /// Adds a new request. O(1) amortized.
     public func add(_ request: PhantomRequest) {
         queue.async(flags: .barrier) {
-            // Prepend by appending + tracking the reversed logical index
             self.requests.insert(request, at: 0)
-            // Rebuild index map (prepend shifts all existing indices by +1)
-            self.indexMap = Dictionary(uniqueKeysWithValues:
-                self.requests.enumerated().map { ($1.id, $0) })
+            for key in self.indexMap.keys {
+                self.indexMap[key, default: 0] += 1
+            }
+            self.indexMap[request.id] = 0
             if self.requests.count > self.maxCount {
                 let removed = self.requests.removeLast()
                 self.indexMap.removeValue(forKey: removed.id)

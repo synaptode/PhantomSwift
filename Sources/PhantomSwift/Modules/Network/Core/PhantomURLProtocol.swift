@@ -100,7 +100,7 @@ public final class PhantomURLProtocol: URLProtocol {
                 client?.urlProtocol(self, didLoad: body)
             }
             client?.urlProtocolDidFinishLoading(self)
-            updateStatus(.mocked, responseBody: body)
+            updateStatus(.mocked, responseBody: body, responseStatusCode: statusCode, responseHeaders: headers)
             
         case .delay(_, let seconds):
             DispatchQueue.global().asyncAfter(deadline: .now() + seconds) {
@@ -118,6 +118,14 @@ public final class PhantomURLProtocol: URLProtocol {
                 self.session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
                 self.internalTask = self.session?.dataTask(with: newRequest)
                 self.internalTask?.resume()
+            } else {
+                let error = NSError(
+                    domain: "com.phantomswift.interceptor",
+                    code: 400,
+                    userInfo: [NSLocalizedDescriptionKey: "Invalid redirect URL: \(toURLString)"]
+                )
+                client?.urlProtocol(self, didFailWithError: error)
+                updateStatus(.failed(error))
             }
             
         case .modifyRequest(_, let transform):
@@ -149,13 +157,23 @@ public final class PhantomURLProtocol: URLProtocol {
         return documentsPath.appendingPathComponent(fileName)
     }
     
-    private func updateStatus(_ status: PhantomRequest.RequestStatus, responseBody: Data? = nil) {
+    private func updateStatus(
+        _ status: PhantomRequest.RequestStatus,
+        responseBody: Data? = nil,
+        responseStatusCode: Int? = nil,
+        responseHeaders: [String: String] = [:]
+    ) {
         if var current = currentRequest {
             current.status = status
             if let body = responseBody {
                 // If it's a mock, we already have the body
                 let duration = Date().timeIntervalSince(startTime ?? Date())
-                current.response = PhantomResponse(statusCode: 200, headers: [:], body: body, duration: duration)
+                current.response = PhantomResponse(
+                    statusCode: responseStatusCode ?? 200,
+                    headers: responseHeaders,
+                    body: body,
+                    duration: duration
+                )
             }
             PhantomRequestStore.shared.update(current)
         }

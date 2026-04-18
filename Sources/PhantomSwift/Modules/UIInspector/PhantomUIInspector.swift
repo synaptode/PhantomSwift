@@ -97,7 +97,7 @@ internal final class PhantomUIInspector {
 
     private func showTree(for view: UIView) {
         stopInspecting()
-        let root = UIApplication.shared.windows.first(where: { !($0 is PhantomHUDWindow) }) ?? view
+        let root = PhantomPresentationResolver.inspectedRootView(fallback: view)
         let treeVC = ViewHierarchyVC(rootView: root)
         let nav = UINavigationController(rootViewController: treeVC)
         nav.modalPresentationStyle = .overFullScreen
@@ -121,7 +121,7 @@ internal final class PhantomUIInspector {
 
     /// Highlights views in the app window that have known Auto Layout conflicts (red overlay).
     internal func showConflictHighlightOverlay() {
-        guard let appWindow = UIApplication.shared.windows.first(where: { !($0 is PhantomHUDWindow) }) else { return }
+        guard let appWindow = PhantomPresentationResolver.activeHostWindow() else { return }
 
         // Gather class names from captured conflicts
         let conflictClasses = Set(PhantomLayoutConflictDetector.shared.getAll()
@@ -200,8 +200,8 @@ internal final class PhantomUIInspector {
 
     /// Present the interactive hit-test inspector on top of the current app state.
     internal func showHitTestInspector() {
-        guard let appWindow = UIApplication.shared.windows
-            .first(where: { !($0 is PhantomHUDWindow) && $0.rootViewController != nil }) else { return }
+        guard let appWindow = PhantomPresentationResolver.activeHostWindow(),
+              appWindow.rootViewController != nil else { return }
         let screenshot = UIView.captureAppWindow()
         guard let ss = screenshot else { return }
         stopInspecting()
@@ -215,12 +215,7 @@ internal final class PhantomUIInspector {
     // MARK: - Helpers
 
     private func present(_ vc: UIViewController) {
-        if let root = UIApplication.shared.windows
-            .first(where: { !($0 is PhantomHUDWindow) && $0.rootViewController != nil })?.rootViewController {
-            var top = root
-            while let p = top.presentedViewController { top = p }
-            top.present(vc, animated: true)
-        }
+        PhantomPresentationResolver.topPresenter()?.present(vc, animated: true)
     }
 }
 
@@ -420,11 +415,7 @@ internal final class PhantomOverlayView: UIView {
         guard let touch = touches.first else { return }
         let point = touch.location(in: self)
 
-        let windows = UIApplication.shared.windows
-        // Prefer a window that (a) is not our HUD, (b) has a rootViewController (i.e. the real app window)
-        let appWindow = windows.first(where: { !($0 is PhantomHUDWindow) && $0.rootViewController != nil && $0.isKeyWindow })
-            ?? windows.first(where: { !($0 is PhantomHUDWindow) && $0.rootViewController != nil })
-        if let appWindow = appWindow {
+        if let appWindow = PhantomPresentationResolver.activeHostWindowRequiringRoot() {
             let convertedPoint = self.convert(point, to: appWindow)
             let foundView = findDeepestView(at: convertedPoint, in: appWindow)
 

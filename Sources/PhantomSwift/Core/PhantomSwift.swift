@@ -177,64 +177,28 @@ public final class PhantomSwift {
     
     /// Manually show the PhantomSwift dashboard.
     public func showDashboard() {
-        // Find the main application window to present the dashboard on.
-        // This is much more reliable than using our own HUD window for full-screen UI.
-        guard let mainAppWindow = findActiveWindow() else {
-            // Last resort: try HUD window
-            if let window = hudWindow {
-                presentDashboard(on: window)
-            }
-            return
-        }
-        
-        presentDashboard(on: mainAppWindow)
+        guard let presenter = PhantomPresentationResolver.topPresenter() else { return }
+        presentDashboard(from: presenter)
     }
     
-    private func presentDashboard(on window: UIWindow) {
-        // Ensure no existing dashboard is being presented
-        if let presented = window.rootViewController?.presentedViewController, presented is PhantomDashboardVC {
-            return // Already showing
-        }
-        
-        // If it's presenting something else, we should present on THAT instead of the root
-        var presenter = window.rootViewController
+    private func presentDashboard(from presenter: UIViewController) {
+        if presenter is PhantomDashboardVC { return }
+
+        var finalPresenter: UIViewController? = presenter
         var depth = 0
-        while let nextPresenter = presenter?.presentedViewController, depth < 10 {
+        while let nextPresenter = finalPresenter?.presentedViewController, depth < 10 {
             if nextPresenter is PhantomDashboardVC { return } // Already showing
-            presenter = nextPresenter
+            finalPresenter = nextPresenter
             depth += 1
         }
-        
-        guard let finalPresenter = presenter else {
-            // If window has no rootVC, we must provide one
-            let tempVC = UIViewController()
-            tempVC.view.backgroundColor = .clear
-            window.rootViewController = tempVC
-            presentDashboard(on: window) // Retry with new root
-            return
-        }
-        
+
+        guard let finalPresenter else { return }
+
         let dashboard = PhantomDashboardVC()
         dashboard.modalPresentationStyle = .fullScreen
         
         finalPresenter.present(dashboard, animated: true) {
             PhantomEventBus.shared.post(.dashboardPresented)
-        }
-    }
-    
-    private func findActiveWindow() -> UIWindow? {
-        if #available(iOS 13.0, *) {
-            // Priority 1: Key window of active scene
-            let scene = UIApplication.shared.connectedScenes
-                .filter { $0.activationState == .foregroundActive }
-                .compactMap { $0 as? UIWindowScene }
-                .first
-            
-            return scene?.windows.first { $0.isKeyWindow } ?? 
-                   scene?.windows.first ?? 
-                   UIApplication.shared.windows.first { $0.isKeyWindow }
-        } else {
-            return UIApplication.shared.keyWindow
         }
     }
     

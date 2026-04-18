@@ -70,5 +70,33 @@ public enum InterceptRule {
         case .mapLocal: return "Map Local"
         }
     }
+
+    /// Compact detail shown in management UIs.
+    public var detailDisplayName: String {
+        switch self {
+        case .redirect(_, let to):
+            return "To \(to)"
+        case .mockResponse(_, let method, let statusCode, let headers, let body):
+            let methodText = method ?? "ANY"
+            return "\(methodText) • HTTP \(statusCode) • \(headers.count) headers • \(body?.count ?? 0) B"
+        case .delay(_, let seconds):
+            return String(format: "%.1fs latency injection", seconds)
+        case .block:
+            return "Hard fail before transport"
+        case .modifyRequest(_, _):
+            return "Applies request transform"
+        case .mapLocal(_, let fileName):
+            return "Serves \(fileName)"
+        }
+    }
+
+    public var methodDisplayName: String? {
+        switch self {
+        case .mockResponse(_, let method, _, _, _):
+            return method ?? "ANY"
+        default:
+            return nil
+        }
+    }
 }
 #endif

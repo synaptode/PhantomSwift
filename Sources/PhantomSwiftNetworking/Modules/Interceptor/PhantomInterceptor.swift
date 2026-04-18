@@ -34,7 +34,9 @@ public final class PhantomInterceptor {
     public static let shared = PhantomInterceptor()
     
     private let queue = DispatchQueue(label: "com.phantomswift.interceptor", attributes: .concurrent)
+    private let maxRecentEvents = 20
     private var rules: [PhantomInterceptRule] = []
+    private var recentEvents: [RecentEvent] = []
     private var _mockoonConfig: MockoonConfig = MockoonConfig.load()
 
     private init() {}
@@ -48,7 +50,7 @@ public final class PhantomInterceptor {
 
     /// Persists and applies a new Mockoon configuration.
     public func updateMockoon(_ config: MockoonConfig) {
-        queue.async(flags: .barrier) {
+        queue.sync(flags: .barrier) {
             self._mockoonConfig = config
             config.save()
         }
@@ -76,7 +78,7 @@ public final class PhantomInterceptor {
     
     /// Adds a new interception rule.
     public func add(rule: InterceptRule) {
-        queue.async(flags: .barrier) {
+        queue.sync(flags: .barrier) {
             let wrappedRule = PhantomInterceptRule(rule: rule)
             self.rules.append(wrappedRule)
         }
@@ -84,7 +86,7 @@ public final class PhantomInterceptor {
     
     /// Toggles a rule's enabled state.
     public func toggle(id: UUID) {
-        queue.async(flags: .barrier) {
+        queue.sync(flags: .barrier) {
             if let index = self.rules.firstIndex(where: { $0.id == id }) {
                 self.rules[index].isEnabled.toggle()
             }
@@ -93,21 +95,22 @@ public final class PhantomInterceptor {
     
     /// Deletes a rule.
     public func delete(id: UUID) {
-        queue.async(flags: .barrier) {
+        queue.sync(flags: .barrier) {
             self.rules.removeAll(where: { $0.id == id })
         }
     }
     
     /// Removes all rules.
     public func clear() {
-        queue.async(flags: .barrier) {
+        queue.sync(flags: .barrier) {
             self.rules.removeAll()
+            self.recentEvents.removeAll()
         }
     }
 
     /// Resets hit counters on all rules to zero.
     public func resetHitCounts() {
-        queue.async(flags: .barrier) {
+        queue.sync(flags: .barrier) {
             for i in self.rules.indices { self.rules[i].hitCount = 0 }
         }
     }
@@ -135,6 +138,20 @@ public final class PhantomInterceptor {
         // Increment hit count asynchronously (non-blocking)
         queue.async(flags: .barrier) {
             self.rules[index].hitCount += 1
+
+            let wrappedRule = self.rules[index]
+            let event = RecentEvent(
+                ruleID: wrappedRule.id,
+                requestURL: url,
+                method: request.httpMethod?.uppercased() ?? "GET",
+                ruleName: wrappedRule.rule.typeDisplayName,
+                actionSummary: wrappedRule.rule.detailDisplayName,
+                matchedAt: Date()
+            )
+            self.recentEvents.insert(event, at: 0)
+            if self.recentEvents.count > self.maxRecentEvents {
+                self.recentEvents.removeLast(self.recentEvents.count - self.maxRecentEvents)
+            }
         }
 
         return queue.sync { rules[index].rule }
@@ -144,6 +161,50 @@ public final class PhantomInterceptor {
     public func getAll() -> [PhantomInterceptRule] {
         queue.sync {
             return rules
+        }
+    }
+
+    public struct Snapshot {
+        public let totalRules: Int
+        public let enabledRules: Int
+        public let totalHits: Int
+        public let mockoonEnabled: Bool
+    }
+
+    public struct RecentEvent: Identifiable {
+        public let id: UUID
+        public let ruleID: UUID
+        public let requestURL: URL
+        public let method: String
+        public let ruleName: String
+        public let actionSummary: String
+        public let matchedAt: Date
+
+        public init(ruleID: UUID, requestURL: URL, method: String, ruleName: String, actionSummary: String, matchedAt: Date) {
+            self.id = UUID()
+            self.ruleID = ruleID
+            self.requestURL = requestURL
+            self.method = method
+            self.ruleName = ruleName
+            self.actionSummary = actionSummary
+            self.matchedAt = matchedAt
+        }
+    }
+
+    public func snapshot() -> Snapshot {
+        queue.sync {
+            Snapshot(
+                totalRules: rules.count,
+                enabledRules: rules.filter(\.isEnabled).count,
+                totalHits: rules.reduce(0) { $0 + $1.hitCount },
+                mockoonEnabled: _mockoonConfig.isEnabled
+            )
+        }
+    }
+
+    public func recentEvents(limit: Int = 8) -> [RecentEvent] {
+        queue.sync {
+            Array(recentEvents.prefix(max(0, limit)))
         }
     }
 }

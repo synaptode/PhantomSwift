@@ -277,6 +277,83 @@ extension NetworkListVC: UISearchBarDelegate {
     }
 }
 
+// MARK: - Quick Actions
+
+extension NetworkListVC {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let request = filteredRequests[indexPath.row]
+
+        let blockAction = UIContextualAction(style: .destructive, title: "Block") { [weak self] _, _, done in
+            self?.openRuleEditor(with: .block(for: request))
+            done(true)
+        }
+        blockAction.backgroundColor = UIColor.Phantom.vibrantRed
+
+        let delayAction = UIContextualAction(style: .normal, title: "Delay") { [weak self] _, _, done in
+            self?.openRuleEditor(with: .delay(for: request))
+            done(true)
+        }
+        delayAction.backgroundColor = UIColor.Phantom.vibrantOrange
+
+        let swipeActions: [UIContextualAction]
+        if request.response != nil {
+            let mockAction = UIContextualAction(style: .normal, title: "Mock") { [weak self] _, _, done in
+                self?.openRuleEditor(with: .mock(from: request))
+                done(true)
+            }
+            mockAction.backgroundColor = UIColor.Phantom.vibrantPurple
+            swipeActions = [blockAction, delayAction, mockAction]
+        } else {
+            swipeActions = [blockAction, delayAction]
+        }
+
+        let configuration = UISwipeActionsConfiguration(actions: swipeActions)
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
+    }
+
+    @available(iOS 13.0, *)
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let request = filteredRequests[indexPath.row]
+
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
+            guard let self else { return UIMenu() }
+
+            var children: [UIMenuElement] = [
+                UIAction(title: "Open Detail", image: UIImage(systemName: "arrow.right.circle")) { _ in
+                    let detailVC = RequestDetailVC(request: request)
+                    self.navigationController?.pushViewController(detailVC, animated: true)
+                },
+                UIAction(title: "Create Block Rule", image: UIImage(systemName: "hand.raised.fill")) { _ in
+                    self.openRuleEditor(with: .block(for: request))
+                },
+                UIAction(title: "Create Delay Rule", image: UIImage(systemName: "clock.badge.exclamationmark")) { _ in
+                    self.openRuleEditor(with: .delay(for: request))
+                },
+                UIAction(title: "Create Redirect Rule", image: UIImage(systemName: "arrow.triangle.swap")) { _ in
+                    self.openRuleEditor(with: .redirect(for: request))
+                }
+            ]
+
+            if request.response != nil {
+                children.insert(
+                    UIAction(title: "Create Mock Rule", image: UIImage(systemName: "sparkles.rectangle.stack")) { _ in
+                        self.openRuleEditor(with: .mock(from: request))
+                    },
+                    at: 3
+                )
+            }
+
+            return UIMenu(title: "", children: children)
+        }
+    }
+
+    private func openRuleEditor(with draft: PhantomInterceptorDraft) {
+        let editor = RuleEditorVC(draft: draft)
+        navigationController?.pushViewController(editor, animated: true)
+    }
+}
+
 // MARK: - Helpers
 
 private extension Int {
@@ -314,12 +391,16 @@ internal final class RequestDetailVC: UIViewController, UITableViewDataSource, U
     private func setupNavigation() {
         let actionItem: UIBarButtonItem
         if #available(iOS 14.0, *) {
-            let menu = UIMenu(title: "Request Actions", children: [
+            var children: [UIMenuElement] = [
                 UIAction(title: "Copy to Clipboard", image: UIImage(systemName: "doc.on.doc"), handler: { [weak self] _ in self?.copyToClipboard() }),
                 UIAction(title: "Copy as cURL", image: UIImage(systemName: "terminal"), handler: { [weak self] _ in self?.copyAsCURL() }),
                 UIAction(title: "Export as HAR", image: UIImage(systemName: "square.and.arrow.up"), handler: { [weak self] _ in self?.exportAsHAR() }),
                 UIAction(title: "Edit & Mock", image: UIImage(systemName: "pencil.and.outline"), handler: { [weak self] _ in self?.editAndMock() })
-            ])
+            ]
+            children.append(
+                UIMenu(title: "Create Rule", options: .displayInline, children: quickRuleActions())
+            )
+            let menu = UIMenu(title: "Request Actions", children: children)
             actionItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), menu: menu)
         }
         else if #available(iOS 13.0, *) {
@@ -337,6 +418,24 @@ internal final class RequestDetailVC: UIViewController, UITableViewDataSource, U
         alert.addAction(UIAlertAction(title: "⌨️ Copy as cURL", style: .default, handler: { [weak self] _ in self?.copyAsCURL() }))
         alert.addAction(UIAlertAction(title: "📤 Export as HAR", style: .default, handler: { [weak self] _ in self?.exportAsHAR() }))
         alert.addAction(UIAlertAction(title: "✍️ Edit & Mock", style: .default, handler: { [weak self] _ in self?.editAndMock() }))
+        alert.addAction(UIAlertAction(title: "🚫 Quick Block Rule", style: .default, handler: { [weak self] _ in
+            guard let self else { return }
+            self.openRuleEditor(with: .block(for: self.request))
+        }))
+        alert.addAction(UIAlertAction(title: "⏳ Quick Delay Rule", style: .default, handler: { [weak self] _ in
+            guard let self else { return }
+            self.openRuleEditor(with: .delay(for: self.request))
+        }))
+        alert.addAction(UIAlertAction(title: "🔀 Quick Redirect Rule", style: .default, handler: { [weak self] _ in
+            guard let self else { return }
+            self.openRuleEditor(with: .redirect(for: self.request))
+        }))
+        if request.response != nil {
+            alert.addAction(UIAlertAction(title: "🎭 Quick Mock Rule", style: .default, handler: { [weak self] _ in
+                guard let self else { return }
+                self.openRuleEditor(with: .mock(from: self.request))
+            }))
+        }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         if let popover = alert.popoverPresentationController {
             popover.barButtonItem = navigationItem.rightBarButtonItem
@@ -375,6 +474,41 @@ internal final class RequestDetailVC: UIViewController, UITableViewDataSource, U
     
     @objc private func editAndMock() {
         let editor = PhantomMockEditorVC(request: self.request)
+        navigationController?.pushViewController(editor, animated: true)
+    }
+
+    @available(iOS 14.0, *)
+    private func quickRuleActions() -> [UIAction] {
+        var actions: [UIAction] = [
+            UIAction(title: "Block", image: UIImage(systemName: "hand.raised.fill")) { [weak self] _ in
+                guard let self else { return }
+                self.openRuleEditor(with: .block(for: self.request))
+            },
+            UIAction(title: "Delay", image: UIImage(systemName: "clock.badge.exclamationmark")) { [weak self] _ in
+                guard let self else { return }
+                self.openRuleEditor(with: .delay(for: self.request))
+            },
+            UIAction(title: "Redirect", image: UIImage(systemName: "arrow.triangle.swap")) { [weak self] _ in
+                guard let self else { return }
+                self.openRuleEditor(with: .redirect(for: self.request))
+            }
+        ]
+
+        if request.response != nil {
+            actions.insert(
+                UIAction(title: "Mock Response", image: UIImage(systemName: "sparkles.rectangle.stack")) { [weak self] _ in
+                    guard let self else { return }
+                    self.openRuleEditor(with: .mock(from: self.request))
+                },
+                at: 2
+            )
+        }
+
+        return actions
+    }
+
+    private func openRuleEditor(with draft: PhantomInterceptorDraft) {
+        let editor = RuleEditorVC(draft: draft)
         navigationController?.pushViewController(editor, animated: true)
     }
     

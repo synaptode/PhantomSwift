@@ -69,7 +69,7 @@ internal final class EnvironmentOverrideVC: UITableViewController {
 
         // Appearance override (iOS 13+)
         if #available(iOS 13.0, *) {
-            let current = UIApplication.shared.windows.first?.overrideUserInterfaceStyle ?? .unspecified
+            let current = PhantomPresentationResolver.activeHostWindow()?.overrideUserInterfaceStyle ?? .unspecified
             let idx = [UIUserInterfaceStyle.unspecified, .light, .dark].firstIndex(of: current) ?? 0
             rows.append(EnvRow(
                 type: .segment(options: ["System", "Light", "Dark"], selected: idx),
@@ -77,7 +77,7 @@ internal final class EnvironmentOverrideVC: UITableViewController {
                 icon: "sun.max.fill",
                 onSegmentChange: { newIdx in
                     let style: UIUserInterfaceStyle = [.unspecified, .light, .dark][newIdx]
-                    UIApplication.shared.windows.forEach { $0.overrideUserInterfaceStyle = style }
+                    PhantomPresentationResolver.hostWindows().forEach { $0.overrideUserInterfaceStyle = style }
                 }
             ))
         }
@@ -155,7 +155,7 @@ internal final class EnvironmentOverrideVC: UITableViewController {
                 icon: "textformat.size",
                 onStepperChange: { [weak self] newVal in
                     let idx = Int(newVal)
-                    guard let window = UIApplication.shared.windows.first else { return }
+                    guard let window = PhantomPresentationResolver.activeHostWindow() else { return }
                     window.traitOverrides.preferredContentSizeCategory = sizes[idx]
                     self?.buildSections() // refresh subtitle
                 }
@@ -333,7 +333,7 @@ internal final class EnvironmentOverrideVC: UITableViewController {
     @objc private func resetAll() {
         // Reset interface style
         if #available(iOS 13.0, *) {
-            UIApplication.shared.windows.forEach { $0.overrideUserInterfaceStyle = .unspecified }
+            PhantomPresentationResolver.hostWindows().forEach { $0.overrideUserInterfaceStyle = .unspecified }
         }
         // Reset RTL
         UIView.appearance().semanticContentAttribute = .unspecified
@@ -341,7 +341,7 @@ internal final class EnvironmentOverrideVC: UITableViewController {
         UIScreen.main.brightness = 0.6
         // Reset content size (iOS 17)
         if #available(iOS 17.0, *) {
-            UIApplication.shared.windows.first?.traitOverrides.preferredContentSizeCategory = .unspecified
+            PhantomPresentationResolver.activeHostWindow()?.traitOverrides.preferredContentSizeCategory = .unspecified
         }
         buildSections()
         showToast("Environment reset")
