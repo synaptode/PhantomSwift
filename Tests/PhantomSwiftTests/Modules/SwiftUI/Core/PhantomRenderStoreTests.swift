@@ -3,6 +3,26 @@ import XCTest
 
 final class PhantomRenderStoreTests: XCTestCase {
 
+    private func waitUntil(
+        timeout: TimeInterval = 2.0,
+        pollInterval: TimeInterval = 0.05,
+        file: StaticString = #filePath,
+        line: UInt = #line,
+        _ condition: @escaping () -> Bool
+    ) {
+        let deadline = Date().addingTimeInterval(timeout)
+
+        while Date() < deadline {
+            if condition() {
+                return
+            }
+
+            RunLoop.current.run(until: Date().addingTimeInterval(pollInterval))
+        }
+
+        XCTFail("Condition was not met before timeout", file: file, line: line)
+    }
+
     override func setUp() {
         super.setUp()
         PhantomRenderStore.shared.clear()
@@ -19,14 +39,11 @@ final class PhantomRenderStoreTests: XCTestCase {
         let store = PhantomRenderStore.shared
         let uniqueViewName = "TestView-\(UUID().uuidString)"
 
-        let expectation = NSPredicateExpectation(predicate: NSPredicate(block: { _, _ in
-            let events = store.getAll()
-            return events.contains(where: { $0.viewName == uniqueViewName })
-        }), object: nil)
-
         store.track(viewName: uniqueViewName, type: .swiftUI)
 
-        wait(for: [expectation], timeout: 2.0)
+        waitUntil {
+            store.getAll().contains(where: { $0.viewName == uniqueViewName })
+        }
 
         let events = store.getAll()
         let event = events.first(where: { $0.viewName == uniqueViewName })
@@ -60,14 +77,11 @@ final class PhantomRenderStoreTests: XCTestCase {
         store.isUIKitTrackingEnabled = true
         let uniqueViewName = "TestUIKitView-\(UUID().uuidString)"
 
-        let expectation = NSPredicateExpectation(predicate: NSPredicate(block: { _, _ in
-            let events = store.getAll()
-            return events.contains(where: { $0.viewName == uniqueViewName })
-        }), object: nil)
-
         store.track(viewName: uniqueViewName, type: .uiKit)
 
-        wait(for: [expectation], timeout: 2.0)
+        waitUntil {
+            store.getAll().contains(where: { $0.viewName == uniqueViewName })
+        }
 
         let events = store.getAll()
         let event = events.first(where: { $0.viewName == uniqueViewName })
@@ -100,16 +114,13 @@ final class PhantomRenderStoreTests: XCTestCase {
         let store = PhantomRenderStore.shared
         let uniqueViewName = "TestView-\(UUID().uuidString)"
 
-        let expectation = NSPredicateExpectation(predicate: NSPredicate(block: { _, _ in
-            let events = store.getAll()
-            return events.first(where: { $0.viewName == uniqueViewName })?.count == 3
-        }), object: nil)
-
         store.track(viewName: uniqueViewName)
         store.track(viewName: uniqueViewName)
         store.track(viewName: uniqueViewName)
 
-        wait(for: [expectation], timeout: 2.0)
+        waitUntil {
+            store.getAll().first(where: { $0.viewName == uniqueViewName })?.count == 3
+        }
 
         let events = store.getAll()
         let event = events.first(where: { $0.viewName == uniqueViewName })

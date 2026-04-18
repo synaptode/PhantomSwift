@@ -24,16 +24,41 @@ jobs:
       run: |
         xcodebuild clean build \
           -scheme PhantomSwift \
-          -destination 'platform=iOS Simulator,name=iPhone 16' \
+          -destination 'generic/platform=iOS Simulator' \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO
+
+    - name: Resolve simulator destination
+      run: |
+        SIMULATOR_ID="$(
+          xcodebuild \
+            -scheme PhantomSwift \
+            -showdestinations 2>/dev/null \
+          | awk '/platform:iOS Simulator/ && /id:/ && /OS:/ && $0 !~ /name:Any iOS Simulator Device/ {
+              if (match($0, /id:([^,}]+)/)) {
+                value = substr($0, RSTART + 3, RLENGTH - 3)
+                gsub(/^[[:space:]]+|[[:space:]]+$/, "", value)
+                print value
+                exit
+              }
+            }'
+        )"
+
+        if [ -z "$SIMULATOR_ID" ]; then
+          echo "No concrete iOS Simulator destination found"
+          xcodebuild -scheme PhantomSwift -showdestinations
+          exit 1
+        fi
+
+        echo "Using simulator id=$SIMULATOR_ID"
+        echo "TEST_DESTINATION=platform=iOS Simulator,id=$SIMULATOR_ID" >> "$GITHUB_ENV"
 
     - name: Test with xcodebuild
       run: |
         xcodebuild test \
           -scheme PhantomSwift \
-          -destination 'platform=iOS Simulator,name=iPhone 16' \
+          -destination "$TEST_DESTINATION" \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO
