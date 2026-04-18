@@ -418,6 +418,48 @@ PhantomLog.error("Failed to decode response", tag: "Network")
 - Timestamp with millisecond precision
 - Export logs as text file
 - OSLog bridge for unified logging (iOS 14+)
+- Optional `WKWebView` console bridge for `console.log`, `console.warn`, `console.error`, and JS bridge payloads
+
+**Capture HTML / JS bridge logs from `WKWebView`:**
+
+```swift
+import WebKit
+#if DEBUG
+import PhantomSwift
+#endif
+
+final class CheckoutWebVC: UIViewController {
+    #if DEBUG
+    private let phantomConsoleBridge = PhantomWebViewConsoleBridge(
+        configuration: .init(handlerName: "phantomConsole", tag: "CheckoutJS")
+    )
+    #endif
+
+    private lazy var webView: WKWebView = {
+        let configuration = WKWebViewConfiguration()
+        #if DEBUG
+        phantomConsoleBridge.install(into: configuration)
+        #endif
+        return WKWebView(frame: .zero, configuration: configuration)
+    }()
+}
+```
+
+Once installed, browser-side logs such as `console.log("bridge ready")` and
+`console.error("checkout failed", payload)` will appear inside PhantomSwift's
+**Console Logger**. If you already have your own JS bridge, you can also forward
+messages manually from native:
+
+```swift
+#if DEBUG
+PhantomWebViewConsoleBridge.capture(
+    level: .error,
+    message: "window.checkoutBridge rejected payload",
+    tag: "CheckoutJS",
+    sourceURL: webView.url?.absoluteString
+)
+#endif
+```
 
 ---
 

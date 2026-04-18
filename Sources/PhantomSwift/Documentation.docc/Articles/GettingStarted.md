@@ -130,3 +130,35 @@ PhantomLog.error("Decode failed",           tag: "Network")
 
 All entries are stored in-memory and surfaced in the **Console Logger** module with
 full-text search and tag filtering.
+
+### Capturing `WKWebView` / HTML console logs
+
+If part of your app renders HTML inside `WKWebView`, you can forward browser-side
+`console.log`, `console.warn`, and `console.error` output into PhantomSwift:
+
+```swift
+import WebKit
+#if DEBUG
+import PhantomSwift
+#endif
+
+final class HybridWebViewController: UIViewController {
+    #if DEBUG
+    private let phantomConsoleBridge = PhantomWebViewConsoleBridge(
+        configuration: .init(handlerName: "phantomConsole", tag: "HybridJS")
+    )
+    #endif
+
+    private lazy var webView: WKWebView = {
+        let configuration = WKWebViewConfiguration()
+        #if DEBUG
+        phantomConsoleBridge.install(into: configuration)
+        #endif
+        return WKWebView(frame: .zero, configuration: configuration)
+    }()
+}
+```
+
+The bridge injects a lightweight `console.*` hook and forwards messages to the
+**Console Logger**. If you already own a custom JS bridge, you can also inject log
+entries manually from native code with ``PhantomWebViewConsoleBridge/capture(level:message:tag:sourceURL:pageTitle:)``.
