@@ -11,78 +11,23 @@ internal final class PhantomDashboardVC: UIViewController {
         case feature(PhantomFeature)
         case plugin(PhantomPlugin)
 
+        private var featureDescriptor: PhantomFeatureDescriptor? {
+            guard case .feature(let feature) = self else { return nil }
+            return PhantomFeatureCatalog.descriptor(for: feature)
+        }
+
         var title: String {
             switch self {
-            case .feature(let f):
-                switch f {
-                case .network:           return "Network"
-                case .interceptor:       return "Interceptor"
-                case .logger:            return "Logger"
-                case .memoryLeak:        return "Leak Tracker"
-                case .uiInspector:       return "UI Inspector"
-                case .storage:           return "Storage"
-                case .performance:       return "Performance"
-                case .qa:                return "QA Shortcuts"
-                case .security:          return "Security"
-                case .swiftUI:           return "SwiftUI"
-                case .accessibility:     return "Accessibility"
-                case .environment:       return "Environment"
-                case .extensionSidekick: return "Extensions"
-                case .badNetwork:        return "Bad Network"
-                case .hangDetector:      return "Hang Detector"
-                case .stateSnapshot:     return "State Snapshot"
-                case .analytics:         return "Analytics"
-                case .memoryGraph:       return "Memory Graph"
-                case .assetInspector:    return "Asset Inspector"
-                case .featureFlags:      return "Feature Flags"
-                case .mainThreadChecker: return "Thread Checker"
-                case .waterfall:         return "Waterfall"
-                case .remoteServer:      return "Remote Server"
-                case .deepLinkTester:    return "Deep Link Tester"
-                case .crashLogs:         return "Crash Logs"
-                case .layoutConflicts:            return "Layout Conflicts"
-                case .pushNotificationSimulator: return "Push Notifications"
-                case .backgroundTaskInspector:  return "BG Tasks"
-                case .runtimeBrowser:           return "Runtime Browser"
-                }
+            case .feature:
+                return featureDescriptor?.title ?? ""
             case .plugin(let p): return p.title
             }
         }
 
         var icon: String {
             switch self {
-            case .feature(let f):
-                switch f {
-                case .network:           return "network"
-                case .interceptor:       return "bolt.shield"
-                case .logger:            return "terminal"
-                case .memoryLeak:        return "drop.triangle"
-                case .uiInspector:       return "view.3d"
-                case .storage:           return "archivebox"
-                case .performance:       return "gauge.medium"
-                case .qa:                return "ant"
-                case .security:          return "lock.shield"
-                case .swiftUI:           return "atom"
-                case .accessibility:     return "figure.roll"
-                case .environment:       return "globe"
-                case .extensionSidekick: return "puzzlepiece"
-                case .badNetwork:        return "wifi.exclamationmark"
-                case .hangDetector:      return "hand.raised.slash"
-                case .stateSnapshot:     return "clock.arrow.2.circlepath"
-                case .analytics:         return "chart.bar.doc.horizontal"
-                case .memoryGraph:       return "brain.head.profile"
-                case .assetInspector:    return "photo.on.rectangle"
-                case .featureFlags:      return "flag.fill"
-                case .mainThreadChecker: return "exclamationmark.triangle.fill"
-                case .waterfall:         return "chart.bar.xaxis"
-                case .remoteServer:      return "antenna.radiowaves.left.and.right"
-                case .deepLinkTester:    return "link.badge.plus"
-                case .crashLogs:         return "exclamationmark.octagon.fill"
-                case .layoutConflicts:            return "ruler"
-                case .pushNotificationSimulator: return "bell.badge"
-                case .backgroundTaskInspector:  return "gearshape.2"
-                case .runtimeBrowser:           return "cpu"
-                }
+            case .feature:
+                return featureDescriptor?.icon ?? ""
             case .plugin(let p): return p.icon
             }
         }
@@ -90,46 +35,16 @@ internal final class PhantomDashboardVC: UIViewController {
         var accent: UIColor {
             switch self {
             case .plugin: return UIColor.Phantom.electricIndigo
-            case .feature(let f):
-                switch f {
-                case .network, .interceptor, .badNetwork:     return UIColor.Phantom.neonAzure
-                case .logger:                                  return UIColor.Phantom.vibrantGreen
-                case .performance, .hangDetector:              return UIColor.Phantom.vibrantOrange
-                case .memoryLeak, .memoryGraph:               return UIColor.Phantom.vibrantRed
-                case .uiInspector, .swiftUI, .assetInspector,
-                     .accessibility:                           return UIColor.Phantom.vibrantPurple
-                case .featureFlags:                            return UIColor.Phantom.vibrantOrange
-                case .mainThreadChecker:                       return UIColor.Phantom.vibrantRed
-                case .waterfall:                               return UIColor.Phantom.neonAzure
-                case .remoteServer:                            return UIColor.Phantom.vibrantGreen
-                case .deepLinkTester:                          return UIColor.Phantom.neonAzure
-                case .crashLogs:                               return UIColor.Phantom.vibrantRed
-                case .layoutConflicts:                         return UIColor.Phantom.vibrantOrange
-                case .pushNotificationSimulator:               return UIColor.Phantom.vibrantPurple
-                case .backgroundTaskInspector:                 return UIColor.Phantom.vibrantOrange
-                case .runtimeBrowser:                          return UIColor.Phantom.vibrantGreen
-                default:                                       return UIColor.Phantom.electricIndigo
-                }
+            case .feature:
+                return featureDescriptor?.accent ?? UIColor.Phantom.electricIndigo
             }
         }
 
         /// Live count shown as a badge on the cell — 0 means no badge.
         var badge: Int {
             switch self {
-            case .feature(let f):
-                switch f {
-                case .logger:     return LogStore.shared.getAll().count
-                case .network,
-                     .interceptor: return PhantomRequestStore.shared.getAll().count
-                case .featureFlags: return PhantomFeatureFlags.shared.overrideCount
-                case .mainThreadChecker: return PhantomMainThreadChecker.shared.violationCount
-                case .crashLogs:                 return PhantomCrashLogStore.shared.count
-                case .layoutConflicts:           return PhantomLayoutConflictDetector.shared.count
-                case .backgroundTaskInspector:
-                    if #available(iOS 13.0, *) { return PhantomBGTaskInspector.shared.pendingCount }
-                    return 0
-                default:          return 0
-                }
+            case .feature:
+                return featureDescriptor?.badge ?? 0
             case .plugin:         return 0
             }
         }
@@ -670,80 +585,14 @@ extension PhantomDashboardVC: UITableViewDataSource, UITableViewDelegate {
     }
 
     private func makeVC(forFeature f: PhantomFeature) -> UIViewController {
-        switch f {
-        case .network:           return NetworkListVC()
-        case .interceptor:       return InterceptorListVC()
-        case .logger:            return LogConsoleVC()
-        case .memoryLeak:        return LeakListVC()
-        case .uiInspector:       return ViewHierarchyVC(rootView: inspectedRootView)
-        case .storage:           return StorageListVC()
-        case .performance:       return PerformanceDashboardVC()
-        case .qa:                return AppShortcutsVC()
-        case .security:          return SecurityDashboardVC()
-        case .swiftUI:           return RenderListVC()
-        case .accessibility:     return AccessibilityDashboardVC()
-        case .environment:       return EnvironmentDashboardVC()
-        case .extensionSidekick: return ExtensionLogVC()
-        case .badNetwork:        return BadNetworkDashboardVC()
-        case .hangDetector:      return HangListVC()
-        case .stateSnapshot:     return SnapshotListVC()
-        case .analytics:         return AnalyticsListVC()
-        case .memoryGraph:       return MemoryGraphVC()
-        case .assetInspector:    return AssetListVC()
-        case .featureFlags:      return FeatureFlagsDashboardVC()
-        case .mainThreadChecker: return MainThreadCheckerVC()
-        case .waterfall:         return NetworkWaterfallVC()
-        case .remoteServer:      return makeRemoteServerVC()
-        case .deepLinkTester:    return DeepLinkTesterVC()
-        case .crashLogs:         return CrashLogVC()
-        case .layoutConflicts:   return LayoutConflictVC()
-        case .pushNotificationSimulator: return PushSimulatorVC()
-        case .backgroundTaskInspector:   return makeBGTaskInspectorVC()
-        case .runtimeBrowser:    return RuntimeBrowserVC()
-        }
+        let descriptor = PhantomFeatureCatalog.descriptor(for: f)
+        return descriptor.makeViewController(
+            PhantomFeaturePresentationContext(inspectedRootView: inspectedRootView)
+        )
     }
 
     private var inspectedRootView: UIView {
         presentingViewController?.view ?? view
-    }
-
-    private func makeRemoteServerVC() -> UIViewController {
-        if #available(iOS 13.0, *) {
-            return RemoteServerDashboardVC()
-        }
-        return makeUnavailableVC(
-            title: "Remote Server",
-            message: "Remote Server requires iOS 13 or newer."
-        )
-    }
-
-    private func makeBGTaskInspectorVC() -> UIViewController {
-        if #available(iOS 13.0, *) {
-            return BGTaskInspectorVC()
-        }
-        return makeUnavailableVC(
-            title: "Background Tasks",
-            message: "Background task inspection requires iOS 13 or newer."
-        )
-    }
-
-    private func makeUnavailableVC(title: String, message: String) -> UIViewController {
-        let vc = UIViewController()
-        vc.title = title
-        vc.view.backgroundColor = PhantomTheme.shared.backgroundColor
-
-        let emptyState = PhantomEmptyStateView(emoji: "ℹ️", title: title, message: message)
-        emptyState.translatesAutoresizingMaskIntoConstraints = false
-        vc.view.addSubview(emptyState)
-
-        NSLayoutConstraint.activate([
-            emptyState.topAnchor.constraint(equalTo: vc.view.safeAreaLayoutGuide.topAnchor),
-            emptyState.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor),
-            emptyState.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor),
-            emptyState.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor),
-        ])
-
-        return vc
     }
 
     private func styleNav(_ nav: UINavigationController, backTarget vc: UIViewController) {
