@@ -3,12 +3,19 @@ import UIKit
 
 /// A reusable empty state view with an illustration and description.
 internal final class PhantomEmptyStateView: UIView {
+    internal enum Style {
+        case standard
+        case compact
+    }
+
     private let stackView = UIStackView()
     private let emojiLabel = UILabel()
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
+    private let style: Style
     
-    internal init(emoji: String, title: String, message: String) {
+    internal init(emoji: String, title: String, message: String, style: Style = .standard) {
+        self.style = style
         super.init(frame: .zero)
         emojiLabel.text = emoji
         titleLabel.text = title
@@ -23,17 +30,25 @@ internal final class PhantomEmptyStateView: UIView {
     private func setup() {
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 10
+        stackView.spacing = style == .compact ? 8 : 10
         addSubview(stackView)
-        
-        emojiLabel.font = UIFont.systemFont(ofSize: 64)
+
+        switch style {
+        case .standard:
+            emojiLabel.font = UIFont.systemFont(ofSize: 64)
+            titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+            messageLabel.font = UIFont.systemFont(ofSize: 14)
+        case .compact:
+            emojiLabel.font = UIFont.systemFont(ofSize: 46)
+            titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+            messageLabel.font = UIFont.systemFont(ofSize: 12)
+        }
+
         stackView.addArrangedSubview(emojiLabel)
-        
-        titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+
         titleLabel.textColor = PhantomTheme.shared.textColor
         stackView.addArrangedSubview(titleLabel)
-        
-        messageLabel.font = UIFont.systemFont(ofSize: 14)
+
         messageLabel.textColor = PhantomTheme.shared.textColor.withAlphaComponent(0.6)
         messageLabel.textAlignment = .center
         messageLabel.numberOfLines = 0

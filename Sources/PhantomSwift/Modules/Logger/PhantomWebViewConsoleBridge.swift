@@ -214,7 +214,6 @@ public final class PhantomWebViewConsoleBridge: NSObject {
             line: 0
         )
         LogStore.shared.add(entry)
-        print("\(entry.formatted) (PhantomWebViewConsoleBridge.swift:0)")
     }
 }
 

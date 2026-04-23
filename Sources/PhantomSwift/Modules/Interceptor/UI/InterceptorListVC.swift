@@ -280,6 +280,9 @@ private final class PaddingLabel: UILabel {
 internal final class InterceptorListVC: UIViewController {
     private var collectionView: UICollectionView
     private var rules: [PhantomInterceptRule] = []
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    private let contentStack = UIStackView()
     private let mockoonCard = MockoonCardView()
     private let overviewCard = UIView()
     private let activityCard = UIView()
@@ -290,6 +293,14 @@ internal final class InterceptorListVC: UIViewController {
     private let hitsValueLabel = UILabel()
     private let mockoonValueLabel = UILabel()
     private var refreshTimer: Timer?
+    private let emptyView = PhantomEmptyStateView(
+        emoji: "🎭",
+        title: "No active rules",
+        message: "Intercept or mock network traffic by adding a rule.",
+        style: .compact
+    )
+    private let emptyStateContainer = UIView()
+    private var collectionHeightConstraint: NSLayoutConstraint?
     
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -324,14 +335,41 @@ internal final class InterceptorListVC: UIViewController {
         super.viewDidDisappear(animated)
         stopLiveRefresh()
     }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            let width = collectionView.bounds.width
+            if layout.itemSize.width != width {
+                layout.itemSize = CGSize(width: width, height: 90)
+                layout.invalidateLayout()
+            }
+        }
+
+        updateCollectionHeight()
+    }
     
     private func setupUI() {
         view.backgroundColor = PhantomTheme.shared.backgroundColor
         title = "INTERCEPTOR"
 
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
+        view.addSubview(scrollView)
+
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(contentView)
+
+        contentStack.axis = .vertical
+        contentStack.spacing = 12
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(contentStack)
+
         // Mockoon redirect card
         mockoonCard.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(mockoonCard)
+        contentStack.addArrangedSubview(mockoonCard)
         mockoonCard.onConfigChange = { config in
             PhantomInterceptor.shared.updateMockoon(config)
         }
@@ -340,29 +378,31 @@ internal final class InterceptorListVC: UIViewController {
         setupActivityCard()
 
         collectionView.backgroundColor = .clear
+        collectionView.isScrollEnabled = false
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(InterceptorCardCell.self, forCellWithReuseIdentifier: "RuleCell")
-        view.addSubview(collectionView)
-
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.addArrangedSubview(collectionView)
+        collectionHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 1)
+        collectionHeightConstraint?.isActive = true
+
         NSLayoutConstraint.activate([
-            mockoonCard.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
-            mockoonCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            mockoonCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            overviewCard.topAnchor.constraint(equalTo: mockoonCard.bottomAnchor, constant: 12),
-            overviewCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            overviewCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
 
-            activityCard.topAnchor.constraint(equalTo: overviewCard.bottomAnchor, constant: 12),
-            activityCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            activityCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-
-            collectionView.topAnchor.constraint(equalTo: activityCard.bottomAnchor, constant: 12),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            contentStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            contentStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            contentStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            contentStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
 
@@ -372,7 +412,7 @@ internal final class InterceptorListVC: UIViewController {
         overviewCard.layer.borderWidth = 1
         overviewCard.layer.borderColor = UIColor.white.withAlphaComponent(0.08).cgColor
         overviewCard.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(overviewCard)
+        contentStack.addArrangedSubview(overviewCard)
 
         let titleLabel = UILabel()
         titleLabel.text = "Runtime Overview"
@@ -416,7 +456,7 @@ internal final class InterceptorListVC: UIViewController {
         activityCard.layer.borderWidth = 1
         activityCard.layer.borderColor = UIColor.white.withAlphaComponent(0.08).cgColor
         activityCard.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(activityCard)
+        contentStack.addArrangedSubview(activityCard)
 
         let titleLabel = UILabel()
         titleLabel.text = "Recent Rule Activity"
@@ -502,6 +542,8 @@ internal final class InterceptorListVC: UIViewController {
         mockoonValueLabel.text = snapshot.mockoonEnabled ? "ON" : "OFF"
         refreshRecentActivity()
         self.collectionView.reloadData()
+        self.collectionView.layoutIfNeeded()
+        updateCollectionHeight()
         
         if rules.isEmpty {
             showEmptyState()
@@ -510,19 +552,33 @@ internal final class InterceptorListVC: UIViewController {
         }
     }
     
-    private let emptyView = PhantomEmptyStateView(emoji: "🎭", title: "No active rules", message: "Intercept or mock network traffic by adding a rule.")
-    
     private func showEmptyState() {
-        emptyView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(emptyView)
-        NSLayoutConstraint.activate([
-            emptyView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50)
-        ])
+        if emptyStateContainer.superview == nil {
+            emptyStateContainer.backgroundColor = .clear
+            emptyStateContainer.addSubview(emptyView)
+            emptyView.translatesAutoresizingMaskIntoConstraints = false
+
+            NSLayoutConstraint.activate([
+                emptyView.centerXAnchor.constraint(equalTo: emptyStateContainer.centerXAnchor),
+                emptyView.centerYAnchor.constraint(equalTo: emptyStateContainer.centerYAnchor),
+                emptyView.leadingAnchor.constraint(greaterThanOrEqualTo: emptyStateContainer.leadingAnchor, constant: 24),
+                emptyView.trailingAnchor.constraint(lessThanOrEqualTo: emptyStateContainer.trailingAnchor, constant: -24),
+                emptyView.topAnchor.constraint(greaterThanOrEqualTo: emptyStateContainer.topAnchor, constant: 24),
+                emptyView.bottomAnchor.constraint(lessThanOrEqualTo: emptyStateContainer.bottomAnchor, constant: -24)
+            ])
+        }
+
+        collectionView.backgroundView = emptyStateContainer
     }
     
     private func hideEmptyState() {
-        emptyView.removeFromSuperview()
+        collectionView.backgroundView = nil
+    }
+
+    private func updateCollectionHeight() {
+        let contentHeight = collectionView.collectionViewLayout.collectionViewContentSize.height
+        let minimumHeight: CGFloat = rules.isEmpty ? 220 : 1
+        collectionHeightConstraint?.constant = max(contentHeight, minimumHeight)
     }
     
     @objc private func addNewRule() {

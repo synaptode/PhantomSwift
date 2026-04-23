@@ -59,6 +59,14 @@ internal final class LeakListVC: PhantomTableVC, PhantomEventObserver {
 
     private func setupNavigation() {
         if #available(iOS 13.0, *) {
+            let back = UIBarButtonItem(
+                image: UIImage(systemName: "chevron.left"),
+                style: .plain,
+                target: self,
+                action: #selector(handleBack)
+            )
+            back.tintColor = PhantomTheme.shared.textColor.withAlphaComponent(0.85)
+
             let trash = UIBarButtonItem(
                 image: UIImage(systemName: "trash"), style: .plain,
                 target: self, action: #selector(clearAll))
@@ -70,17 +78,33 @@ internal final class LeakListVC: PhantomTableVC, PhantomEventObserver {
                 target: self, action: #selector(openHeapSnapshot))
             trash.tintColor = UIColor.Phantom.vibrantRed
             share.tintColor = UIColor.Phantom.neonAzure
+            heap.tintColor = UIColor.Phantom.neonAzure
             navigationItem.rightBarButtonItems = [trash, share]
-            navigationItem.leftBarButtonItem = heap
+            navigationItem.leftBarButtonItems = [back, heap]
         } else {
+            let back = UIBarButtonItem(
+                title: "Back",
+                style: .plain,
+                target: self,
+                action: #selector(handleBack)
+            )
             navigationItem.rightBarButtonItem = UIBarButtonItem(
                 title: "Clear", style: .plain, target: self, action: #selector(clearAll))
-            navigationItem.leftBarButtonItem = UIBarButtonItem(
+            let heap = UIBarButtonItem(
                 title: "Heap", style: .plain, target: self, action: #selector(openHeapSnapshot))
+            navigationItem.leftBarButtonItems = [back, heap]
         }
     }
 
     // MARK: - Actions
+
+    @objc private func handleBack() {
+        if let nav = navigationController, nav.viewControllers.first != self {
+            nav.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
+    }
 
     @objc private func clearAll() {
         PhantomLeakTracker.shared.clearReports()

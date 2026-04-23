@@ -5,6 +5,25 @@ All notable changes to PhantomSwift will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-04-24
+
+### Added
+- 🎨 **Waterfall Empty-State Redesign**: Added a more polished empty-state card with gradient depth, glow treatment, and a compact waterfall preview so the screen feels intentional even before requests arrive
+
+### Changed
+- 🎛️ **Interceptor UX Polish**: Fixed interceptor empty-state overlap and improved scroll behavior so the UI no longer traps or obscures content on smaller devices
+- 🧭 **Leak Tracker Navigation**: Restored explicit back affordance in Leak Tracker while preserving heap snapshot access
+- 🧹 **UI Consistency Cleanup**: Tightened several inspector empty states and layout behaviors to reduce duplication and improve visual hierarchy
+
+### Fixed
+- 🩹 **Compiler Warnings**: Removed an unnecessary iOS availability check in `PerformanceDashboardVC` and an unreachable `default` branch in `GridOverlayVC`
+- 🔧 **Lifecycle/Layout Safety**: Improved empty-state sizing and content layout in Waterfall, Interceptor, and related inspector screens
+
+### Technical Notes
+- **SemVer rationale**: Released as a patch because the changes are UI polish, build hygiene, and navigation fixes without public API breaks
+- **Release focus**: Visual consistency, empty-state clarity, and warning-free builds
+- **Recommended upgrade**: Consumers on `1.1.0` can move to `1.1.1` directly for a cleaner debug-tooling experience
+
 ## [1.1.0] - 2026-04-18
 
 ### Added

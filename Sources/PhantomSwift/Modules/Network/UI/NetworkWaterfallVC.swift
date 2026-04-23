@@ -10,11 +10,22 @@ internal final class NetworkWaterfallVC: UIViewController {
     private let contentView = UIView()
     private let timelineHeader = UIView()
     private let statsLabel = UILabel()
+    private let emptyStateCard = UIView()
+    private let emptyStateGlow = UIView()
+    private let emptyStateBackdrop = UIView()
+    private let emptyStateGradientLayer = CAGradientLayer()
+    private let emptyStateIcon = UILabel()
+    private let emptyStateTitle = UILabel()
+    private let emptyStateMessage = UILabel()
+    private let emptyStatePillStack = UIStackView()
+    private let emptyStateMiniChart = UIView()
 
     private var requests: [PhantomRequest] = []
     private var barViews: [WaterfallBarView] = []
     private var earliestTime: Date = Date()
     private var totalTimeSpan: TimeInterval = 1.0
+    private var timelineWidthConstraint: NSLayoutConstraint?
+    private var timelineHeightConstraint: NSLayoutConstraint?
 
     // Layout constants
     private let rowHeight: CGFloat = 36
@@ -30,7 +41,13 @@ internal final class NetworkWaterfallVC: UIViewController {
         setupStatsBar()
         setupTimelineHeader()
         setupScrollView()
+        setupEmptyStateCard()
         loadData()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        emptyStateGradientLayer.frame = emptyStateBackdrop.bounds
     }
 
     // MARK: - Setup
@@ -39,6 +56,7 @@ internal final class NetworkWaterfallVC: UIViewController {
         statsLabel.font = .systemFont(ofSize: 12, weight: .semibold)
         statsLabel.textColor = PhantomTheme.shared.textColor.withAlphaComponent(0.6)
         statsLabel.textAlignment = .center
+        statsLabel.numberOfLines = 1
         view.addSubview(statsLabel)
         statsLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -84,15 +102,192 @@ internal final class NetworkWaterfallVC: UIViewController {
         ])
     }
 
+    private func setupEmptyStateCard() {
+        emptyStateCard.backgroundColor = PhantomTheme.shared.surfaceColor
+        emptyStateCard.layer.cornerRadius = 22
+        emptyStateCard.layer.borderWidth = 1
+        emptyStateCard.layer.borderColor = UIColor.white.withAlphaComponent(0.08).cgColor
+        emptyStateCard.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(emptyStateCard)
+
+        emptyStateBackdrop.backgroundColor = .clear
+        emptyStateBackdrop.layer.cornerRadius = 22
+        emptyStateBackdrop.clipsToBounds = true
+        emptyStateBackdrop.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateBackdrop.isUserInteractionEnabled = false
+        emptyStateCard.addSubview(emptyStateBackdrop)
+
+        emptyStateGradientLayer.colors = [
+            UIColor.Phantom.neonAzure.withAlphaComponent(0.10).cgColor,
+            PhantomTheme.shared.surfaceColor.cgColor,
+            UIColor.black.withAlphaComponent(0.08).cgColor
+        ]
+        emptyStateGradientLayer.locations = [0.0, 0.62, 1.0]
+        emptyStateGradientLayer.startPoint = CGPoint(x: 0.1, y: 0.0)
+        emptyStateGradientLayer.endPoint = CGPoint(x: 0.9, y: 1.0)
+        emptyStateBackdrop.layer.insertSublayer(emptyStateGradientLayer, at: 0)
+
+        emptyStateGlow.backgroundColor = UIColor.Phantom.neonAzure.withAlphaComponent(0.12)
+        emptyStateGlow.layer.cornerRadius = 92
+        emptyStateGlow.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateGlow.isUserInteractionEnabled = false
+        emptyStateCard.addSubview(emptyStateGlow)
+
+        let accentStrip = UIView()
+        accentStrip.backgroundColor = UIColor.Phantom.neonAzure.withAlphaComponent(0.85)
+        accentStrip.layer.cornerRadius = 2
+        accentStrip.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateCard.addSubview(accentStrip)
+
+        let iconOrb = UIView()
+        iconOrb.backgroundColor = UIColor.Phantom.neonAzure.withAlphaComponent(0.14)
+        iconOrb.layer.cornerRadius = 32
+        iconOrb.layer.borderWidth = 1
+        iconOrb.layer.borderColor = UIColor.Phantom.neonAzure.withAlphaComponent(0.18).cgColor
+        iconOrb.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateCard.addSubview(iconOrb)
+
+        emptyStateIcon.text = "🌊"
+        emptyStateIcon.font = .systemFont(ofSize: 34)
+        emptyStateIcon.textAlignment = .center
+        emptyStateIcon.translatesAutoresizingMaskIntoConstraints = false
+        iconOrb.addSubview(emptyStateIcon)
+
+        emptyStateTitle.text = "Awaiting traffic"
+        emptyStateTitle.font = .systemFont(ofSize: 18, weight: .bold)
+        emptyStateTitle.textColor = PhantomTheme.shared.textColor
+        emptyStateTitle.textAlignment = .center
+        emptyStateTitle.numberOfLines = 0
+        emptyStateTitle.translatesAutoresizingMaskIntoConstraints = false
+
+        emptyStateMessage.text = "The timeline will appear here once your app sends network requests."
+        emptyStateMessage.font = .systemFont(ofSize: 12, weight: .medium)
+        emptyStateMessage.textColor = PhantomTheme.shared.textColor.withAlphaComponent(0.58)
+        emptyStateMessage.textAlignment = .center
+        emptyStateMessage.numberOfLines = 0
+        emptyStateMessage.translatesAutoresizingMaskIntoConstraints = false
+
+        emptyStateMiniChart.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateMiniChart.layer.cornerRadius = 14
+        emptyStateMiniChart.layer.borderWidth = 1
+        emptyStateMiniChart.layer.borderColor = UIColor.white.withAlphaComponent(0.06).cgColor
+        emptyStateMiniChart.backgroundColor = UIColor.white.withAlphaComponent(0.03)
+        emptyStateCard.addSubview(emptyStateMiniChart)
+
+        let barHeights: [CGFloat] = [12, 22, 16, 28, 14]
+        let barColors: [UIColor] = [
+            UIColor.Phantom.neonAzure,
+            UIColor.Phantom.vibrantGreen,
+            UIColor.Phantom.neonAzure,
+            UIColor.Phantom.vibrantOrange,
+            UIColor.Phantom.vibrantGreen
+        ]
+        let barStack = UIStackView()
+        barStack.axis = .horizontal
+        barStack.alignment = .bottom
+        barStack.distribution = .fillEqually
+        barStack.spacing = 8
+        barStack.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateMiniChart.addSubview(barStack)
+
+        for (index, height) in barHeights.enumerated() {
+            let lane = UIView()
+            lane.backgroundColor = barColors[index].withAlphaComponent(0.18)
+            lane.layer.cornerRadius = 8
+            lane.translatesAutoresizingMaskIntoConstraints = false
+            lane.heightAnchor.constraint(equalToConstant: height).isActive = true
+
+            let inner = UIView()
+            inner.backgroundColor = barColors[index].withAlphaComponent(0.95)
+            inner.layer.cornerRadius = 8
+            inner.translatesAutoresizingMaskIntoConstraints = false
+            lane.addSubview(inner)
+
+            NSLayoutConstraint.activate([
+                inner.leadingAnchor.constraint(equalTo: lane.leadingAnchor),
+                inner.trailingAnchor.constraint(equalTo: lane.trailingAnchor),
+                inner.bottomAnchor.constraint(equalTo: lane.bottomAnchor),
+                inner.heightAnchor.constraint(equalTo: lane.heightAnchor)
+            ])
+
+            barStack.addArrangedSubview(lane)
+        }
+
+        emptyStatePillStack.axis = .horizontal
+        emptyStatePillStack.distribution = .fillEqually
+        emptyStatePillStack.spacing = 8
+        emptyStatePillStack.translatesAutoresizingMaskIntoConstraints = false
+        emptyStatePillStack.addArrangedSubview(hintPill(title: "Live timing", accent: UIColor.Phantom.neonAzure))
+        emptyStatePillStack.addArrangedSubview(hintPill(title: "Status codes", accent: UIColor.Phantom.vibrantGreen))
+
+        let stack = UIStackView(arrangedSubviews: [emptyStateIcon, emptyStateMiniChart, emptyStateTitle, emptyStateMessage, emptyStatePillStack])
+        stack.axis = .vertical
+        stack.alignment = .fill
+        stack.spacing = 12
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateCard.addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            emptyStateCard.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            emptyStateCard.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 8),
+            emptyStateCard.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 20),
+            emptyStateCard.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -20),
+            emptyStateCard.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 24),
+            emptyStateCard.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -24),
+            emptyStateCard.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
+            emptyStateCard.heightAnchor.constraint(equalToConstant: 328),
+
+            emptyStateBackdrop.leadingAnchor.constraint(equalTo: emptyStateCard.leadingAnchor),
+            emptyStateBackdrop.trailingAnchor.constraint(equalTo: emptyStateCard.trailingAnchor),
+            emptyStateBackdrop.topAnchor.constraint(equalTo: emptyStateCard.topAnchor),
+            emptyStateBackdrop.bottomAnchor.constraint(equalTo: emptyStateCard.bottomAnchor),
+
+            emptyStateGlow.centerXAnchor.constraint(equalTo: emptyStateCard.centerXAnchor),
+            emptyStateGlow.topAnchor.constraint(equalTo: emptyStateCard.topAnchor, constant: 40),
+            emptyStateGlow.widthAnchor.constraint(equalToConstant: 184),
+            emptyStateGlow.heightAnchor.constraint(equalToConstant: 184),
+
+            accentStrip.topAnchor.constraint(equalTo: emptyStateCard.topAnchor, constant: 12),
+            accentStrip.centerXAnchor.constraint(equalTo: emptyStateCard.centerXAnchor),
+            accentStrip.widthAnchor.constraint(equalToConstant: 58),
+            accentStrip.heightAnchor.constraint(equalToConstant: 4),
+
+            iconOrb.topAnchor.constraint(equalTo: accentStrip.bottomAnchor, constant: 18),
+            iconOrb.centerXAnchor.constraint(equalTo: emptyStateCard.centerXAnchor),
+            iconOrb.widthAnchor.constraint(equalToConstant: 64),
+            iconOrb.heightAnchor.constraint(equalToConstant: 64),
+
+            emptyStateIcon.centerXAnchor.constraint(equalTo: iconOrb.centerXAnchor),
+            emptyStateIcon.centerYAnchor.constraint(equalTo: iconOrb.centerYAnchor),
+
+            emptyStateMiniChart.topAnchor.constraint(equalTo: iconOrb.bottomAnchor, constant: 16),
+            emptyStateMiniChart.centerXAnchor.constraint(equalTo: emptyStateCard.centerXAnchor),
+            emptyStateMiniChart.widthAnchor.constraint(equalToConstant: 152),
+            emptyStateMiniChart.heightAnchor.constraint(equalToConstant: 44),
+
+            barStack.leadingAnchor.constraint(equalTo: emptyStateMiniChart.leadingAnchor, constant: 12),
+            barStack.trailingAnchor.constraint(equalTo: emptyStateMiniChart.trailingAnchor, constant: -12),
+            barStack.topAnchor.constraint(equalTo: emptyStateMiniChart.topAnchor, constant: 10),
+            barStack.bottomAnchor.constraint(equalTo: emptyStateMiniChart.bottomAnchor, constant: -10),
+
+            stack.topAnchor.constraint(equalTo: emptyStateMiniChart.bottomAnchor, constant: 16),
+            stack.leadingAnchor.constraint(equalTo: emptyStateCard.leadingAnchor, constant: 18),
+            stack.trailingAnchor.constraint(equalTo: emptyStateCard.trailingAnchor, constant: -18),
+            stack.bottomAnchor.constraint(equalTo: emptyStateCard.bottomAnchor, constant: -18)
+        ])
+    }
+
     // MARK: - Data
 
     private func loadData() {
         requests = PhantomRequestStore.shared.getAll().reversed() // oldest first for timeline
         guard !requests.isEmpty else {
-            statsLabel.text = "No requests captured"
+            statsLabel.text = "No requests captured yet"
+            showEmptyState()
             return
         }
 
+        hideEmptyState()
         earliestTime = requests.first?.timestamp ?? Date()
         let latestStart = requests.last?.timestamp ?? earliestTime
         let maxDuration = requests.compactMap { $0.response?.duration }.max() ?? 1.0
@@ -112,15 +307,43 @@ internal final class NetworkWaterfallVC: UIViewController {
         statsLabel.text = "\(totalReqs) requests · avg \(formatDuration(avgDuration)) · max \(formatDuration(maxDuration)) · span \(formatDuration(totalTimeSpan))"
     }
 
+    private func showEmptyState() {
+        timelineHeader.isHidden = true
+        statsLabel.isHidden = true
+        emptyStateCard.isHidden = false
+        if emptyStateCard.superview == nil {
+            contentView.addSubview(emptyStateCard)
+        }
+
+        clearTimeline()
+        buildEmptyStateLayout()
+    }
+
+    private func hideEmptyState() {
+        timelineHeader.isHidden = false
+        statsLabel.isHidden = false
+        emptyStateCard.isHidden = true
+        emptyStateCard.removeFromSuperview()
+    }
+
     // MARK: - Timeline Builder
 
     private func buildTimeline() {
+        emptyStateCard.removeFromSuperview()
+        timelineHeader.isHidden = false
+
+        clearTimeline()
+
         let timelineWidth: CGFloat = max(view.bounds.width * 2, 800)
         let totalWidth = timelineLeftMargin + timelineWidth + 20
         let totalHeight = CGFloat(requests.count) * rowHeight + 20
 
-        contentView.widthAnchor.constraint(equalToConstant: totalWidth).isActive = true
-        contentView.heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
+        timelineWidthConstraint?.isActive = false
+        timelineHeightConstraint?.isActive = false
+        timelineWidthConstraint = contentView.widthAnchor.constraint(equalToConstant: totalWidth)
+        timelineHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: totalHeight)
+        timelineWidthConstraint?.isActive = true
+        timelineHeightConstraint?.isActive = true
 
         for (index, request) in requests.enumerated() {
             let y = CGFloat(index) * rowHeight
@@ -172,6 +395,48 @@ internal final class NetworkWaterfallVC: UIViewController {
                 contentView.addSubview(durLabel)
             }
         }
+    }
+
+    private func buildEmptyStateLayout() {
+        timelineWidthConstraint?.isActive = false
+        timelineHeightConstraint?.isActive = false
+        timelineWidthConstraint = contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+        timelineHeightConstraint = contentView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
+        timelineWidthConstraint?.isActive = true
+        timelineHeightConstraint?.isActive = true
+    }
+
+    private func clearTimeline() {
+        barViews.forEach { $0.removeFromSuperview() }
+        barViews.removeAll()
+        contentView.subviews
+            .filter { $0 !== emptyStateCard }
+            .forEach { $0.removeFromSuperview() }
+    }
+
+    private func hintPill(title: String, accent: UIColor) -> UIView {
+        let pill = UIView()
+        pill.backgroundColor = accent.withAlphaComponent(0.12)
+        pill.layer.cornerRadius = 12
+        pill.layer.borderWidth = 1
+        pill.layer.borderColor = accent.withAlphaComponent(0.18).cgColor
+
+        let label = UILabel()
+        label.text = title
+        label.font = .systemFont(ofSize: 10, weight: .bold)
+        label.textColor = accent
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        pill.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: pill.topAnchor, constant: 5),
+            label.bottomAnchor.constraint(equalTo: pill.bottomAnchor, constant: -5),
+            label.leadingAnchor.constraint(equalTo: pill.leadingAnchor, constant: 8),
+            label.trailingAnchor.constraint(equalTo: pill.trailingAnchor, constant: -8)
+        ])
+
+        return pill
     }
 
     private func buildTimelineHeader() {

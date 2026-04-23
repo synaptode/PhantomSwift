@@ -375,9 +375,7 @@ internal final class PerformanceDashboardVC: UIViewController {
         container.backgroundColor = PhantomTheme.shared.surfaceColor
 
         let imageView = UIImageView()
-        if #available(iOS 13.0, *) {
-            imageView.image = UIImage(systemName: icon)
-        }
+        imageView.image = UIImage(systemName: icon)
         imageView.tintColor = accent ?? PhantomTheme.shared.primaryColor.withAlphaComponent(0.7)
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false

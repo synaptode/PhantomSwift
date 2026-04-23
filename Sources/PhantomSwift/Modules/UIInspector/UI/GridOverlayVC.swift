@@ -116,7 +116,11 @@ extension GridOverlayVC: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch (Section(rawValue: indexPath.section)!, indexPath.row) {
+        guard let section = Section(rawValue: indexPath.section) else {
+            preconditionFailure("Invalid section index: \(indexPath.section)")
+        }
+
+        switch (section, indexPath.row) {
         case (.toggle, let row):
             return configureToggleCell(for: tableView, at: indexPath, row: row)
         case (.presets, _):
@@ -129,8 +133,6 @@ extension GridOverlayVC: UITableViewDataSource {
             return configureBaselineCell(for: tableView, at: indexPath, row: row)
         case (.guides, _):
             return configureGuidesCell(for: tableView, at: indexPath)
-        default:
-            return tableView.dequeueReusableCell(withIdentifier: "Base", for: indexPath)
         }
     }
 
