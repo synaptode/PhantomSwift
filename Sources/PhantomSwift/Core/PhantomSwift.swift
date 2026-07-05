@@ -53,7 +53,7 @@ public final class PhantomSwift {
     
     /// Register a custom plugin to appear in the dashboard.
     public func register(plugin: PhantomPlugin) {
-        plugins.append(plugin)
+        plugins = PhantomPluginRegistry.merged(existing: plugins, inserting: plugin)
 
         guard isLaunched else { return }
         if Thread.isMainThread {
@@ -63,6 +63,27 @@ public final class PhantomSwift {
                 self.refreshDashboardInfrastructure()
             }
         }
+    }
+
+    /// Resets the shared runtime state for tests.
+    /// This keeps production behavior unchanged while allowing isolated test setup.
+    internal func resetForTesting() {
+        if Thread.isMainThread {
+            resetRuntimeState()
+        } else {
+            DispatchQueue.main.sync {
+                self.resetRuntimeState()
+            }
+        }
+    }
+
+    private func resetRuntimeState() {
+        isLaunched = false
+        hudWindow = nil
+        dynamicIsland = nil
+        plugins.removeAll()
+        activeLaunchServices.removeAll()
+        isHUDSetupScheduled = false
     }
     
     private func setup() {

@@ -8,12 +8,12 @@ struct LoggerDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("ℹ️ Console Logger")) {
+            Section(header: Label("Console Logger", systemImage: "terminal")) {
                 Text("PhantomLog captures logs at 6 levels. All logs appear in the 'Console' module in the Phantom dashboard with color-coded level indicators.")
                     .font(.caption).foregroundColor(.secondary)
             }
 
-            Section(header: Text("📋 Log Levels")) {
+            Section(header: Label("Log Levels", systemImage: "text.justify.left")) {
                 logButton("VERBOSE", subtitle: "Detailed trace info", color: .gray, systemImage: "text.alignleft") {
                     PhantomLog.verbose("User preference loaded: theme=dark, locale=en-US", tag: "Config")
                     PhantomLog.verbose("URL cache: 120 entries, 14.2MB used", tag: "Cache")
@@ -40,7 +40,7 @@ struct LoggerDemoView: View {
                 }
             }
 
-            Section(header: Text("🔥 Scenario Simulations")) {
+            Section(header: Label("Scenario Simulations", systemImage: "play.circle")) {
                 scenarioButton("Auth Flow", subtitle: "Login → token → profile fetch") {
                     simulateAuthFlow()
                 }
@@ -58,7 +58,7 @@ struct LoggerDemoView: View {
                 }
             }
 
-            Section(header: Text("📊 Stats")) {
+            Section(header: Label("Stats", systemImage: "chart.bar.fill")) {
                 HStack {
                     Text("Logs sent this session:")
                     Spacer()
@@ -117,7 +117,7 @@ struct LoggerDemoView: View {
             lastLogged = title
         }) {
             VStack(alignment: .leading, spacing: 2) {
-                Text("▶ \(title)")
+                Text(title)
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.blue)
                 Text(subtitle)

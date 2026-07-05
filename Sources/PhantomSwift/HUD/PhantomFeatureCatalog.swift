@@ -7,6 +7,7 @@ internal struct PhantomFeaturePresentationContext {
 
 internal struct PhantomFeatureDescriptor {
     let title: String
+    let subtitle: String
     let icon: String
     let accent: UIColor
     let badgeProvider: () -> Int
@@ -21,6 +22,7 @@ internal enum PhantomFeatureCatalog {
         case .network:
             return PhantomFeatureDescriptor(
                 title: "Network",
+                subtitle: "Live HTTP/HTTPS inspection",
                 icon: "network",
                 accent: UIColor.Phantom.neonAzure,
                 badgeProvider: { PhantomRequestStore.shared.getAll().count },
@@ -30,6 +32,7 @@ internal enum PhantomFeatureCatalog {
         case .interceptor:
             return PhantomFeatureDescriptor(
                 title: "Interceptor",
+                subtitle: "Mock, block, or delay requests",
                 icon: "bolt.shield",
                 accent: UIColor.Phantom.neonAzure,
                 badgeProvider: { PhantomRequestStore.shared.getAll().count },
@@ -39,6 +42,7 @@ internal enum PhantomFeatureCatalog {
         case .logger:
             return PhantomFeatureDescriptor(
                 title: "Logger",
+                subtitle: "Central log console and bridges",
                 icon: "terminal",
                 accent: UIColor.Phantom.vibrantGreen,
                 badgeProvider: { LogStore.shared.getAll().count },
@@ -48,6 +52,7 @@ internal enum PhantomFeatureCatalog {
         case .memoryLeak:
             return PhantomFeatureDescriptor(
                 title: "Leak Tracker",
+                subtitle: "Retain-cycle and leak tracking",
                 icon: "drop.triangle",
                 accent: UIColor.Phantom.vibrantRed,
                 badgeProvider: { 0 },
@@ -57,6 +62,7 @@ internal enum PhantomFeatureCatalog {
         case .uiInspector:
             return PhantomFeatureDescriptor(
                 title: "UI Inspector",
+                subtitle: "Inspect and edit live view hierarchies",
                 icon: "view.3d",
                 accent: UIColor.Phantom.vibrantPurple,
                 badgeProvider: { 0 },
@@ -68,6 +74,7 @@ internal enum PhantomFeatureCatalog {
         case .storage:
             return PhantomFeatureDescriptor(
                 title: "Storage",
+                subtitle: "Browse defaults, files, and databases",
                 icon: "archivebox",
                 accent: UIColor.Phantom.electricIndigo,
                 badgeProvider: { 0 },
@@ -77,6 +84,7 @@ internal enum PhantomFeatureCatalog {
         case .performance:
             return PhantomFeatureDescriptor(
                 title: "Performance",
+                subtitle: "CPU, FPS, RAM, and hang metrics",
                 icon: "gauge.medium",
                 accent: UIColor.Phantom.vibrantOrange,
                 badgeProvider: { 0 },
@@ -86,6 +94,7 @@ internal enum PhantomFeatureCatalog {
         case .qa:
             return PhantomFeatureDescriptor(
                 title: "QA Shortcuts",
+                subtitle: "Shortcut panel for QA flows",
                 icon: "ant",
                 accent: UIColor.Phantom.electricIndigo,
                 badgeProvider: { 0 },
@@ -95,6 +104,7 @@ internal enum PhantomFeatureCatalog {
         case .security:
             return PhantomFeatureDescriptor(
                 title: "Security",
+                subtitle: "Jailbreak, pinning, and integrity checks",
                 icon: "lock.shield",
                 accent: UIColor.Phantom.electricIndigo,
                 badgeProvider: { 0 },
@@ -104,6 +114,7 @@ internal enum PhantomFeatureCatalog {
         case .swiftUI:
             return PhantomFeatureDescriptor(
                 title: "SwiftUI",
+                subtitle: "Track SwiftUI render frequency",
                 icon: "atom",
                 accent: UIColor.Phantom.vibrantPurple,
                 badgeProvider: { 0 },
@@ -113,6 +124,7 @@ internal enum PhantomFeatureCatalog {
         case .accessibility:
             return PhantomFeatureDescriptor(
                 title: "Accessibility",
+                subtitle: "Audit labels, targets, and contrast",
                 icon: "figure.roll",
                 accent: UIColor.Phantom.vibrantPurple,
                 badgeProvider: { 0 },
@@ -122,6 +134,7 @@ internal enum PhantomFeatureCatalog {
         case .environment:
             return PhantomFeatureDescriptor(
                 title: "Environment",
+                subtitle: "Override locale, GPS, battery, and more",
                 icon: "globe",
                 accent: UIColor.Phantom.electricIndigo,
                 badgeProvider: { 0 },
@@ -131,6 +144,7 @@ internal enum PhantomFeatureCatalog {
         case .extensionSidekick:
             return PhantomFeatureDescriptor(
                 title: "Extensions",
+                subtitle: "Inspect extension-side logs",
                 icon: "puzzlepiece",
                 accent: UIColor.Phantom.electricIndigo,
                 badgeProvider: { 0 },
@@ -140,6 +154,7 @@ internal enum PhantomFeatureCatalog {
         case .badNetwork:
             return PhantomFeatureDescriptor(
                 title: "Bad Network",
+                subtitle: "Simulate poor network conditions",
                 icon: "wifi.exclamationmark",
                 accent: UIColor.Phantom.neonAzure,
                 badgeProvider: { 0 },
@@ -149,6 +164,7 @@ internal enum PhantomFeatureCatalog {
         case .hangDetector:
             return PhantomFeatureDescriptor(
                 title: "Hang Detector",
+                subtitle: "Capture main-thread freezes",
                 icon: "hand.raised.slash",
                 accent: UIColor.Phantom.vibrantOrange,
                 badgeProvider: { 0 },
@@ -158,6 +174,7 @@ internal enum PhantomFeatureCatalog {
         case .stateSnapshot:
             return PhantomFeatureDescriptor(
                 title: "State Snapshot",
+                subtitle: "Save and restore app state",
                 icon: "clock.arrow.2.circlepath",
                 accent: UIColor.Phantom.electricIndigo,
                 badgeProvider: { 0 },
@@ -167,6 +184,7 @@ internal enum PhantomFeatureCatalog {
         case .analytics:
             return PhantomFeatureDescriptor(
                 title: "Analytics",
+                subtitle: "Inspect analytics event traffic",
                 icon: "chart.bar.doc.horizontal",
                 accent: UIColor.Phantom.electricIndigo,
                 badgeProvider: { 0 },
@@ -176,6 +194,7 @@ internal enum PhantomFeatureCatalog {
         case .memoryGraph:
             return PhantomFeatureDescriptor(
                 title: "Memory Graph",
+                subtitle: "Visualize heap relationships",
                 icon: "brain.head.profile",
                 accent: UIColor.Phantom.vibrantRed,
                 badgeProvider: { 0 },
@@ -185,6 +204,7 @@ internal enum PhantomFeatureCatalog {
         case .assetInspector:
             return PhantomFeatureDescriptor(
                 title: "Asset Inspector",
+                subtitle: "Audit media for memory cost",
                 icon: "photo.on.rectangle",
                 accent: UIColor.Phantom.vibrantPurple,
                 badgeProvider: { 0 },
@@ -194,6 +214,7 @@ internal enum PhantomFeatureCatalog {
         case .featureFlags:
             return PhantomFeatureDescriptor(
                 title: "Feature Flags",
+                subtitle: "Toggle and persist feature overrides",
                 icon: "flag.fill",
                 accent: UIColor.Phantom.vibrantOrange,
                 badgeProvider: { PhantomFeatureFlags.shared.overrideCount },
@@ -203,6 +224,7 @@ internal enum PhantomFeatureCatalog {
         case .mainThreadChecker:
             return PhantomFeatureDescriptor(
                 title: "Thread Checker",
+                subtitle: "Detect UIKit work off the main thread",
                 icon: "exclamationmark.triangle.fill",
                 accent: UIColor.Phantom.vibrantRed,
                 badgeProvider: { PhantomMainThreadChecker.shared.violationCount },
@@ -212,6 +234,7 @@ internal enum PhantomFeatureCatalog {
         case .waterfall:
             return PhantomFeatureDescriptor(
                 title: "Waterfall",
+                subtitle: "Timeline view for request concurrency",
                 icon: "chart.bar.xaxis",
                 accent: UIColor.Phantom.neonAzure,
                 badgeProvider: { 0 },
@@ -221,6 +244,7 @@ internal enum PhantomFeatureCatalog {
         case .remoteServer:
             return PhantomFeatureDescriptor(
                 title: "Remote Server",
+                subtitle: "WebSocket remote inspection. Requires iOS 13+",
                 icon: "antenna.radiowaves.left.and.right",
                 accent: UIColor.Phantom.vibrantGreen,
                 badgeProvider: { 0 },
@@ -238,6 +262,7 @@ internal enum PhantomFeatureCatalog {
         case .deepLinkTester:
             return PhantomFeatureDescriptor(
                 title: "Deep Link Tester",
+                subtitle: "Open URL schemes and universal links",
                 icon: "link.badge.plus",
                 accent: UIColor.Phantom.neonAzure,
                 badgeProvider: { 0 },
@@ -247,6 +272,7 @@ internal enum PhantomFeatureCatalog {
         case .crashLogs:
             return PhantomFeatureDescriptor(
                 title: "Crash Logs",
+                subtitle: "Review captured crash diagnostics",
                 icon: "exclamationmark.octagon.fill",
                 accent: UIColor.Phantom.vibrantRed,
                 badgeProvider: { PhantomCrashLogStore.shared.count },
@@ -256,6 +282,7 @@ internal enum PhantomFeatureCatalog {
         case .layoutConflicts:
             return PhantomFeatureDescriptor(
                 title: "Layout Conflicts",
+                subtitle: "Surface live Auto Layout conflicts",
                 icon: "ruler",
                 accent: UIColor.Phantom.vibrantOrange,
                 badgeProvider: { PhantomLayoutConflictDetector.shared.count },
@@ -265,6 +292,7 @@ internal enum PhantomFeatureCatalog {
         case .pushNotificationSimulator:
             return PhantomFeatureDescriptor(
                 title: "Push Notifications",
+                subtitle: "Trigger local push payloads",
                 icon: "bell.badge",
                 accent: UIColor.Phantom.vibrantPurple,
                 badgeProvider: { 0 },
@@ -274,6 +302,7 @@ internal enum PhantomFeatureCatalog {
         case .backgroundTaskInspector:
             return PhantomFeatureDescriptor(
                 title: "BG Tasks",
+                subtitle: "Inspect BGTaskScheduler requests. Requires iOS 13+",
                 icon: "gearshape.2",
                 accent: UIColor.Phantom.vibrantOrange,
                 badgeProvider: {
@@ -296,6 +325,7 @@ internal enum PhantomFeatureCatalog {
         case .runtimeBrowser:
             return PhantomFeatureDescriptor(
                 title: "Runtime Browser",
+                subtitle: "Browse Objective-C runtime symbols",
                 icon: "cpu",
                 accent: UIColor.Phantom.vibrantGreen,
                 badgeProvider: { 0 },

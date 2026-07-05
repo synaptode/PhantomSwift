@@ -40,14 +40,14 @@ public final class PhantomEventBus {
 
     /// Unsubscribes an observer from a specific event type.
     public func unsubscribe(_ observer: PhantomEventObserver, from eventType: String) {
-        queue.async(flags: .barrier) {
+        queue.sync(flags: .barrier) {
             self.observers[eventType]?.removeAll { $0.value == nil || $0.value === observer }
         }
     }
 
     /// Unsubscribes an observer from all event types.
     public func unsubscribeAll(_ observer: PhantomEventObserver) {
-        queue.async(flags: .barrier) {
+        queue.sync(flags: .barrier) {
             for key in self.observers.keys {
                 self.observers[key]?.removeAll { $0.value == nil || $0.value === observer }
             }

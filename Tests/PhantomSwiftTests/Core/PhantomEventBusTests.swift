@@ -11,6 +11,23 @@ class MockEventObserver: PhantomEventObserver {
     }
 }
 
+private final class AutoUnsubscribingEventObserver: PhantomEventObserver {
+    private let eventType: String
+    var onEventReceived: (() -> Void)?
+
+    init(eventType: String) {
+        self.eventType = eventType
+    }
+
+    deinit {
+        PhantomEventBus.shared.unsubscribe(self, from: eventType)
+    }
+
+    func onEvent(_ event: PhantomEvent) {
+        onEventReceived?()
+    }
+}
+
 final class PhantomEventBusTests: XCTestCase {
     var eventBus: PhantomEventBus!
 
@@ -145,5 +162,39 @@ final class PhantomEventBusTests: XCTestCase {
         XCTAssertEqual(observer.receivedEvents.count, 100)
 
         eventBus.unsubscribeAll(observer)
+    }
+
+    func testUnsubscribeFromDeinitIsSafe() {
+        let uniqueLog = UUID().uuidString
+        let eventType = PhantomEvent.log(uniqueLog).name
+        let delivered = expectation(description: "Initial event delivered")
+
+        weak var weakObserver: AutoUnsubscribingEventObserver?
+        var observer: AutoUnsubscribingEventObserver? = AutoUnsubscribingEventObserver(eventType: eventType)
+        weakObserver = observer
+        observer?.onEventReceived = {
+            delivered.fulfill()
+        }
+
+        eventBus.subscribe(observer!, to: eventType)
+        eventBus.post(.log(uniqueLog))
+
+        waitForExpectations(timeout: 1.0) { error in
+            XCTAssertNil(error)
+        }
+
+        observer = nil
+        XCTAssertNil(weakObserver)
+
+        eventBus.post(.log(uniqueLog))
+
+        let drain = expectation(description: "Drain event queue")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            drain.fulfill()
+        }
+
+        waitForExpectations(timeout: 1.0) { error in
+            XCTAssertNil(error)
+        }
     }
 }

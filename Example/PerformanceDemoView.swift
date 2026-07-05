@@ -5,8 +5,8 @@ import PhantomSwift
 struct PerformanceDemoView: View {
     var body: some View {
         List {
-            Section(header: Text("📊 CPU Stress")) {
-                demoButton("🚀 Spike CPU — 1 Second", subtitle: "Heavy math loop on main thread", color: .orange) {
+            Section(header: Label("CPU Stress", systemImage: "cpu")) {
+                demoButton("Spike CPU - 1 Second", subtitle: "Heavy math loop on main thread", color: .orange) {
                     PhantomLog.warning("CPU stress test starting", tag: "Performance")
                     let start = Date()
                     while Date().timeIntervalSince(start) < 1.0 {
@@ -14,7 +14,7 @@ struct PerformanceDemoView: View {
                     }
                     PhantomLog.info("CPU stress test done", tag: "Performance")
                 }
-                demoButton("🔥 Spike CPU — 3 Seconds", subtitle: "Sustained heavy load", color: .red) {
+                demoButton("Spike CPU - 3 Seconds", subtitle: "Sustained heavy load", color: .red) {
                     PhantomLog.warning("CPU 3s stress test starting", tag: "Performance")
                     DispatchQueue.global(qos: .userInitiated).async {
                         let start = Date()
@@ -28,19 +28,19 @@ struct PerformanceDemoView: View {
                 }
             }
 
-            Section(header: Text("🧵 FPS Drop")) {
-                demoButton("🐌 Freeze UI — 200ms (Mild)", subtitle: "Below 400ms threshold", color: .yellow) {
+            Section(header: Label("FPS Drop", systemImage: "speedometer")) {
+                demoButton("Freeze UI - 200ms (Mild)", subtitle: "Below 400ms threshold", color: .yellow) {
                     PhantomLog.verbose("Mild UI freeze 200ms", tag: "Performance")
                     Thread.sleep(forTimeInterval: 0.2)
                 }
-                demoButton("🧊 Freeze UI — 600ms (Detected!)", subtitle: "Triggers HangDetector alert", color: .red) {
+                demoButton("Freeze UI - 600ms (Detected!)", subtitle: "Triggers HangDetector alert", color: .red) {
                     PhantomLog.warning("Intentional 600ms UI freeze", tag: "HangDetector")
                     Thread.sleep(forTimeInterval: 0.6)
                 }
             }
 
-            Section(header: Text("💾 Memory Pressure")) {
-                demoButton("📦 Allocate 50MB", subtitle: "Create large in-memory buffer", color: .blue) {
+            Section(header: Label("Memory Pressure", systemImage: "memorychip")) {
+                demoButton("Allocate 50MB", subtitle: "Create large in-memory buffer", color: .blue) {
                     PhantomLog.info("Allocating 50MB", tag: "Memory")
                     let megabytes = 50
                     var buffer = [UInt8](repeating: 0, count: megabytes * 1024 * 1024)
@@ -66,30 +66,30 @@ struct HangDetectorDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("ℹ️ About Hang Detector")) {
+            Section(header: Label("About Hang Detector", systemImage: "hourglass")) {
                 Text("PhantomSwift monitors the main thread via a watchdog. Any block > 400ms is recorded as a 'Hang Event'.")
                     .font(.caption).foregroundColor(.secondary)
                 Text("Hangs detected so far: \(PhantomHangDetector.shared.hangs.count)")
                     .font(.caption).bold()
             }
 
-            Section(header: Text("🧪 Trigger Hangs")) {
-                demoButton("⚡ 200ms Hang (Below Threshold)", subtitle: "Will NOT be detected", color: .green) {
+            Section(header: Label("Trigger Hangs", systemImage: "bolt.fill")) {
+                demoButton("200ms Hang (Below Threshold)", subtitle: "Will NOT be detected", color: .green) {
                     Thread.sleep(forTimeInterval: 0.2)
                     hangCount = PhantomHangDetector.shared.hangs.count
                     PhantomLog.verbose("200ms sleep — below detection threshold", tag: "HangDetector")
                 }
-                demoButton("⚠️ 500ms Hang (Detected!)", subtitle: "Will show in Hang Detector", color: .orange) {
+                demoButton("500ms Hang (Detected!)", subtitle: "Will show in Hang Detector", color: .orange) {
                     PhantomLog.warning("Triggering 500ms hang", tag: "HangDetector")
                     Thread.sleep(forTimeInterval: 0.5)
                     hangCount = PhantomHangDetector.shared.hangs.count
                 }
-                demoButton("🔴 1 Second Hang (Severe)", subtitle: "Longest detectable freeze", color: .red) {
+                demoButton("1 Second Hang (Severe)", subtitle: "Longest detectable freeze", color: .red) {
                     PhantomLog.error("Triggering 1s severe hang", tag: "HangDetector")
                     Thread.sleep(forTimeInterval: 1.0)
                     hangCount = PhantomHangDetector.shared.hangs.count
                 }
-                demoButton("🔄 Sync Heavy File I/O", subtitle: "File read blocking main thread", color: .purple) {
+                demoButton("Sync Heavy File I/O", subtitle: "File read blocking main thread", color: .purple) {
                     PhantomLog.warning("Synchronous file I/O on main thread", tag: "HangDetector")
                     let path = NSTemporaryDirectory() + "phantom_test.txt"
                     let data = String(repeating: "X", count: 100_000).data(using: .utf8)!
@@ -99,7 +99,7 @@ struct HangDetectorDemoView: View {
                 }
             }
 
-            Section(header: Text("📋 Summary")) {
+            Section(header: Label("Summary", systemImage: "doc.text.magnifyingglass")) {
                 Text("Total hangs recorded: \(hangCount)")
                     .foregroundColor(hangCount > 0 ? .red : .green)
                 Button("Clear Hang History") {
@@ -128,14 +128,14 @@ struct MemoryLeakDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("ℹ️ About Leak Tracker")) {
+            Section(header: Label("About Leak Tracker", systemImage: "memorychip")) {
                 Text("PhantomLeakTracker swizzles UIViewController to auto-detect controllers that are not deallocated after dismissal.")
                     .font(.caption).foregroundColor(.secondary)
                 Text("PhantomObjectTracker lets you manually track any object to see if it leaks.")
                     .font(.caption).foregroundColor(.secondary)
             }
 
-            Section(header: Text("🩸 Create Leaky Objects")) {
+            Section(header: Label("Create Leaky Objects", systemImage: "exclamationmark.triangle.fill")) {
                 demoButton("Create 1 Leaky NSObject", subtitle: "Strong-retained → tracked", color: .red) {
                     let obj = NSObject()
                     leakyObjects.append(obj)
@@ -157,7 +157,7 @@ struct MemoryLeakDemoView: View {
                 }
             }
 
-            Section(header: Text("♻️ Release Objects")) {
+            Section(header: Label("Release Objects", systemImage: "trash")) {
                 demoButton("Release All Leaky Objects", subtitle: "Removes strong references", color: .green) {
                     leakyObjects.removeAll()
                     PhantomObjectTracker.shared.clearDeallocated()
@@ -166,7 +166,7 @@ struct MemoryLeakDemoView: View {
                 }
             }
 
-            Section(header: Text("📊 Status")) {
+            Section(header: Label("Status", systemImage: "chart.bar.fill")) {
                 HStack {
                     Text("Held in memory:")
                     Spacer()

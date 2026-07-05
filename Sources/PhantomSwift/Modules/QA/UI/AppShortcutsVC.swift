@@ -32,8 +32,10 @@ internal final class AppShortcutsVC: PhantomTableVC {
         let shortcut = shortcuts[indexPath.row]
         
         cell.backgroundColor = .clear
-        cell.textLabel?.text = "⚡️ \(shortcut.title)"
+        cell.textLabel?.text = shortcut.title
         cell.textLabel?.textColor = PhantomTheme.shared.textColor
+        cell.imageView?.image = UIImage.phantomSymbol("bolt.fill")
+        cell.imageView?.tintColor = PhantomTheme.shared.textColor.withAlphaComponent(0.45)
         cell.accessoryType = .none
         
         return cell

@@ -7,17 +7,17 @@ struct QADemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("ℹ️ QA Toolkit")) {
+            Section(header: Label("QA Toolkit", systemImage: "checklist")) {
                 Text("The QA module gives testers and developers powerful tools: bug reporting, shortcuts, and flow recording — all accessible from the dashboard.")
                     .font(.caption).foregroundColor(.secondary)
             }
 
             // MARK: Bug Reporter
-            Section(header: Text("🐛 Bug Reporter")) {
+            Section(header: Label("Bug Reporter", systemImage: "ladybug.fill")) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Captures a screenshot of the current screen and opens a share sheet with screenshot + device info. Great for sending to Jira, Slack, or GitHub Issues.")
                         .font(.caption).foregroundColor(.secondary)
-                    Button("📸 Capture & Report a Bug Now") {
+                    Button("Capture & Report a Bug Now") {
                         // Delay to let the UI settle before capture
                         PhantomLog.info("Bug report initiated from QA Demo", tag: "QA")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -35,7 +35,7 @@ struct QADemoView: View {
             }
 
             // MARK: Bug scenarios to reproduce
-            Section(header: Text("🔁 Reproducible Scenarios")) {
+            Section(header: Label("Reproducible Scenarios", systemImage: "arrow.triangle.2.circlepath")) {
                 Button("Simulate Crash-worthy State") {
                     PhantomLog.critical("QA: Simulating near-crash state for bug report", tag: "QA")
                     PhantomLog.error("NilPointerException simulated at ProductListVC.loadData()", tag: "QA")
@@ -62,15 +62,15 @@ struct QADemoView: View {
             }
 
             // MARK: App Shortcuts
-            Section(header: Text("⚡ App Shortcuts")) {
+            Section(header: Label("App Shortcuts", systemImage: "bolt.fill")) {
                 Text("These shortcuts are registered in PhantomExampleApp.init(). Open 'QA' → 'App Shortcuts' in dashboard to trigger them.")
                     .font(.caption).foregroundColor(.secondary)
                 ForEach([
-                    ("🔴 Trigger Memory Leak", "Creates a tracked leaky NSObject"),
-                    ("🌐 Fetch Products", "Background network request"),
-                    ("📊 Track Purchase Event", "Fires analytics event"),
-                    ("📸 Capture State Snapshot", "Saves current UserDefaults"),
-                    ("💥 Simulate 500ms Hang", "Triggers hang detector")
+                    ("Trigger Memory Leak", "Creates a tracked leaky NSObject"),
+                    ("Fetch Products", "Background network request"),
+                    ("Track Purchase Event", "Fires analytics event"),
+                    ("Capture State Snapshot", "Saves current UserDefaults"),
+                    ("Simulate 500ms Hang", "Triggers hang detector")
                 ], id: \.0) { pair in
                     HStack(spacing: 8) {
                         Image(systemName: "bolt.fill")
@@ -85,7 +85,7 @@ struct QADemoView: View {
             }
 
             // MARK: Accessibility Integration
-            Section(header: Text("♿ Accessibility")) {
+            Section(header: Label("Accessibility", systemImage: "figure.roll")) {
                 Button("Navigate to Accessibility Demo") {
                     PhantomLog.info("Navigating to Accessibility demo", tag: "QA")
                 }
@@ -96,7 +96,7 @@ struct QADemoView: View {
 
             // MARK: Result
             if !shortcutResult.isEmpty {
-                Section(header: Text("📋 Result")) {
+                Section(header: Label("Result", systemImage: "doc.text.fill")) {
                     Text(shortcutResult).font(.caption).foregroundColor(.secondary)
                 }
             }
@@ -117,12 +117,12 @@ struct SecurityDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("🔒 Security Auditor")) {
+            Section(header: Label("Security Auditor", systemImage: "lock.shield")) {
                 Text("PhantomSwift's Security module checks for common iOS security vulnerabilities at runtime. Tap a scenario below and then open 'Security' in the dashboard to see the audit results.")
                     .font(.caption).foregroundColor(.secondary)
             }
 
-            Section(header: Text("🧪 Audit Scenarios")) {
+            Section(header: Label("Audit Scenarios", systemImage: "stethoscope")) {
                 securityRow("Jailbreak Detection Check", icon: "checkmark.shield.fill", color: .green) {
                     PhantomLog.info("Security: Jailbreak detection scan started", tag: "Security")
                     auditResult = "Jailbreak check triggered. Open 'Security' in dashboard for results."
@@ -136,7 +136,7 @@ struct SecurityDemoView: View {
                     UserDefaults.standard.set("sk_live_abc123xyz_very_secret", forKey: "stripe_api_key")
                     UserDefaults.standard.set("user_super_secret_password", forKey: "cached_password")
                     PhantomLog.warning("Sensitive keys stored in UserDefaults — security risk!", tag: "Security")
-                    auditResult = "⚠️ Sensitive data injected into UserDefaults. Open Storage + Security to inspect."
+                    auditResult = "Sensitive data injected into UserDefaults. Open Storage + Security to inspect."
                 }
                 securityRow("Clear Sensitive Data", icon: "trash.fill", color: .gray) {
                     UserDefaults.standard.removeObject(forKey: "stripe_api_key")
@@ -155,7 +155,7 @@ struct SecurityDemoView: View {
                 }
             }
 
-            Section(header: Text("🌍 Environment Info")) {
+            Section(header: Label("Environment Info", systemImage: "globe")) {
                 infoRow("Environment", value: "Development")
                 infoRow("Configuration", value: "Debug (#if DEBUG active)")
                 infoRow("Bundle ID", value: Bundle.main.bundleIdentifier ?? "Unknown")
@@ -165,7 +165,7 @@ struct SecurityDemoView: View {
             }
 
             if !auditResult.isEmpty {
-                Section(header: Text("📋 Last Result")) {
+                Section(header: Label("Last Result", systemImage: "doc.text.fill")) {
                     Text(auditResult).font(.caption).foregroundColor(.secondary)
                 }
             }
@@ -210,12 +210,12 @@ struct SecurityDemoView: View {
 struct EnvironmentDemoView: View {
     var body: some View {
         List {
-            Section(header: Text("ℹ️ Environment Dashboard")) {
+            Section(header: Label("Environment Dashboard", systemImage: "globe")) {
                 Text("The Environment module lets you spoof GPS location, change locale/language, and monitor system health (battery, thermal) without leaving the app.")
                     .font(.caption).foregroundColor(.secondary)
             }
 
-            Section(header: Text("📍 GPS Spoofing")) {
+            Section(header: Label("GPS Spoofing", systemImage: "location.fill")) {
                 Text("Open Phantom dashboard → 'Environment' → 'GPS Spoof Mode' to set a custom latitude/longitude.")
                     .font(.caption).foregroundColor(.secondary)
                 Button("Log: Simulate NYC Location Check") {
@@ -229,18 +229,18 @@ struct EnvironmentDemoView: View {
                 .foregroundColor(.phantomCyan)
             }
 
-            Section(header: Text("🌐 Locale Simulation")) {
+            Section(header: Label("Locale Simulation", systemImage: "globe")) {
                 Text("Change locale in dashboard → Environment → 'Change Locale'. Check results by observing date/number formatting in your app.")
                     .font(.caption).foregroundColor(.secondary)
                 Group {
-                    localeRow("en-US", flag: "🇺🇸")
-                    localeRow("ja-JP", flag: "🇯🇵")
-                    localeRow("ar-SA", flag: "🇸🇦 RTL")
-                    localeRow("de-DE", flag: "🇩🇪")
+                    localeRow("en-US")
+                    localeRow("ja-JP")
+                    localeRow("ar-SA")
+                    localeRow("de-DE")
                 }
             }
 
-            Section(header: Text("📊 System Health")) {
+            Section(header: Label("System Health", systemImage: "heart.text.square")) {
                 infoRow("Battery Level", value: "\(Int(UIDevice.current.batteryLevel * 100 == -100 ? 100 : UIDevice.current.batteryLevel * 100))%")
                 infoRow("Device Model", value: UIDevice.current.model)
                 infoRow("System Name", value: UIDevice.current.systemName)
@@ -259,8 +259,8 @@ struct EnvironmentDemoView: View {
         }
     }
 
-    private func localeRow(_ locale: String, flag: String) -> some View {
-        Button("\(flag) Set locale to \(locale)") {
+    private func localeRow(_ locale: String) -> some View {
+        Button("Set locale to \(locale)") {
             PhantomLog.info("Locale simulation: \(locale)", tag: "Environment")
         }
         .font(.system(size: 13))
@@ -282,12 +282,12 @@ struct EnvironmentDemoView: View {
 struct ExtensionSidekickDemoView: View {
     var body: some View {
         List {
-            Section(header: Text("🧩 Extension Sidekick")) {
+            Section(header: Label("Extension Sidekick", systemImage: "puzzlepiece.extension")) {
                 Text("Extension Sidekick captures logs from App Extensions (Widgets, Share Extensions, Notification Service Extensions) that normally can't communicate with the main app.")
                     .font(.caption).foregroundColor(.secondary)
             }
 
-            Section(header: Text("📋 How It Works")) {
+            Section(header: Label("How It Works", systemImage: "list.number")) {
                 VStack(alignment: .leading, spacing: 10) {
                     stepRow("1", text: "Add PhantomSwift to your App Extension target")
                     stepRow("2", text: "Use PhantomLog (or OSLog) in your extension")
@@ -297,7 +297,7 @@ struct ExtensionSidekickDemoView: View {
                 .padding(.vertical, 4)
             }
 
-            Section(header: Text("🧪 Simulate Extension Log")) {
+            Section(header: Label("Simulate Extension Log", systemImage: "doc.text.fill")) {
                 Button("Simulate Widget Log Entry") {
                     // Simulate what an extension would write to shared UserDefaults
                     let defaults = UserDefaults(suiteName: Bundle.main.bundleIdentifier)
@@ -311,7 +311,7 @@ struct ExtensionSidekickDemoView: View {
                 .foregroundColor(.blue)
             }
 
-            Section(header: Text("⚙️ Setup Required")) {
+            Section(header: Label("Setup Required", systemImage: "gearshape")) {
                 Text("Extension Sidekick requires App Groups. Add 'com.yourapp.group' to both your main app and extension targets in Xcode Signing & Capabilities.")
                     .font(.caption).foregroundColor(.secondary)
             }

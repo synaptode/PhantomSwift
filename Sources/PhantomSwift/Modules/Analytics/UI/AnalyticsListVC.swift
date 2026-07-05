@@ -16,6 +16,9 @@ internal final class AnalyticsListVC: UIViewController {
     private var providers:    [String] = []                  // sorted provider names
     private var providerRows: [[PhantomAnalyticsEvent]] = [] // per-provider events
     private var searchText:   String = ""
+    private var pendingReloadWorkItem: DispatchWorkItem?
+    private var reloadGeneration = 0
+    private let reloadQueue = DispatchQueue(label: "com.phantomswift.analytics.list.refresh", qos: .userInitiated)
 
     // MARK: - UI
 
@@ -139,37 +142,56 @@ internal final class AnalyticsListVC: UIViewController {
 
     // MARK: - Data
 
-    @objc private func onUpdated() { reloadData() }
+    @objc private func onUpdated() { scheduleReload() }
+
+    private func scheduleReload() {
+        pendingReloadWorkItem?.cancel()
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.pendingReloadWorkItem = nil
+            self?.reloadData()
+        }
+        pendingReloadWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08, execute: workItem)
+    }
 
     private func reloadData() {
-        let all = PhantomAnalyticsMonitor.shared.events(for: nil) // most recent first
-        let provs = PhantomAnalyticsMonitor.shared.allProviders()
-        let q = searchText.lowercased()
+        let generation = reloadGeneration + 1
+        reloadGeneration = generation
+        let search = searchText
 
-        // Feed mode
-        feedEvents = q.isEmpty ? all : all.filter {
-            $0.name.lowercased().contains(q) ||
-            $0.provider.lowercased().contains(q) ||
-            $0.parameters.values.contains(where: { $0.lowercased().contains(q) })
-        }
+        reloadQueue.async { [weak self] in
+            guard let self else { return }
+            let all = PhantomAnalyticsMonitor.shared.events
+            let providersByName = Dictionary(grouping: all, by: { $0.provider })
+            let provs = providersByName.keys.sorted()
+            let q = search.lowercased()
+            let feedSource = Array(all.reversed())
 
-        // By provider mode
-        providers = provs
-        providerRows = provs.map { p in
-            let rows = PhantomAnalyticsMonitor.shared.events(for: p)
-            if q.isEmpty { return rows }
-            return rows.filter {
+            let feed = q.isEmpty ? feedSource : feedSource.filter {
                 $0.name.lowercased().contains(q) ||
+                $0.provider.lowercased().contains(q) ||
                 $0.parameters.values.contains(where: { $0.lowercased().contains(q) })
             }
+
+            let providerRows = provs.map { p in
+                let rows = Array((providersByName[p] ?? []).reversed())
+                if q.isEmpty { return rows }
+                return rows.filter {
+                    $0.name.lowercased().contains(q) ||
+                    $0.parameters.values.contains(where: { $0.lowercased().contains(q) })
+                }
+            }
+
+            DispatchQueue.main.async {
+                guard self.reloadGeneration == generation else { return }
+                self.feedEvents = feed
+                self.providers = provs
+                self.providerRows = providerRows
+                self.totalLbl.text = "\(all.count) events captured"
+                self.provLbl.text  = "\(provs.count) provider\(provs.count == 1 ? "" : "s")"
+                self.tableView.reloadData()
+            }
         }
-
-        // Stats
-        let total = PhantomAnalyticsMonitor.shared.events.count
-        totalLbl.text = "\(total) events captured"
-        provLbl.text  = "\(provs.count) provider\(provs.count == 1 ? "" : "s")"
-
-        tableView.reloadData()
     }
 
     // MARK: - Actions
@@ -180,6 +202,8 @@ internal final class AnalyticsListVC: UIViewController {
     }
 
     @objc private func clearAll() {
+        pendingReloadWorkItem?.cancel()
+        pendingReloadWorkItem = nil
         PhantomAnalyticsMonitor.shared.clear()
         reloadData()
     }
@@ -290,7 +314,7 @@ extension AnalyticsListVC: UITableViewDataSource, UITableViewDelegate {
 extension AnalyticsListVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchText = searchText
-        reloadData()
+        scheduleReload()
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) { searchBar.resignFirstResponder() }
 }

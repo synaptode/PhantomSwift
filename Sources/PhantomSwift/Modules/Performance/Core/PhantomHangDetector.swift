@@ -25,6 +25,8 @@ public final class PhantomHangDetector {
 
     private var isStarted = false
     private let stateLock = NSLock()
+    private let monitorQueue = DispatchQueue(label: "com.phantomswift.hang.detector", qos: .utility)
+    private var monitorTimer: DispatchSourceTimer?
     private let threshold: TimeInterval = 0.4 // 400ms (Professional threshold)
     
     private init() {}
@@ -34,14 +36,16 @@ public final class PhantomHangDetector {
         defer { stateLock.unlock() }
         guard !isStarted else { return }
         isStarted = true
-        
-        Thread.detachNewThread { [weak self] in
+
+        let timer = DispatchSource.makeTimerSource(queue: monitorQueue)
+        timer.schedule(deadline: .now() + 0.1, repeating: 0.5, leeway: .milliseconds(50))
+        timer.setEventHandler { [weak self] in
             guard let self = self else { return }
-            
-            while self.shouldContinueMonitoring {
-                self.checkMainThreadHang()
-            }
+            guard self.shouldContinueMonitoring else { return }
+            self.checkMainThreadHang()
         }
+        monitorTimer = timer
+        timer.resume()
     }
 
     private var shouldContinueMonitoring: Bool {
@@ -66,9 +70,6 @@ public final class PhantomHangDetector {
             let duration = end.timeIntervalSince(start)
             recordHang(start: start, duration: duration)
         }
-
-        // Frequency of checks
-        Thread.sleep(forTimeInterval: 0.1)
     }
 
     private func recordHang(start: Date, duration: TimeInterval) {
@@ -99,6 +100,8 @@ public final class PhantomHangDetector {
     public func stop() {
         stateLock.lock()
         isStarted = false
+        monitorTimer?.cancel()
+        monitorTimer = nil
         stateLock.unlock()
     }
     

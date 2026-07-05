@@ -12,28 +12,28 @@ struct PhantomExampleApp: App {
 
             // Register QA App Shortcuts
             config.shortcuts = [
-                AppShortcut(title: "🔴 Trigger Memory Leak") {
+                AppShortcut(title: "Trigger Memory Leak") {
                     let leakyObj = NSMutableArray()
                     PhantomObjectTracker.shared.track(leakyObj, name: "ShortcutLeakyArray")
                     PhantomLog.warning("Leaky object created via shortcut", tag: "QA")
                 },
-                AppShortcut(title: "🌐 Fetch Products") {
+                AppShortcut(title: "Fetch Products") {
                     let url = URL(string: "https://dummyjson.com/products?limit=3")!
                     URLSession.shared.dataTask(with: url) { _, _, _ in }.resume()
                     PhantomLog.info("Background fetch triggered via shortcut", tag: "Network")
                 },
-                AppShortcut(title: "📊 Track Purchase Event") {
+                AppShortcut(title: "Track Purchase Event") {
                     PhantomAnalyticsMonitor.shared.track(
                         name: "shortcut_purchase",
                         provider: "Firebase",
                         parameters: ["item": "shortcut_item", "price": 0.99]
                     )
                 },
-                AppShortcut(title: "📸 Capture State Snapshot") {
+                AppShortcut(title: "Capture State Snapshot") {
                     _ = PhantomSnapshotManager.shared.saveCurrentState(name: "Shortcut Snapshot")
                     PhantomLog.info("State snapshot captured via shortcut", tag: "Storage")
                 },
-                AppShortcut(title: "💥 Simulate 500ms Hang") {
+                AppShortcut(title: "Simulate 500ms Hang") {
                     Thread.sleep(forTimeInterval: 0.5)
                     PhantomLog.warning("500ms hang simulated via shortcut", tag: "Performance")
                 }

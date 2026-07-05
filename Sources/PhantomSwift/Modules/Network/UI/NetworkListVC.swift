@@ -56,6 +56,9 @@ internal final class NetworkListVC: PhantomTableVC, PhantomEventObserver {
     private var filteredRequests: [PhantomRequest] = []
     private var searchText: String = ""
     private var activeFilter: String = "All"
+    private var pendingRefreshWorkItem: DispatchWorkItem?
+    private var refreshGeneration = 0
+    private let refreshQueue = DispatchQueue(label: "com.phantomswift.network.list.refresh", qos: .userInitiated)
 
     // Filter header
     private let chipScrollView = UIScrollView()
@@ -92,6 +95,11 @@ internal final class NetworkListVC: PhantomTableVC, PhantomEventObserver {
         if isMovingFromParent || isBeingDismissed {
             PhantomEventBus.shared.unsubscribe(self, from: "networkRequestCaptured")
         }
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateFilterHeaderFrame()
     }
 
     deinit {
@@ -152,17 +160,57 @@ internal final class NetworkListVC: PhantomTableVC, PhantomEventObserver {
         ])
 
         tableView.tableHeaderView = headerView
+        updateFilterHeaderFrame()
+    }
+
+    private func updateFilterHeaderFrame() {
+        guard let headerView = tableView.tableHeaderView else { return }
+        let width = tableView.bounds.width
+        guard width > 0, headerView.frame.width != width else { return }
+
+        var frame = headerView.frame
+        frame.size.width = width
+        headerView.frame = frame
+        headerView.setNeedsLayout()
+        headerView.layoutIfNeeded()
+        tableView.tableHeaderView = headerView
     }
 
     // MARK: - Data
 
     private func loadRequests() {
-        allRequests = PhantomRequestStore.shared.getAll()
-        applyFilters()
+        let generation = refreshGeneration + 1
+        refreshGeneration = generation
+        let search = searchText
+        let filter = activeFilter
+
+        refreshQueue.async { [weak self] in
+            guard let self else { return }
+            let requests = PhantomRequestStore.shared.getAll()
+            let filtered = NetworkListVC.filteredRequests(from: requests, searchText: search, activeFilter: filter)
+            DispatchQueue.main.async {
+                guard self.refreshGeneration == generation else { return }
+                self.allRequests = requests
+                self.filteredRequests = filtered
+                self.updateStats()
+                self.tableView.reloadData()
+                self.updateEmptyState()
+            }
+        }
     }
 
-    private func applyFilters() {
-        var result = allRequests
+    private func scheduleRefresh() {
+        pendingRefreshWorkItem?.cancel()
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.pendingRefreshWorkItem = nil
+            self?.loadRequests()
+        }
+        pendingRefreshWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08, execute: workItem)
+    }
+
+    static func filteredRequests(from requests: [PhantomRequest], searchText: String, activeFilter: String) -> [PhantomRequest] {
+        var result = requests
 
         if !searchText.isEmpty {
             let q = searchText.lowercased()
@@ -185,10 +233,7 @@ internal final class NetworkListVC: PhantomTableVC, PhantomEventObserver {
         default: break
         }
 
-        filteredRequests = result
-        updateStats()
-        tableView.reloadData()
-        updateEmptyState()
+        return result
     }
 
     private func updateStats() {
@@ -223,6 +268,8 @@ internal final class NetworkListVC: PhantomTableVC, PhantomEventObserver {
     }
 
     @objc private func clearLogs() {
+        pendingRefreshWorkItem?.cancel()
+        pendingRefreshWorkItem = nil
         PhantomRequestStore.shared.clear()
         loadRequests()
     }
@@ -230,15 +277,14 @@ internal final class NetworkListVC: PhantomTableVC, PhantomEventObserver {
     @objc private func chipTapped(_ sender: FilterChip) {
         activeFilter = sender.title
         chips.forEach { $0.isActive = $0.title == activeFilter }
-        applyFilters()
+        scheduleRefresh()
     }
 
     // MARK: - PhantomEventObserver
 
     func onEvent(_ event: PhantomEvent) {
-        if case .networkRequestCaptured(let request) = event {
-            allRequests.insert(request, at: 0)
-            applyFilters()
+        if case .networkRequestCaptured = event {
+            scheduleRefresh()
         }
     }
 
@@ -270,7 +316,7 @@ internal final class NetworkListVC: PhantomTableVC, PhantomEventObserver {
 extension NetworkListVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchText = searchText
-        applyFilters()
+        scheduleRefresh()
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()

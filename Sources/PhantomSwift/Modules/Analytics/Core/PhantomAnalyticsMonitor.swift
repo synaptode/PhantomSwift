@@ -26,27 +26,31 @@ public final class PhantomAnalyticsMonitor {
     public static let shared = PhantomAnalyticsMonitor()
 
     private let lock = NSLock()
-    private var _events: [PhantomAnalyticsEvent] = []
+    private var buffer: [PhantomAnalyticsEvent?]
+    private var head = 0
+    private var count = 0
     private let maxCapacity = 500
 
-    private init() {}
+    private init() {
+        self.buffer = Array(repeating: nil, count: maxCapacity)
+    }
 
     /// All captured events (most recent last).
     public var events: [PhantomAnalyticsEvent] {
         lock.lock(); defer { lock.unlock() }
-        return _events
+        return snapshotLocked()
     }
 
     /// Distinct provider names, sorted alphabetically.
     public func allProviders() -> [String] {
         lock.lock(); defer { lock.unlock() }
-        return Array(Set(_events.map { $0.provider })).sorted()
+        return Array(Set(snapshotLocked().map { $0.provider })).sorted()
     }
 
     /// Events for a specific provider (nil = all), most recent first.
     public func events(for provider: String?) -> [PhantomAnalyticsEvent] {
         lock.lock(); defer { lock.unlock() }
-        let src = _events.reversed() as [PhantomAnalyticsEvent]
+        let src = Array(snapshotLocked().reversed())
         guard let p = provider else { return src }
         return src.filter { $0.provider == p }
     }
@@ -54,13 +58,16 @@ public final class PhantomAnalyticsMonitor {
     /// Dictionary of event name → occurrence count.
     public func frequencyMap() -> [String: Int] {
         lock.lock(); defer { lock.unlock() }
-        return _events.reduce(into: [:]) { acc, e in acc[e.name, default: 0] += 1 }
+        return snapshotLocked().reduce(into: [:]) { acc, e in acc[e.name, default: 0] += 1 }
     }
 
     /// Clear all stored events.
     public func clear() {
-        lock.lock(); defer { lock.unlock() }
-        _events.removeAll()
+        lock.lock()
+        buffer = Array(repeating: nil, count: maxCapacity)
+        head = 0
+        count = 0
+        lock.unlock()
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: .phantomAnalyticsUpdated, object: nil)
         }
@@ -70,8 +77,14 @@ public final class PhantomAnalyticsMonitor {
     public func track(name: String, provider: String = "Internal", parameters: [String: Any]) {
         let event = PhantomAnalyticsEvent(name: name, provider: provider, parameters: parameters)
         lock.lock()
-        _events.append(event)
-        if _events.count > maxCapacity { _events.removeFirst(_events.count - maxCapacity) }
+        if count < maxCapacity {
+            let slot = (head + count) % maxCapacity
+            buffer[slot] = event
+            count += 1
+        } else {
+            buffer[head] = event
+            head = (head + 1) % maxCapacity
+        }
         lock.unlock()
 
         DispatchQueue.main.async {
@@ -100,6 +113,18 @@ extension PhantomAnalyticsMonitor {
         ]
         let index = abs(provider.hashValue) % palette.count
         return palette[index]
+    }
+
+    fileprivate func snapshotLocked() -> [PhantomAnalyticsEvent] {
+        var result: [PhantomAnalyticsEvent] = []
+        result.reserveCapacity(count)
+        for offset in 0..<count {
+            let slot = (head + offset) % maxCapacity
+            if let event = buffer[slot] {
+                result.append(event)
+            }
+        }
+        return result
     }
 }
 #endif

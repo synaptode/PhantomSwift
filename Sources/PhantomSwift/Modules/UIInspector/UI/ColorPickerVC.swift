@@ -336,10 +336,13 @@ internal final class ColorPickerVC: UIViewController {
         let alpha = CGFloat(pixel[3]) / 255.0
         guard alpha > 0 else { return .clear }
         // Undo premultiplied alpha
+        let red = min(max(CGFloat(pixel[0]) / 255.0 / alpha, 0), 1)
+        let green = min(max(CGFloat(pixel[1]) / 255.0 / alpha, 0), 1)
+        let blue = min(max(CGFloat(pixel[2]) / 255.0 / alpha, 0), 1)
         return UIColor(
-            red:   CGFloat(pixel[0]) / 255.0 / alpha,
-            green: CGFloat(pixel[1]) / 255.0 / alpha,
-            blue:  CGFloat(pixel[2]) / 255.0 / alpha,
+            red:   red,
+            green: green,
+            blue:  blue,
             alpha: alpha)
     }
 

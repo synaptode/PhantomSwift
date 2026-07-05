@@ -184,12 +184,12 @@ struct AssetInspectorDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("ℹ️ Asset Inspector")) {
+            Section(header: Label("Asset Inspector", systemImage: "photo")) {
                 Text("Detects oversized images, wrong content mode, and memory usage. Load images below and then open 'Asset Inspector' in the dashboard to audit them.")
                     .font(.caption).foregroundColor(.secondary)
             }
 
-            Section(header: Text("🖼 Load Test Images")) {
+            Section(header: Label("Load Test Images", systemImage: "photo.on.rectangle")) {
                 ForEach(imageURLs, id: \.self) { url in
                     Button("Load Image (\(imageSize(url)))") {
                         loadedImages.append(url)
@@ -205,7 +205,7 @@ struct AssetInspectorDemoView: View {
             }
 
             if !loadedImages.isEmpty {
-                Section(header: Text("📷 Loaded Images (\(loadedImages.count))")) {
+                Section(header: Label("Loaded Images (\(loadedImages.count))", systemImage: "square.stack")) {
                     ForEach(loadedImages, id: \.self) { url in
                         VStack {
                             Image(systemName: "photo")
@@ -285,7 +285,7 @@ struct AccessibilityDemoView: View {
                                 .background(Color.green.opacity(0.3))
                                 .cornerRadius(8)
                                 .accessibilityLabel("Add item to shopping cart")
-                            Text("← ✅ Correct")
+                            Text("← Correct")
                                 .font(.caption).foregroundColor(.green)
                         }
                     }

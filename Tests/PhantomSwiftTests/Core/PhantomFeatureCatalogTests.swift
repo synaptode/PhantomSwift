@@ -8,6 +8,7 @@ final class PhantomFeatureCatalogTests: XCTestCase {
             let descriptor = PhantomFeatureCatalog.descriptor(for: feature)
 
             XCTAssertFalse(descriptor.title.isEmpty, "Expected non-empty title for \(feature.rawValue)")
+            XCTAssertFalse(descriptor.subtitle.isEmpty, "Expected non-empty subtitle for \(feature.rawValue)")
             XCTAssertFalse(descriptor.icon.isEmpty, "Expected non-empty icon for \(feature.rawValue)")
         }
     }

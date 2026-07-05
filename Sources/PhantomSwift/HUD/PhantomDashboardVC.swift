@@ -40,6 +40,15 @@ internal final class PhantomDashboardVC: UIViewController {
             }
         }
 
+        var subtitle: String {
+            switch self {
+            case .feature:
+                return featureDescriptor?.subtitle ?? ""
+            case .plugin:
+                return "Custom plugin"
+            }
+        }
+
         /// Live count shown as a badge on the cell — 0 means no badge.
         var badge: Int {
             switch self {
@@ -87,7 +96,9 @@ internal final class PhantomDashboardVC: UIViewController {
     private var recentTitles: [String] = []
     private var hasAppeared = false
     private var displaySections: [AlphaSection] {
-        if filterText.isEmpty {
+        let query = filterText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if query.isEmpty {
             // Alphabetical list, optionally prefixed with Recents
             let recentItems = recentTitles.compactMap { title in
                 sections.flatMap { $0.items }.first { $0.title == title }
@@ -98,10 +109,23 @@ internal final class PhantomDashboardVC: UIViewController {
             }
             return result
         }
-        // Filtered A–Z (no recents)
-        let q = filterText.lowercased()
+        // Filtered A–Z (no recents), ranked by title/subtitle relevance.
         return sections.compactMap { sec in
-            let matches = sec.items.filter { $0.title.lowercased().contains(q) }
+            let rankedMatches = sec.items.compactMap { item -> (DashboardItem, Int)? in
+                guard let score = PhantomDashboardSearch.score(
+                    query: query,
+                    title: item.title,
+                    subtitle: item.subtitle
+                ) else {
+                    return nil
+                }
+                return (item, score)
+            }
+            .sorted {
+                if $0.1 != $1.1 { return $0.1 < $1.1 }
+                return $0.0.title < $1.0.title
+            }
+            let matches = rankedMatches.map { $0.0 }
             return matches.isEmpty ? nil : AlphaSection(letter: sec.letter, items: matches)
         }
     }
@@ -288,7 +312,7 @@ internal final class PhantomDashboardVC: UIViewController {
     // MARK: - Search bar
 
     private func setupSearch() {
-        searchBar.placeholder      = "Search modules…"
+        searchBar.placeholder      = "Search modules or descriptions…"
         searchBar.searchBarStyle   = .minimal
         searchBar.barStyle         = .black
         searchBar.tintColor        = UIColor.Phantom.electricIndigo
@@ -301,7 +325,7 @@ internal final class PhantomDashboardVC: UIViewController {
             tf.textColor       = .white
             tf.tintColor       = UIColor.Phantom.electricIndigo
             tf.attributedPlaceholder = NSAttributedString(
-                string: "Search modules…",
+                string: "Search modules or descriptions…",
                 attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.35)]
             )
             if let glassIcon = tf.leftView as? UIImageView {
@@ -462,7 +486,13 @@ extension PhantomDashboardVC: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         let item = displaySections[indexPath.section].items[indexPath.row]
-        cell.configure(title: item.title, icon: item.icon, accent: item.accent, badge: item.badge)
+        cell.configure(
+            title: item.title,
+            subtitle: item.subtitle,
+            icon: item.icon,
+            accent: item.accent,
+            badge: item.badge
+        )
         return cell
     }
 
@@ -651,7 +681,7 @@ extension PhantomDashboardVC: UISearchBarDelegate {
         lastVisibleSection = -1
         tableView.reloadData()
 
-        let searching = !searchText.isEmpty
+        let searching = !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         let noResults = searching && displaySections.isEmpty
         scrubber.isHidden = searching
 
@@ -698,6 +728,7 @@ private final class NiagaraModuleCell: UITableViewCell {
     private let iconImageView = UIImageView()
     private let iconFallbackLabel = UILabel()
     private let titleLabel = UILabel()
+    private let subtitleLabel = UILabel()
     private let badgeLabel = UILabel()
     private let chevronView = UIImageView()
 
@@ -737,6 +768,12 @@ private final class NiagaraModuleCell: UITableViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         cardView.addSubview(titleLabel)
 
+        subtitleLabel.font = UIFont.systemFont(ofSize: 11, weight: .medium)
+        subtitleLabel.textColor = UIColor.white.withAlphaComponent(0.46)
+        subtitleLabel.numberOfLines = 1
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(subtitleLabel)
+
         if #available(iOS 13.0, *) {
             badgeLabel.font = .monospacedDigitSystemFont(ofSize: 10, weight: .bold)
         } else {
@@ -775,7 +812,11 @@ private final class NiagaraModuleCell: UITableViewCell {
             iconFallbackLabel.bottomAnchor.constraint(equalTo: iconContainer.bottomAnchor),
 
             titleLabel.leadingAnchor.constraint(equalTo: iconContainer.trailingAnchor, constant: 14),
-            titleLabel.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
+
+            subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 3),
+            subtitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: badgeLabel.leadingAnchor, constant: -10),
 
             chevronView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
             chevronView.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
@@ -791,8 +832,10 @@ private final class NiagaraModuleCell: UITableViewCell {
         ])
     }
 
-    func configure(title: String, icon: String, accent: UIColor, badge: Int) {
+    func configure(title: String, subtitle: String, icon: String, accent: UIColor, badge: Int) {
         titleLabel.text = title
+        subtitleLabel.text = subtitle
+        subtitleLabel.isHidden = subtitle.isEmpty
         iconContainer.backgroundColor = accent.withAlphaComponent(0.18)
 
         if let symbol = UIImage.phantomSymbol(icon) {
@@ -815,6 +858,9 @@ private final class NiagaraModuleCell: UITableViewCell {
             badgeLabel.isHidden = true
             badgeLabel.text = nil
         }
+
+        accessibilityLabel = subtitle.isEmpty ? title : "\(title), \(subtitle)"
+        accessibilityTraits = .button
     }
 }
 

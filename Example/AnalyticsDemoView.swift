@@ -10,7 +10,7 @@ struct AnalyticsDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("ℹ️ Analytics Interceptor")) {
+            Section(header: Label("Analytics Interceptor", systemImage: "chart.bar.fill")) {
                 Text("PhantomAnalyticsMonitor intercepts all analytics events before they're sent to any provider. All events appear in the 'Analytics' module in the Phantom dashboard.")
                     .font(.caption).foregroundColor(.secondary)
                 HStack {
@@ -21,66 +21,66 @@ struct AnalyticsDemoView: View {
                 .font(.caption)
             }
 
-            Section(header: Text("🎯 Product Events")) {
-                eventButton("👀 Product Viewed", provider: "Firebase") {
+            Section(header: Label("Product Events", systemImage: "cart.fill")) {
+                eventButton("Product Viewed", provider: "Firebase") {
                     trackEvent("product_viewed", provider: "Firebase", params: [
                         "product_id": "PRD-001", "product_name": "PhantomKit Pro", "category": "developer_tools", "price": 49.99
                     ])
                 }
-                eventButton("🛒 Add to Cart", provider: "Firebase") {
+                eventButton("Add to Cart", provider: "Firebase") {
                     trackEvent("add_to_cart", provider: "Firebase", params: [
                         "product_id": "PRD-001", "quantity": 1, "price": 49.99, "currency": "USD"
                     ])
                 }
-                eventButton("💳 Purchase Completed", provider: "Firebase") {
+                eventButton("Purchase Completed", provider: "Firebase") {
                     trackEvent("purchase", provider: "Firebase", params: [
                         "transaction_id": "TXN-\(Int.random(in: 1000...9999))", "total": 49.99, "currency": "USD", "items": 1
                     ])
                 }
-                eventButton("❤️ Add to Wishlist", provider: "Amplitude") {
+                eventButton("Add to Wishlist", provider: "Amplitude") {
                     trackEvent("wishlist_add", provider: "Amplitude", params: [
                         "product_id": "PRD-002", "list_length": 4
                     ])
                 }
             }
 
-            Section(header: Text("👤 User Events")) {
-                eventButton("🔐 User Signed In", provider: "Amplitude") {
+            Section(header: Label("User Events", systemImage: "person.crop.circle")) {
+                eventButton("User Signed In", provider: "Amplitude") {
                     trackEvent("user_signed_in", provider: "Amplitude", params: [
                         "method": "email", "user_id": "user_42", "is_returning": true
                     ])
                 }
-                eventButton("📧 Email Subscription", provider: "Mixpanel") {
+                eventButton("Email Subscription", provider: "Mixpanel") {
                     trackEvent("subscribe_email", provider: "Mixpanel", params: [
                         "source": "checkout_flow", "variant": "B", "timestamp": Date().description
                     ])
                 }
-                eventButton("⚙️ Settings Changed", provider: "Mixpanel") {
+                eventButton("Settings Changed", provider: "Mixpanel") {
                     trackEvent("settings_changed", provider: "Mixpanel", params: [
                         "setting": "notifications", "new_value": "enabled", "previous_value": "disabled"
                     ])
                 }
             }
 
-            Section(header: Text("📱 App Lifecycle Events")) {
-                eventButton("🚀 App Launched", provider: "Segment") {
+            Section(header: Label("App Lifecycle Events", systemImage: "app.fill")) {
+                eventButton("App Launched", provider: "Segment") {
                     trackEvent("app_launched", provider: "Segment", params: [
                         "version": "2.1.0", "build": "401", "cold_start": true, "locale": "en-US"
                     ])
                 }
-                eventButton("📊 Screen Viewed", provider: "Segment") {
+                eventButton("Screen Viewed", provider: "Segment") {
                     trackEvent("screen_viewed", provider: "Segment", params: [
                         "screen_name": "ProductDetail", "previous_screen": "ProductList", "visit_count": 3
                     ])
                 }
-                eventButton("🔔 Push Permission Granted", provider: "Braze") {
+                eventButton("Push Permission Granted", provider: "Braze") {
                     trackEvent("push_permission_granted", provider: "Braze", params: [
                         "granted": true, "prompt_context": "post_purchase"
                     ])
                 }
             }
 
-            Section(header: Text("🎮 Batch Scenarios")) {
+            Section(header: Label("Batch Scenarios", systemImage: "play.rectangle")) {
                 scenarioButton("Full Checkout Flow", subtitle: "view → cart → purchase (5 events)") {
                     simulateCheckoutFlow()
                 }
@@ -93,7 +93,7 @@ struct AnalyticsDemoView: View {
             }
 
             if !lastEvent.isEmpty {
-                Section(header: Text("✅ Last Event")) {
+                Section(header: Label("Last Event", systemImage: "checkmark.circle.fill")) {
                     Text(lastEvent).font(.caption).foregroundColor(.secondary)
                 }
             }
@@ -121,7 +121,7 @@ struct AnalyticsDemoView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title).font(.system(size: 14, weight: .medium))
-                    Text("→ \(provider)").font(.caption2).foregroundColor(.secondary)
+                    Text(provider).font(.caption2).foregroundColor(.secondary)
                 }
                 Spacer()
                 Image(systemName: "paperplane.fill")
@@ -135,7 +135,7 @@ struct AnalyticsDemoView: View {
     private func scenarioButton(_ title: String, subtitle: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             VStack(alignment: .leading, spacing: 2) {
-                Text("▶ \(title)").font(.system(size: 14, weight: .semibold)).foregroundColor(.blue)
+                Text(title).font(.system(size: 14, weight: .semibold)).foregroundColor(.blue)
                 Text(subtitle).font(.caption).foregroundColor(.secondary)
             }
         }

@@ -18,7 +18,7 @@ struct StorageDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("📝 Write UserDefaults")) {
+            Section(header: Label("Write UserDefaults", systemImage: "square.and.pencil")) {
                 TextField("Key", text: $key)
                     .autocorrectionDisabled()
                     .autocapitalization(.none)
@@ -34,7 +34,7 @@ struct StorageDemoView: View {
                 .disabled(key.isEmpty)
             }
 
-            Section(header: Text("⚡ Quick Presets")) {
+            Section(header: Label("Quick Presets", systemImage: "bolt.fill")) {
                 ForEach(presetKeys, id: \.0) { pair in
                     Button("Set \(pair.0) = \"\(pair.1)\"") {
                         UserDefaults.standard.set(pair.1, forKey: pair.0)
@@ -45,7 +45,7 @@ struct StorageDemoView: View {
                 }
             }
 
-            Section(header: Text("📂 File System")) {
+            Section(header: Label("File System", systemImage: "folder")) {
                 Button("Write Test File to Documents") {
                     let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                         .appendingPathComponent("phantom_demo_\(Date().timeIntervalSince1970).txt")
@@ -64,7 +64,7 @@ struct StorageDemoView: View {
                 }
             }
 
-            Section(header: Text("🧹 Cleanup")) {
+            Section(header: Label("Cleanup", systemImage: "trash")) {
                 Button("Delete All UserDefaults") {
                     UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier ?? "com.phantomswift.Example")
                     savedPairs.removeAll()
@@ -90,12 +90,12 @@ struct SnapshotDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("ℹ️ State Snapshot")) {
+            Section(header: Label("State Snapshot", systemImage: "clock.arrow.2.circlepath")) {
                 Text("Saves all UserDefaults to a named snapshot. You can restore any past state with one tap — great for testing different app configurations.")
                     .font(.caption).foregroundColor(.secondary)
             }
 
-            Section(header: Text("📸 Capture")) {
+            Section(header: Label("Capture", systemImage: "camera")) {
                 Button("Save Current State as 'Clean Baseline'") {
                     let s = PhantomSnapshotManager.shared.saveCurrentState(name: "Clean Baseline")
                     lastAction = "Saved: \(s.name)"
@@ -126,7 +126,7 @@ struct SnapshotDemoView: View {
             }
 
             if !snapshots.isEmpty {
-                Section(header: Text("📋 Saved Snapshots (\(snapshots.count))")) {
+                Section(header: Label("Saved Snapshots (\(snapshots.count))", systemImage: "tray.full.fill")) {
                     ForEach(snapshots) { snapshot in
                         VStack(alignment: .leading, spacing: 4) {
                             Text(snapshot.name)
@@ -134,14 +134,14 @@ struct SnapshotDemoView: View {
                             Text("\(snapshot.userDefaults.count) keys • \(formattedDate(snapshot.timestamp))")
                                 .font(.caption2).foregroundColor(.secondary)
                             HStack {
-                                Button("♻️ Restore") {
+                                Button("Restore") {
                                     PhantomSnapshotManager.shared.restore(snapshot: snapshot)
                                     lastAction = "Restored: \(snapshot.name)"
                                     PhantomLog.info("State restored from snapshot: \(snapshot.name)", tag: "Snapshot")
                                 }
                                 .font(.caption).foregroundColor(.blue)
                                 Spacer()
-                                Button("🗑 Delete") {
+                                Button("Delete") {
                                     PhantomSnapshotManager.shared.delete(id: snapshot.id)
                                     loadSnapshots()
                                     PhantomLog.info("Snapshot deleted: \(snapshot.name)", tag: "Snapshot")
@@ -156,7 +156,7 @@ struct SnapshotDemoView: View {
 
             if !lastAction.isEmpty {
                 Section {
-                    Text("✅ \(lastAction)").font(.caption).foregroundColor(.green)
+                    Text(lastAction).font(.caption).foregroundColor(.green)
                 }
             }
 

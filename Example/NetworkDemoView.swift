@@ -9,19 +9,19 @@ struct NetworkDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("✅ Success Requests")) {
+            Section(header: Label("Success Requests", systemImage: "checkmark.circle.fill")) {
                 demoButton("GET Products (200 OK)", color: .green) { fetchProducts() }
                 demoButton("GET User Profile (200 OK)", color: .green) { fetchUser() }
                 demoButton("POST Add to Cart (201 Created)", color: .blue) { postAddCart() }
             }
 
-            Section(header: Text("⚠️ Error Requests")) {
+            Section(header: Label("Error Requests", systemImage: "exclamationmark.triangle.fill")) {
                 demoButton("GET 404 Not Found", color: .orange) { trigger404() }
                 demoButton("GET 401 Unauthorized", color: .orange) { trigger401() }
                 demoButton("GET 500 Server Error", color: .red) { trigger500() }
             }
 
-            Section(header: Text("🔁 Concurrent Requests")) {
+            Section(header: Label("Concurrent Requests", systemImage: "arrow.triangle.2.circlepath")) {
                 demoButton("Fire 5 Requests Simultaneously", color: .purple) { fireConcurrent() }
             }
 
@@ -35,7 +35,7 @@ struct NetworkDemoView: View {
             }
 
             if !results.isEmpty {
-                Section(header: Text("📥 Results")) {
+                Section(header: Label("Results", systemImage: "tray.full.fill")) {
                     ForEach(results, id: \.self) { r in
                         Text(r).font(.caption).foregroundColor(.secondary)
                     }
@@ -189,36 +189,36 @@ struct InterceptorDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("🎭 Mock Response")) {
+            Section(header: Label("Mock Response", systemImage: "sparkles")) {
                 Text("A mock rule for /products/999 is pre-loaded at app launch.")
                     .font(.caption).foregroundColor(.secondary)
                 Button("GET /products/999 (Returns Mock)") { fetchMocked() }
                     .foregroundColor(.phantomIndigo)
             }
 
-            Section(header: Text("🚫 Block Request")) {
+            Section(header: Label("Block Request", systemImage: "xmark.shield.fill")) {
                 Button("Block /posts Endpoint") { blockPosts() }
                     .foregroundColor(.red)
                 Button("Remove Block Rule") { clearRules() }
                     .foregroundColor(.gray)
             }
 
-            Section(header: Text("⏱ Delay Request")) {
+            Section(header: Label("Delay Request", systemImage: "clock.arrow.circlepath")) {
                 Button("Delay /todos by 2 seconds") { delayRequest() }
                     .foregroundColor(.orange)
             }
 
-            Section(header: Text("📤 Redirect Request")) {
+            Section(header: Label("Redirect Request", systemImage: "arrow.triangle.branch")) {
                 Button("Redirect /products/1 → /products/2") { redirectRequest() }
                     .foregroundColor(.purple)
             }
 
-            Section(header: Text("📋 Active Rule")) {
+            Section(header: Label("Active Rule", systemImage: "list.bullet")) {
                 Text(activeRuleLabel)
                     .font(.caption).foregroundColor(.secondary)
             }
 
-            Section(header: Text("📥 Result")) {
+            Section(header: Label("Result", systemImage: "doc.text.fill")) {
                 Text(resultText)
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -238,7 +238,7 @@ struct InterceptorDemoView: View {
                 let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
                 if let data, let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let title = json["title"] as? String {
-                    resultText = "✅ Response: \"\(title)\" (HTTP \(code)) — From mock, not real server!"
+                    resultText = "Response: \"\(title)\" (HTTP \(code)) - From mock, not real server!"
                 } else {
                     resultText = "Data received — HTTP \(code). Check Interceptor module."
                 }
@@ -255,7 +255,7 @@ struct InterceptorDemoView: View {
         PhantomLog.warning("Block rule added for /posts", tag: "Interceptor")
         URLSession.shared.dataTask(with: URL(string: "https://dummyjson.com/posts")!) { _, _, err in
             DispatchQueue.main.async {
-                resultText = err != nil ? "🚫 Blocked! Error: \(err!.localizedDescription)" : "Unexpected success."
+                resultText = err != nil ? "Blocked! Error: \(err!.localizedDescription)" : "Unexpected success."
                 PhantomLog.error("Block rule triggered: \(err?.localizedDescription ?? "No error")", tag: "Interceptor")
             }
         }.resume()
@@ -265,14 +265,14 @@ struct InterceptorDemoView: View {
         PhantomInterceptor.shared.clear()
         PhantomInterceptor.shared.add(rule: .delay(urlPattern: "dummyjson.com/todos", seconds: 2.0))
         activeRuleLabel = "delay 2s → /todos"
-        resultText = "⏱ Fetching /todos with 2s delay..."
+        resultText = "Fetching /todos with 2s delay..."
         PhantomLog.debug("Delay rule added for /todos", tag: "Interceptor")
         let start = Date()
         URLSession.shared.dataTask(with: URL(string: "https://dummyjson.com/todos/1")!) { _, resp, _ in
             DispatchQueue.main.async {
                 let elapsed = Date().timeIntervalSince(start)
                 let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
-                resultText = "✅ Responded in \(String(format: "%.1f", elapsed))s (HTTP \(code)) — delay injected!"
+                resultText = "Responded in \(String(format: "%.1f", elapsed))s (HTTP \(code)) - delay injected!"
                 PhantomLog.info("Delayed request completed in \(String(format: "%.1f", elapsed))s", tag: "Interceptor")
                 PhantomInterceptor.shared.clear()
             }
@@ -289,7 +289,7 @@ struct InterceptorDemoView: View {
             DispatchQueue.main.async {
                 if let data, let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let id = json["id"], let title = json["title"] {
-                    resultText = "✅ Got product id=\(id) '\(title)' — redirected from id=1 to id=2!"
+                    resultText = "Got product id=\(id) '\(title)' - redirected from id=1 to id=2!"
                 } else {
                     resultText = "Response received. Check Interceptor module."
                 }
@@ -327,7 +327,7 @@ struct BadNetworkDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("🔧 Configuration")) {
+            Section(header: Label("Configuration", systemImage: "slider.horizontal.3")) {
                 Toggle("Enable Bad Network Simulation", isOn: $isEnabled)
                     .onChange(of: isEnabled) { val in
                         PhantomNetworkSimulator.shared.isEnabled = val
@@ -359,14 +359,14 @@ struct BadNetworkDemoView: View {
                 }
             }
 
-            Section(header: Text("🚀 Quick Presets")) {
-                presetButton("📶 Normal (Off)", latency: 0, error: 0, enabled: false)
-                presetButton("🐢 Slow 3G (2s, 0% loss)", latency: 2.0, error: 0, enabled: true)
-                presetButton("📡 Flaky (1s, 30% loss)", latency: 1.0, error: 0.3, enabled: true)
-                presetButton("⛔ Offline (100% loss)", latency: 0, error: 1.0, enabled: true)
+            Section(header: Label("Quick Presets", systemImage: "bolt.fill")) {
+                presetButton("Normal (Off)", latency: 0, error: 0, enabled: false)
+                presetButton("Slow 3G (2s, 0% loss)", latency: 2.0, error: 0, enabled: true)
+                presetButton("Flaky (1s, 30% loss)", latency: 1.0, error: 0.3, enabled: true)
+                presetButton("Offline (100% loss)", latency: 0, error: 1.0, enabled: true)
             }
 
-            Section(header: Text("🧪 Test Request")) {
+            Section(header: Label("Test Request", systemImage: "paperplane")) {
                 Button("Fire Test Request Now") { testRequest() }
                     .foregroundColor(.blue)
                 if !testResult.isEmpty {
@@ -404,18 +404,18 @@ struct BadNetworkDemoView: View {
     }
 
     private func testRequest() {
-        testResult = "⏱ Sending..."
+        testResult = "Sending..."
         let start = Date()
         PhantomLog.info("Test request fired under bad network conditions", tag: "BadNetwork")
         URLSession.shared.dataTask(with: URL(string: "https://dummyjson.com/products/1")!) { _, resp, err in
             DispatchQueue.main.async {
                 let elapsed = String(format: "%.2f", Date().timeIntervalSince(start))
                 if let err {
-                    testResult = "❌ Failed in \(elapsed)s: \(err.localizedDescription)"
+                    testResult = "Failed in \(elapsed)s: \(err.localizedDescription)"
                     PhantomLog.error("Test request failed: \(err.localizedDescription)", tag: "BadNetwork")
                 } else {
                     let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
-                    testResult = "✅ Success in \(elapsed)s — HTTP \(code)"
+                    testResult = "Success in \(elapsed)s - HTTP \(code)"
                     PhantomLog.info("Test request success in \(elapsed)s", tag: "BadNetwork")
                 }
             }
@@ -432,7 +432,7 @@ struct SessionReplayDemoView: View {
 
     var body: some View {
         List {
-            Section(header: Text("🎥 Record Session")) {
+            Section(header: Label("Record Session", systemImage: "record.circle")) {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Circle()
@@ -445,13 +445,13 @@ struct SessionReplayDemoView: View {
                         .font(.caption2).foregroundColor(.secondary)
                 }
 
-                Button(isRecording ? "⏹ Stop Recording" : "🔴 Start Recording") {
+                Button(isRecording ? "Stop Recording" : "Start Recording") {
                     toggleRecording()
                 }
                 .foregroundColor(isRecording ? .red : .blue)
             }
 
-            Section(header: Text("🌐 Fire Requests to Record")) {
+            Section(header: Label("Fire Requests to Record", systemImage: "network")) {
                 Button("GET /products (record this)") { fireRequest("https://dummyjson.com/products/1") }
                 Button("GET /users (record this)") { fireRequest("https://dummyjson.com/users/1") }
                 Button("GET /posts (record this)") { fireRequest("https://dummyjson.com/posts/1") }
@@ -459,7 +459,7 @@ struct SessionReplayDemoView: View {
             .disabled(!isRecording)
             .foregroundColor(isRecording ? .primary : .secondary)
 
-            Section(header: Text("▶️ Replay")) {
+            Section(header: Label("Replay", systemImage: "play.circle.fill")) {
                 Button("Replay All Recorded Requests") { startReplay() }
                     .disabled(recordedCount == 0 || isReplaying || isRecording)
                     .foregroundColor(recordedCount > 0 ? .phantomTeal : .secondary)
@@ -505,11 +505,11 @@ struct SessionReplayDemoView: View {
         let requests = PhantomSessionRecorder.shared.recordedRequests
         guard !requests.isEmpty else { return }
         isReplaying = true
-        replayStatus = "⏳ Replaying \(requests.count) requests..."
+        replayStatus = "Replaying \(requests.count) requests..."
         PhantomLog.info("Replaying \(requests.count) requests", tag: "SessionReplay")
         PhantomSessionReplayer.shared.replay(requests: requests) {
             self.isReplaying = false
-            self.replayStatus = "✅ Replay complete — check Network module for duplicates"
+            self.replayStatus = "Replay complete - check Network module for duplicates"
             PhantomLog.info("Session replay completed", tag: "SessionReplay")
         }
     }

@@ -5,6 +5,25 @@ All notable changes to PhantomSwift will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-07-05
+
+### Added
+- 🔎 **Dashboard Discoverability**: Added descriptive module subtitles and subtitle-aware search ranking so the dashboard is easier to scan
+- 🧪 **Targeted Regression Coverage**: Added tests for dashboard search, plugin registry deduping, event bus cleanup, and reset behavior
+
+### Changed
+- 🧱 **Plugin Registration Safety**: Deduplicated plugin registration by identifier so repeated registration replaces the prior entry instead of stacking duplicates
+- 🧼 **Test Reset Support**: Added isolated test reset support for the shared runtime state
+
+### Fixed
+- 🩹 **Event Bus Cleanup Crash**: Made observer unsubscribe operations synchronous so deinit-time cleanup completes before returning
+- ⚙️ **iOS 12 Compatibility**: Replaced a few iOS 13-only UI fallbacks with compatibility-safe alternatives
+
+### Technical Notes
+- **SemVer rationale**: Released as a patch because the changes tighten behavior, improve discoverability, and fix crashes without breaking the public integration model
+- **Release focus**: Stability, testability, and dashboard usability
+- **Recommended upgrade**: Consumers on `1.1.1` can move to `1.1.2` directly
+
 ## [1.1.1] - 2026-04-24
 
 ### Added

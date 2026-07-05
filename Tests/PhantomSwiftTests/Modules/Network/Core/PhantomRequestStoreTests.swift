@@ -61,4 +61,36 @@ final class PhantomRequestStoreTests: XCTestCase {
         XCTAssertEqual(requestsAfterAdd.count, 1, "Store should function normally and contain 1 request after clear and add")
         XCTAssertEqual(requestsAfterAdd.first?.id, request3.id, "The newly added request should be the only one present")
     }
+
+    func testGetAllReturnsNewestFirstAndTrimsOldestOnOverflow() {
+        let store = PhantomRequestStore.shared
+        let url = URL(string: "https://example.com/api")!
+
+        let totalRequests = 1005
+        var firstKeptID: UUID?
+        var lastKeptID: UUID?
+
+        for index in 0..<totalRequests {
+            let request = PhantomRequest(
+                id: UUID(),
+                url: url,
+                method: "GET",
+                headers: ["x-index": "\(index)"],
+                body: nil
+            )
+            if index == totalRequests - 1 {
+                lastKeptID = request.id
+            }
+            if index == totalRequests - 1000 {
+                firstKeptID = request.id
+            }
+            store.add(request)
+        }
+
+        let requests = store.getAll()
+        XCTAssertEqual(requests.count, 1000, "Store should cap at maxCount")
+        XCTAssertEqual(requests.first?.id, lastKeptID, "Newest request should be first")
+        XCTAssertEqual(requests.last?.id, firstKeptID, "Oldest retained request should be last")
+        XCTAssertNil(requests.first(where: { $0.headers["x-index"] == "0" }), "Oldest overflowed request should be evicted")
+    }
 }
