@@ -339,7 +339,7 @@ internal enum PhantomFeatureCatalog {
         vc.title = title
         vc.view.backgroundColor = PhantomTheme.shared.backgroundColor
 
-        let emptyState = PhantomEmptyStateView(emoji: "ℹ️", title: title, message: message)
+        let emptyState = PhantomEmptyStateView(symbolName: "info.circle", title: title, message: message)
         emptyState.translatesAutoresizingMaskIntoConstraints = false
         vc.view.addSubview(emptyState)
 

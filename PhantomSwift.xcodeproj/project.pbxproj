@@ -1,0 +1,1677 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00055ADA950978B69BB8EECE /* PhantomBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AF0237EBFE164DE6D88BCB /* PhantomBadgeView.swift */; };
+		022BAFC3AD72BD3678A56412 /* BGTaskInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB998B360ABC6D55A96C046 /* BGTaskInspectorVC.swift */; };
+		080F95604868D9EE1150DAA6 /* PhantomEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45673C9D749116330D85F0F /* PhantomEnvironment.swift */; };
+		0B3ED71CD31E2041050D3619 /* PhantomAccessibilityAuditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB272FB22B1D8C308FFD71CA /* PhantomAccessibilityAuditor.swift */; };
+		0C4F7FF001B446490B9AFD6C /* PhantomRuleMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7406251BC1DC5AB2EE2C187 /* PhantomRuleMatcher.swift */; };
+		0CA8A41CD9D5049D1DFF7DE3 /* HangListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF512A1E29E60744E97F58D0 /* HangListVC.swift */; };
+		12DA08CB2D72B8AEB0E701A7 /* CrashLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170811D6DCE7215CAFBF6374 /* CrashLogVC.swift */; };
+		1501766C99737638BAE33CDE /* MemoryGraphVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F3E00029BFC4A957DF5BA /* MemoryGraphVC.swift */; };
+		1B3494202BB4BB11960A4FFC /* NetworkListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DED2E0625FAFAE00FD4644 /* NetworkListVC.swift */; };
+		1BF10A46CFBF59D39AE9DCD2 /* RenderListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE34E9772E4903AC8F74F9D3 /* RenderListVC.swift */; };
+		1D10F8D56AEEE283B42C2606 /* PhantomFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D465F76FA9AC8E64FFA4355B /* PhantomFeature.swift */; };
+		21A27756608462CF07298E24 /* ExtensionLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F927B455732C5F2B82C3A1 /* ExtensionLogVC.swift */; };
+		236887AF009F53E7AA2D69F5 /* RequestReplayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730B9B09BF5898756A09F4A2 /* RequestReplayVC.swift */; };
+		23B41ADFDC826478601FC5D0 /* PhantomTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000D79F8F86FC9611F4860D5 /* PhantomTableVC.swift */; };
+		24DFF2B7E0840B93833D3A3D /* SecurityKeychainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA082BF00FBC4004DAE338F /* SecurityKeychainVC.swift */; };
+		25090D1ADC876840B68D46BB /* PhantomNetworkHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A10C3B186CFFB95E684F581 /* PhantomNetworkHeaderView.swift */; };
+		266A534CCF9BC662546BCB8D /* PhantomMetricKitMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935DE1EDE9D98BFF52EC801 /* PhantomMetricKitMonitor.swift */; };
+		26A204471F37F1338F98285A /* PhantomLeakTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB61DB22BCF55BDF4FD51C7 /* PhantomLeakTracker.swift */; };
+		2707FDF23E3AAADF14C5775D /* PhantomLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA2B329018F0E8AED337FDC /* PhantomLocationManager.swift */; };
+		29782A713FEF3BDB215DA193 /* LeakListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94F1B1BC53566719A23845 /* LeakListVC.swift */; };
+		2C1B93C3EF2688927EC04730 /* PhantomBugReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0EC902A33B5A23A49C5194 /* PhantomBugReporter.swift */; };
+		2D583A33B782AF168E2BA5C5 /* PhantomSnapshotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A62334119EB2BF45EC64DB0 /* PhantomSnapshotManager.swift */; };
+		2E3AEA41C2656AE8A8A242EE /* PhantomUIKitTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D056FFE6E3B07C8F2100154 /* PhantomUIKitTracker.swift */; };
+		2F42FEE8921D0158FA77D11D /* SnapshotListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7078D12327520BB2E2521A6 /* SnapshotListVC.swift */; };
+		319023CF7CFF422590F7D17A /* AccessibilityAuditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225CE97926C23CF35B0A97E1 /* AccessibilityAuditVC.swift */; };
+		3299DD9D173646C3F9AFEEC7 /* UIExtensions+Phantom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85C78D90D077E98B7656A7A /* UIExtensions+Phantom.swift */; };
+		35DB28718B85F22329273EF7 /* PhantomPresentationResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734B2DAF479223798F3F0A1D /* PhantomPresentationResolver.swift */; };
+		377ECA57D735784377955C19 /* PhantomMemorySlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F490623CA0268DAA5DD7140 /* PhantomMemorySlayer.swift */; };
+		3786AA85B3EC1B9261134457 /* PhantomLayoutConflictDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA78CCCD2ABAFC2A2ACDFB8 /* PhantomLayoutConflictDetector.swift */; };
+		3BE275A2AE2473104DB862B1 /* SecurityDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4E0D27D46097C5745C79D6 /* SecurityDashboardVC.swift */; };
+		3D51A35AA449949496E4A93F /* BadNetworkDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF2438BAA40CEFF162C8D6B /* BadNetworkDashboardVC.swift */; };
+		3D7175AEB10EBB7D90D0A470 /* AssetListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6BFD5E09ECBCB077920390 /* AssetListVC.swift */; };
+		3DF88B18A0D2405FFA9A1BC0 /* PhantomWebViewConsoleAutoInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEFF3EFBCE5D480363E2B20 /* PhantomWebViewConsoleAutoInstaller.swift */; };
+		40D6FE4A4B3A1C470CF68090 /* PhantomSwiftExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEECBC14A8CBC45E7A9E6F5 /* PhantomSwiftExports.swift */; };
+		420736E551C6930C0765C9CD /* ViewHierarchy3DVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12136C1830CB8C303BA0A5D /* ViewHierarchy3DVC.swift */; };
+		431A9ADAD625BAD4BBAA5528 /* PhantomAnalyticsMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C721FF8E5B7290B6EF38FA85 /* PhantomAnalyticsMonitor.swift */; };
+		47802DC82757B9926A01AE32 /* PhantomHUDWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C8308F198CBEF9CAFB9A24 /* PhantomHUDWindow.swift */; };
+		4C12651B8500B77D2C90328C /* PushSimulatorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7D681ED2700766870C52B7 /* PushSimulatorVC.swift */; };
+		4F8FC452EC6032B69276A652 /* PhantomSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757AC796D4CB5FC559F6A5AF /* PhantomSwizzler.swift */; };
+		53ADB07BB163E1C25F87A9BC /* PhantomWebViewConsoleBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C7C5C310C97A4A9FD58A73 /* PhantomWebViewConsoleBridge.swift */; };
+		53D17202D07C305716205AF2 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 8A1BFA093F1BBC4DB12CDD44 /* Documentation.docc */; };
+		5442C81C51C92806A751B68A /* ClassDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E92721BA6DD16EF8F1DAFC9 /* ClassDetailVC.swift */; };
+		5592441869BDF902B415F2CF /* PhantomDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2BD98A4AFF5565CD83B6D /* PhantomDashboardVC.swift */; };
+		56AA2CCFE6B91C01DFB3249D /* UserDefaultsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D4C5DF02AB9BA6B0F0B80 /* UserDefaultsVC.swift */; };
+		5FD28BA933D718815530677D /* KeychainInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF74934A3D0A47FF4D038F7A /* KeychainInspectorVC.swift */; };
+		60B49AFD80B8B7E81A4499AD /* PhantomCURLExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FB036DF5F7F9E27258468B /* PhantomCURLExporter.swift */; };
+		62C548959397C6142827721B /* PhantomDashboardSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03042793610B4AE8C3B84BBC /* PhantomDashboardSearch.swift */; };
+		6518BCB403D8D515607D4CF6 /* PhantomHangDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2E6F906ED8891BE92E2902 /* PhantomHangDetector.swift */; };
+		6817AF6222AFDD9E8D614000 /* PhantomRuntimeInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EEFFAA826DD75B17F4A2EA /* PhantomRuntimeInspector.swift */; };
+		6B3ED8EC5FC591D2B16B0A9B /* PhantomTouchVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAFE8B54EA0016F03BCECF8 /* PhantomTouchVisualizer.swift */; };
+		6D47C15896B6EC09FD567192 /* AppShortcutsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC59D9DE6BFDE9017A20E45 /* AppShortcutsVC.swift */; };
+		6E0BF30FE8A6BB246DA49333 /* PhantomLocaleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4327717669535414FE001B29 /* PhantomLocaleManager.swift */; };
+		700516C465199B0DB4E0F2BA /* PhantomAssetInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A77DE8DF2406CB8F6C3304 /* PhantomAssetInspector.swift */; };
+		71BA814AB0B048B49FE0D76F /* PhantomUIInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4447A7822F63CEA644EFB6D /* PhantomUIInspector.swift */; };
+		7214B5039AE109997511F3AD /* HeapSnapshotVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE95B82D013C548DA8AFCEAA /* HeapSnapshotVC.swift */; };
+		7386C3F84DAAC5B726127CED /* UIViewController+Phantom.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91EF16F0520D4809FFCDFD8 /* UIViewController+Phantom.swift */; };
+		73BF3325F26F6432DB2D6B7D /* UIInspectorActionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BF6FDBE4352F3628C38C6E /* UIInspectorActionCard.swift */; };
+		793F92BD9AB756794636C268 /* PhantomLaunchPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9D0C9BF0571D39C654EA35 /* PhantomLaunchPlanner.swift */; };
+		7B65236F93E192F05AB1D001 /* LiveEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94CE6D9DCE4585DAB8A5EE0 /* LiveEditVC.swift */; };
+		7CC9BF15DF17298D1CA6BBC6 /* PhantomFeatureCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96089D5230B24C3A607A1DBB /* PhantomFeatureCatalog.swift */; };
+		7DCF4E45C44DD23619B7F004 /* ConstraintInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BDB40B4BAB19E96428484 /* ConstraintInspectorVC.swift */; };
+		7FF431958640AD9C64378366 /* SandboxInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709CB5BE880223B5DCFEDDAD /* SandboxInspectorVC.swift */; };
+		8305EC1ABA1703FE56BC187B /* PhantomTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B3DC793A1ACC4441B228F /* PhantomTimelineView.swift */; };
+		843CB7A324B8F335BABE9B8C /* ColorPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47ACFC82CA9285AE81547BFF /* ColorPickerVC.swift */; };
+		862AF437D25661DAF7584BE2 /* HangDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FCB5824CDFA90E49D78501 /* HangDetailVC.swift */; };
+		86322B26C4B7102E48E5F348 /* PhantomMainThreadChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E04FA9BF2E1EADA753318FC /* PhantomMainThreadChecker.swift */; };
+		878398BA2193E6D5520ABDE7 /* InterceptRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9CAB064CB3D8C409958567 /* InterceptRule.swift */; };
+		884E4E25B432E21E336E298C /* PhantomInterceptorDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC125611DE7DB2D62B1F5E0D /* PhantomInterceptorDraft.swift */; };
+		8A8DEFE6AEED1594753071E4 /* PhantomGridOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C8856770EB86F1082A3A37 /* PhantomGridOverlay.swift */; };
+		8A9A7281DF42741C90203835 /* LogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A1EB9E97905A624A7013F4 /* LogEntry.swift */; };
+		8BCFE57494999806FEE48203 /* LogStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDD5B68FFB2E6E3093202CD /* LogStore.swift */; };
+		8EA4C9E344F9908A70F5061F /* PhantomEventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF46155BCF61FF5172B670 /* PhantomEventBus.swift */; };
+		926CA15AF68B49FC3EB2E31F /* ResponderChainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECC18277C3E3925C8A8D4 /* ResponderChainVC.swift */; };
+		926EACD4E754DC981307B1DA /* EnvironmentDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B26E2ACAB90E4313B2CD79 /* EnvironmentDashboardVC.swift */; };
+		943A3815BA101FD3D4372490 /* RuntimeBrowserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4892E780AF1DE7E41191CB2D /* RuntimeBrowserVC.swift */; };
+		97294065B0468D9B5E30D150 /* ObjectRetainGraphVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55B44F7DABADB44D0DBDA70 /* ObjectRetainGraphVC.swift */; };
+		9AB8C839282FFAC97D5D1FC8 /* PhantomNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EC047D71150408DD88947B /* PhantomNetworkModel.swift */; };
+		9BEAB3A388758E98FE08E37A /* PhantomFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB009D91B108A8376EB6177 /* PhantomFeatureFlags.swift */; };
+		9D45A28A795748D767F95151 /* PhantomPluginRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC326D7FF1F41E2FE045DFC /* PhantomPluginRegistry.swift */; };
+		9E4C0226699DB0FCF7A10854 /* PhantomPushSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F6575A78D384E69AE1221 /* PhantomPushSimulator.swift */; };
+		9F43D07ECE3F3F16098A5E8A /* NetworkWaterfallVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8D5F58EC8A8BBE9E376D02 /* NetworkWaterfallVC.swift */; };
+		A0BE33DAF57DEAFCFC642249 /* GestureInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3220D2AB57A33C6FF8A86E57 /* GestureInspectorVC.swift */; };
+		A1E7AD59ABC70A22B48AF8B9 /* UIFont+Phantom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9472CA8E283781549A25480 /* UIFont+Phantom.swift */; };
+		A42FB6D793BFE6B2066E3955 /* PhantomHARExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361132A9C0D6CF00C464CA2C /* PhantomHARExporter.swift */; };
+		A58BF82843A39988A3741A46 /* UIImage+Phantom.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85B9D4E1EDFCDA0561D4C6C /* UIImage+Phantom.swift */; };
+		A592EDD9D77446102C940785 /* PhantomEnvironmentMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6734178FDCC4F738750B09 /* PhantomEnvironmentMonitor.swift */; };
+		A983CE9126FE12063E5D8E82 /* PerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24794AE6628FAE5E548A375 /* PerformanceMonitor.swift */; };
+		AC6827417752017A976273B9 /* PhantomTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974D9296ADF2283856BD9F9B /* PhantomTheme.swift */; };
+		ACD4EF26A61AB3840ABEED08 /* PhantomSwiftNetworking.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 40C425AF2D95876BAF803761 /* PhantomSwiftNetworking.framework */; };
+		ADC540B76F1F2C8710DD7320 /* PhantomRenderStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCD92C3D26809F0DC1FBED8 /* PhantomRenderStore.swift */; };
+		B029C7BE40F2F7A1EECF21AA /* CoreDataInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D87B35451446AFB8E3E78F /* CoreDataInspectorVC.swift */; };
+		B0F0F1326A3359478156B9FB /* MainThreadCheckerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4185F809625A25DDB471063E /* MainThreadCheckerVC.swift */; };
+		B19D3957FE765E16A4D5FAF0 /* PhantomNetworkSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BB2C8B8E02A0E940376AD8 /* PhantomNetworkSimulator.swift */; };
+		B28D0E07E37478812D305C8E /* PhantomSessionRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45652B97CB40FA373C28769 /* PhantomSessionRecorder.swift */; };
+		B332DD6D0BC43DA5CDEF261E /* EnvironmentOverrideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD9A30F9D0C73391E0B1B08 /* EnvironmentOverrideVC.swift */; };
+		B4B5CE02E8F2909BB5C5A36F /* MemoryDiffVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48F28B4EE3A360EA4078671 /* MemoryDiffVC.swift */; };
+		B72569A5DD5D1EA544AB6C58 /* InterceptorListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013898CB3EB208D678E48CE /* InterceptorListVC.swift */; };
+		B9AC9900ABA1326A696D15AE /* PhantomRequestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61018E2D1F3C386074FB4C9E /* PhantomRequestStore.swift */; };
+		BD61B098490AE1E8B5486485 /* PhantomCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3E341848285B83B5F11BBD /* PhantomCodeView.swift */; };
+		BEAC0A36EDF293A34A1CB31A /* PhantomFPSMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC5A2C48D32F6C1BBD26CBA /* PhantomFPSMonitor.swift */; };
+		BF5FFD02D4A9C2DB2F03F423 /* PhantomDynamicIsland.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333AC74F3B1E97D8E489CECD /* PhantomDynamicIsland.swift */; };
+		C381F8191B06898E9E0B5EAF /* StorageDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657C95A634A8A0FE9FE9AC68 /* StorageDashboardCell.swift */; };
+		C4136C5817D589D59FBFFC3D /* MacroRecorderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4448C8E044E83C92D002C8B0 /* MacroRecorderVC.swift */; };
+		C50C77394D31FB63DECBD84E /* PhantomURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F399AFEF13530D9495EC58 /* PhantomURLProtocol.swift */; };
+		CA5C17FDF7BD6DC7E3A585B4 /* PhantomMeasurementTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD830D9018E1B28247010169 /* PhantomMeasurementTool.swift */; };
+		CBCDC19EF8D170BBA51BED04 /* UserDefaultsInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C7FB01BAFE92DF7CDABD6 /* UserDefaultsInspectorVC.swift */; };
+		CBF4817A5E85010AB65204A6 /* PerformanceDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF249DE8CA43F66FCFBCE66 /* PerformanceDashboardVC.swift */; };
+		CC07CFB46CA9008DA1B245B7 /* PhantomRemoteServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AB6866E42B7042123F6C79 /* PhantomRemoteServer.swift */; };
+		CC5B018BAB6F7873C9D0C77B /* SnapshotCompareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E11EB4054F5335893AF7AE8 /* SnapshotCompareVC.swift */; };
+		CCD5723E0466EE96211A8228 /* LayoutConflictVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB34024EB243EB7EA5E8F23 /* LayoutConflictVC.swift */; };
+		CD2F2374903FD9C958DEB2A3 /* LogConsoleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010FD1C81C958CEE78B51289 /* LogConsoleVC.swift */; };
+		CD36FD996C40DB483FF0436B /* FeatureFlagsDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144521B36FB328076D6AA881 /* FeatureFlagsDashboardVC.swift */; };
+		CD4808E87A5ED64015C724E2 /* PhantomSecurityInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8D72D386D5AAEFEB90A1C4 /* PhantomSecurityInspector.swift */; };
+		D0C08391B41387CB0E7A310D /* PhantomInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063512E737868C9CCFE9563D /* PhantomInterceptor.swift */; };
+		D5072C09381B4AD609CC1B77 /* LogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88ACC0450235B7EF37FD97AC /* LogLevel.swift */; };
+		D61E4DD5FD7B95319AA7A6D9 /* UIViewController+PhantomAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE3BE396859DBFC8B2981DF /* UIViewController+PhantomAppearance.swift */; };
+		DABDC788B631621151A9E678 /* PhantomBGTaskInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BEA77324F73536FA95A66A /* PhantomBGTaskInspector.swift */; };
+		DC0532AE05FB571F59AAFF98 /* PhantomPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F39F43962FAECF1614E246 /* PhantomPlugin.swift */; };
+		DC941C3FB9B186A16C1CB7FB /* PhantomRenderTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D1E243E3A2C84C6D502D87 /* PhantomRenderTracker.swift */; };
+		DE63541A99DDC7040A02075B /* PhantomObjectTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E50A00F61CAF00ECA65567 /* PhantomObjectTracker.swift */; };
+		DFE7CCB0727AF11E0051D621 /* AccessibilityDashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601C61199E306C276A8607E /* AccessibilityDashboardVC.swift */; };
+		E069DB9E0A4CE06075A56ABD /* ViewDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D88EF9920B97868D67AA4 /* ViewDetailVC.swift */; };
+		E157F8475390C8FBAB82B09C /* Data+Phantom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAA9C475F2F27E0B067665D /* Data+Phantom.swift */; };
+		E1DF993188EFF6515DC7A097 /* GridOverlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8813DF3490D7AE0A80A2734A /* GridOverlayVC.swift */; };
+		E50148DCD494AA4B2D86CD7B /* InterceptorCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB7309301BC21FF8B207F4C /* InterceptorCardCell.swift */; };
+		E51ADAD9A8F6714F29CC1E39 /* PhantomSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099768B32038A281FD80A9D /* PhantomSwift.swift */; };
+		E61BFAE425F45A64880F1995 /* AnalyticsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8C062343DE0E550C255409 /* AnalyticsListVC.swift */; };
+		E6521C0730B700F5DB6A8667 /* PhantomGestureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69BE976CFE47E9B3F2ECE1 /* PhantomGestureHandler.swift */; };
+		E6AC11CFD2EA6398205E7F62 /* PhantomCrashLogStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA4CB78EE623924E02ADD72 /* PhantomCrashLogStore.swift */; };
+		E921AE3240C12A55032A66D6 /* AnimationInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D290358C697DE8615538028 /* AnimationInspectorVC.swift */; };
+		E9A4B7BACF326A1395280D11 /* PhantomMockEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42B97164577C1972DED07C9 /* PhantomMockEditorVC.swift */; };
+		EC272C51AB023D734E0A9291 /* DeepLinkTesterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CF6237ECAD2DE902F597A8 /* DeepLinkTesterVC.swift */; };
+		EC39E3FA9F711720217230D8 /* PhantomExtensionBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE43F738AC7B802D75B4A1E /* PhantomExtensionBus.swift */; };
+		ECB7786BA7F986A2746F6F02 /* StorageListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC64C94304ED029916BF0BCB /* StorageListVC.swift */; };
+		ECE27A278EA7DB00CA87E2DE /* PhantomEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9E459F52274E6A6363B5D /* PhantomEmptyStateView.swift */; };
+		ED94470506F6FE218FF76360 /* AssetGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2063276C73386EE308D8CFCF /* AssetGridCell.swift */; };
+		F01E45BE8A62CC44656333CD /* PhantomNetworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B68997D6C90F68C03F2164 /* PhantomNetworkCell.swift */; };
+		F1A4404D3DEC9428A1B5BDE9 /* PhantomHeapSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1210F82D33FC8186C03FCE12 /* PhantomHeapSnapshot.swift */; };
+		F1E2A84AAE6AE898D5401F20 /* ViewHierarchyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F5C2B38FBD3356DD5E4A32 /* ViewHierarchyVC.swift */; };
+		F25F0603D32EAE5EA88E1BAC /* UIColor+Phantom.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8A70CC73E1E05DF153E5F4 /* UIColor+Phantom.swift */; };
+		F587A91BDE3AD035B8C06C36 /* HitTestInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A971038DFE7595932A3D4EB /* HitTestInspectorVC.swift */; };
+		F8050874741260BAF4E6B3B0 /* SQLiteInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF4FE1DBF546F4ECE204E6 /* SQLiteInspectorVC.swift */; };
+		F9E5042CA4DAA4AC216E9209 /* DevToolsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8012451E884A5550AE1546 /* DevToolsVC.swift */; };
+		FAEA8E08B1459F07109554C9 /* PhantomLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AAD4AEFF7E0EB598CB73D8 /* PhantomLog.swift */; };
+		FC914AF1DAC1883280EBFC85 /* PhantomOSLogBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30401E79075006332C172C8 /* PhantomOSLogBridge.swift */; };
+		FE37B9B7F8A02EDD234BF201 /* PhantomConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4151EBDD651D07A33C6FEFDC /* PhantomConfig.swift */; };
+		FF7BF61AB7C8606E8EC3D31D /* LayerInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00245CA56BA594E8345475A /* LayerInspectorVC.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C6E1F736AB4255608011E745 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 044D9295FB2A012F7C9CEB06 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 02095BFF427C6D7D1D5EE05F;
+			remoteInfo = PhantomSwiftNetworking;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2987EC469065ACE83A4E5BEB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98659DDFBC135891087687F9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A3879AEF73F734DA420C7F7 /* Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstSubfolderSpec = 16;
+			files = (
+				ACD4EF26A61AB3840ABEED08 /* PhantomSwiftNetworking.framework in Dependencies */,
+			);
+			name = Dependencies;
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		000D79F8F86FC9611F4860D5 /* PhantomTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomTableVC.swift; sourceTree = "<group>"; };
+		010FD1C81C958CEE78B51289 /* LogConsoleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogConsoleVC.swift; sourceTree = "<group>"; };
+		03042793610B4AE8C3B84BBC /* PhantomDashboardSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomDashboardSearch.swift; sourceTree = "<group>"; };
+		032F6575A78D384E69AE1221 /* PhantomPushSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomPushSimulator.swift; sourceTree = "<group>"; };
+		04EEFFAA826DD75B17F4A2EA /* PhantomRuntimeInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomRuntimeInspector.swift; sourceTree = "<group>"; };
+		063512E737868C9CCFE9563D /* PhantomInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomInterceptor.swift; sourceTree = "<group>"; };
+		0A62334119EB2BF45EC64DB0 /* PhantomSnapshotManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomSnapshotManager.swift; sourceTree = "<group>"; };
+		0AD9A30F9D0C73391E0B1B08 /* EnvironmentOverrideVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentOverrideVC.swift; sourceTree = "<group>"; };
+		0D94F1B1BC53566719A23845 /* LeakListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeakListVC.swift; sourceTree = "<group>"; };
+		0E92721BA6DD16EF8F1DAFC9 /* ClassDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailVC.swift; sourceTree = "<group>"; };
+		0EFF4FE1DBF546F4ECE204E6 /* SQLiteInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteInspectorVC.swift; sourceTree = "<group>"; };
+		1210F82D33FC8186C03FCE12 /* PhantomHeapSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomHeapSnapshot.swift; sourceTree = "<group>"; };
+		12AAD4AEFF7E0EB598CB73D8 /* PhantomLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomLog.swift; sourceTree = "<group>"; };
+		144521B36FB328076D6AA881 /* FeatureFlagsDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagsDashboardVC.swift; sourceTree = "<group>"; };
+		14EC047D71150408DD88947B /* PhantomNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomNetworkModel.swift; sourceTree = "<group>"; };
+		170811D6DCE7215CAFBF6374 /* CrashLogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashLogVC.swift; sourceTree = "<group>"; };
+		171E4D4E6D36859650346DBD /* PhantomSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PhantomSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B1C7FB01BAFE92DF7CDABD6 /* UserDefaultsInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsInspectorVC.swift; sourceTree = "<group>"; };
+		1C5F8031AB4F686EBBB09256 /* PhantomSwiftNetworking-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "PhantomSwiftNetworking-Info.plist"; sourceTree = "<group>"; };
+		1C8C062343DE0E550C255409 /* AnalyticsListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsListVC.swift; sourceTree = "<group>"; };
+		1E7D681ED2700766870C52B7 /* PushSimulatorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushSimulatorVC.swift; sourceTree = "<group>"; };
+		1EA4CB78EE623924E02ADD72 /* PhantomCrashLogStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomCrashLogStore.swift; sourceTree = "<group>"; };
+		1F490623CA0268DAA5DD7140 /* PhantomMemorySlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomMemorySlayer.swift; sourceTree = "<group>"; };
+		1FE43F738AC7B802D75B4A1E /* PhantomExtensionBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomExtensionBus.swift; sourceTree = "<group>"; };
+		1FF2438BAA40CEFF162C8D6B /* BadNetworkDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadNetworkDashboardVC.swift; sourceTree = "<group>"; };
+		2063276C73386EE308D8CFCF /* AssetGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetGridCell.swift; sourceTree = "<group>"; };
+		21B68997D6C90F68C03F2164 /* PhantomNetworkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomNetworkCell.swift; sourceTree = "<group>"; };
+		225CE97926C23CF35B0A97E1 /* AccessibilityAuditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityAuditVC.swift; sourceTree = "<group>"; };
+		24BEA77324F73536FA95A66A /* PhantomBGTaskInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomBGTaskInspector.swift; sourceTree = "<group>"; };
+		25C8308F198CBEF9CAFB9A24 /* PhantomHUDWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomHUDWindow.swift; sourceTree = "<group>"; };
+		276D88EF9920B97868D67AA4 /* ViewDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDetailVC.swift; sourceTree = "<group>"; };
+		27C8856770EB86F1082A3A37 /* PhantomGridOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomGridOverlay.swift; sourceTree = "<group>"; };
+		28F5C2B38FBD3356DD5E4A32 /* ViewHierarchyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHierarchyVC.swift; sourceTree = "<group>"; };
+		29B26E2ACAB90E4313B2CD79 /* EnvironmentDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentDashboardVC.swift; sourceTree = "<group>"; };
+		2C1BDB40B4BAB19E96428484 /* ConstraintInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintInspectorVC.swift; sourceTree = "<group>"; };
+		2D056FFE6E3B07C8F2100154 /* PhantomUIKitTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomUIKitTracker.swift; sourceTree = "<group>"; };
+		2E04FA9BF2E1EADA753318FC /* PhantomMainThreadChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomMainThreadChecker.swift; sourceTree = "<group>"; };
+		3220D2AB57A33C6FF8A86E57 /* GestureInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureInspectorVC.swift; sourceTree = "<group>"; };
+		333AC74F3B1E97D8E489CECD /* PhantomDynamicIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomDynamicIsland.swift; sourceTree = "<group>"; };
+		361132A9C0D6CF00C464CA2C /* PhantomHARExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomHARExporter.swift; sourceTree = "<group>"; };
+		3DCD92C3D26809F0DC1FBED8 /* PhantomRenderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomRenderStore.swift; sourceTree = "<group>"; };
+		403B3DC793A1ACC4441B228F /* PhantomTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomTimelineView.swift; sourceTree = "<group>"; };
+		40C425AF2D95876BAF803761 /* PhantomSwiftNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PhantomSwiftNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4151EBDD651D07A33C6FEFDC /* PhantomConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomConfig.swift; sourceTree = "<group>"; };
+		4185F809625A25DDB471063E /* MainThreadCheckerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainThreadCheckerVC.swift; sourceTree = "<group>"; };
+		4327717669535414FE001B29 /* PhantomLocaleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomLocaleManager.swift; sourceTree = "<group>"; };
+		4448C8E044E83C92D002C8B0 /* MacroRecorderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroRecorderVC.swift; sourceTree = "<group>"; };
+		47ACFC82CA9285AE81547BFF /* ColorPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerVC.swift; sourceTree = "<group>"; };
+		4892E780AF1DE7E41191CB2D /* RuntimeBrowserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeBrowserVC.swift; sourceTree = "<group>"; };
+		4DA082BF00FBC4004DAE338F /* SecurityKeychainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityKeychainVC.swift; sourceTree = "<group>"; };
+		4EC59D9DE6BFDE9017A20E45 /* AppShortcutsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShortcutsVC.swift; sourceTree = "<group>"; };
+		4F4E0D27D46097C5745C79D6 /* SecurityDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityDashboardVC.swift; sourceTree = "<group>"; };
+		4FEECBC14A8CBC45E7A9E6F5 /* PhantomSwiftExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomSwiftExports.swift; sourceTree = "<group>"; };
+		5013898CB3EB208D678E48CE /* InterceptorListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptorListVC.swift; sourceTree = "<group>"; };
+		5601C61199E306C276A8607E /* AccessibilityDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityDashboardVC.swift; sourceTree = "<group>"; };
+		59AF0237EBFE164DE6D88BCB /* PhantomBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomBadgeView.swift; sourceTree = "<group>"; };
+		5BB998B360ABC6D55A96C046 /* BGTaskInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGTaskInspectorVC.swift; sourceTree = "<group>"; };
+		5D9D0C9BF0571D39C654EA35 /* PhantomLaunchPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomLaunchPlanner.swift; sourceTree = "<group>"; };
+		5F69BE976CFE47E9B3F2ECE1 /* PhantomGestureHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomGestureHandler.swift; sourceTree = "<group>"; };
+		61018E2D1F3C386074FB4C9E /* PhantomRequestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomRequestStore.swift; sourceTree = "<group>"; };
+		62A1EB9E97905A624A7013F4 /* LogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEntry.swift; sourceTree = "<group>"; };
+		657C95A634A8A0FE9FE9AC68 /* StorageDashboardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDashboardCell.swift; sourceTree = "<group>"; };
+		6B8D5F58EC8A8BBE9E376D02 /* NetworkWaterfallVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWaterfallVC.swift; sourceTree = "<group>"; };
+		6CA2B329018F0E8AED337FDC /* PhantomLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomLocationManager.swift; sourceTree = "<group>"; };
+		709CB5BE880223B5DCFEDDAD /* SandboxInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandboxInspectorVC.swift; sourceTree = "<group>"; };
+		72FF46155BCF61FF5172B670 /* PhantomEventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomEventBus.swift; sourceTree = "<group>"; };
+		730B9B09BF5898756A09F4A2 /* RequestReplayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestReplayVC.swift; sourceTree = "<group>"; };
+		734B2DAF479223798F3F0A1D /* PhantomPresentationResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomPresentationResolver.swift; sourceTree = "<group>"; };
+		74C93DD1C29E5CC5F10672B0 /* PhantomSwift-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "PhantomSwift-Info.plist"; sourceTree = "<group>"; };
+		757AC796D4CB5FC559F6A5AF /* PhantomSwizzler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomSwizzler.swift; sourceTree = "<group>"; };
+		79D1E243E3A2C84C6D502D87 /* PhantomRenderTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomRenderTracker.swift; sourceTree = "<group>"; };
+		7B2E6F906ED8891BE92E2902 /* PhantomHangDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomHangDetector.swift; sourceTree = "<group>"; };
+		7BB61DB22BCF55BDF4FD51C7 /* PhantomLeakTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomLeakTracker.swift; sourceTree = "<group>"; };
+		7D0EC902A33B5A23A49C5194 /* PhantomBugReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomBugReporter.swift; sourceTree = "<group>"; };
+		7E8012451E884A5550AE1546 /* DevToolsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevToolsVC.swift; sourceTree = "<group>"; };
+		7EA78CCCD2ABAFC2A2ACDFB8 /* PhantomLayoutConflictDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomLayoutConflictDetector.swift; sourceTree = "<group>"; };
+		80BB2C8B8E02A0E940376AD8 /* PhantomNetworkSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomNetworkSimulator.swift; sourceTree = "<group>"; };
+		8813DF3490D7AE0A80A2734A /* GridOverlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOverlayVC.swift; sourceTree = "<group>"; };
+		88ACC0450235B7EF37FD97AC /* LogLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLevel.swift; sourceTree = "<group>"; };
+		88E50A00F61CAF00ECA65567 /* PhantomObjectTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomObjectTracker.swift; sourceTree = "<group>"; };
+		8A10C3B186CFFB95E684F581 /* PhantomNetworkHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomNetworkHeaderView.swift; sourceTree = "<group>"; };
+		8A1BFA093F1BBC4DB12CDD44 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
+		8A971038DFE7595932A3D4EB /* HitTestInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HitTestInspectorVC.swift; sourceTree = "<group>"; };
+		8B6734178FDCC4F738750B09 /* PhantomEnvironmentMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomEnvironmentMonitor.swift; sourceTree = "<group>"; };
+		8BE2BD98A4AFF5565CD83B6D /* PhantomDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomDashboardVC.swift; sourceTree = "<group>"; };
+		8D290358C697DE8615538028 /* AnimationInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationInspectorVC.swift; sourceTree = "<group>"; };
+		8D8D72D386D5AAEFEB90A1C4 /* PhantomSecurityInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomSecurityInspector.swift; sourceTree = "<group>"; };
+		8DB009D91B108A8376EB6177 /* PhantomFeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomFeatureFlags.swift; sourceTree = "<group>"; };
+		94D87B35451446AFB8E3E78F /* CoreDataInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataInspectorVC.swift; sourceTree = "<group>"; };
+		96089D5230B24C3A607A1DBB /* PhantomFeatureCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomFeatureCatalog.swift; sourceTree = "<group>"; };
+		96FB036DF5F7F9E27258468B /* PhantomCURLExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomCURLExporter.swift; sourceTree = "<group>"; };
+		96FCB5824CDFA90E49D78501 /* HangDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangDetailVC.swift; sourceTree = "<group>"; };
+		974D9296ADF2283856BD9F9B /* PhantomTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomTheme.swift; sourceTree = "<group>"; };
+		995D4C5DF02AB9BA6B0F0B80 /* UserDefaultsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsVC.swift; sourceTree = "<group>"; };
+		9DC326D7FF1F41E2FE045DFC /* PhantomPluginRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomPluginRegistry.swift; sourceTree = "<group>"; };
+		9E11EB4054F5335893AF7AE8 /* SnapshotCompareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotCompareVC.swift; sourceTree = "<group>"; };
+		9E3E341848285B83B5F11BBD /* PhantomCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomCodeView.swift; sourceTree = "<group>"; };
+		A00245CA56BA594E8345475A /* LayerInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerInspectorVC.swift; sourceTree = "<group>"; };
+		A099768B32038A281FD80A9D /* PhantomSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomSwift.swift; sourceTree = "<group>"; };
+		A0BF6FDBE4352F3628C38C6E /* UIInspectorActionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIInspectorActionCard.swift; sourceTree = "<group>"; };
+		A0F927B455732C5F2B82C3A1 /* ExtensionLogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionLogVC.swift; sourceTree = "<group>"; };
+		A30401E79075006332C172C8 /* PhantomOSLogBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomOSLogBridge.swift; sourceTree = "<group>"; };
+		A7078D12327520BB2E2521A6 /* SnapshotListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotListVC.swift; sourceTree = "<group>"; };
+		A7CF6237ECAD2DE902F597A8 /* DeepLinkTesterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkTesterVC.swift; sourceTree = "<group>"; };
+		A9472CA8E283781549A25480 /* UIFont+Phantom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Phantom.swift"; sourceTree = "<group>"; };
+		A94CE6D9DCE4585DAB8A5EE0 /* LiveEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveEditVC.swift; sourceTree = "<group>"; };
+		ABF249DE8CA43F66FCFBCE66 /* PerformanceDashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceDashboardVC.swift; sourceTree = "<group>"; };
+		AEB34024EB243EB7EA5E8F23 /* LayoutConflictVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutConflictVC.swift; sourceTree = "<group>"; };
+		B12136C1830CB8C303BA0A5D /* ViewHierarchy3DVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHierarchy3DVC.swift; sourceTree = "<group>"; };
+		B4447A7822F63CEA644EFB6D /* PhantomUIInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomUIInspector.swift; sourceTree = "<group>"; };
+		B45673C9D749116330D85F0F /* PhantomEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomEnvironment.swift; sourceTree = "<group>"; };
+		B7F39F43962FAECF1614E246 /* PhantomPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomPlugin.swift; sourceTree = "<group>"; };
+		B85C78D90D077E98B7656A7A /* UIExtensions+Phantom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIExtensions+Phantom.swift"; sourceTree = "<group>"; };
+		BC64C94304ED029916BF0BCB /* StorageListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageListVC.swift; sourceTree = "<group>"; };
+		BDC5A2C48D32F6C1BBD26CBA /* PhantomFPSMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomFPSMonitor.swift; sourceTree = "<group>"; };
+		BF512A1E29E60744E97F58D0 /* HangListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangListVC.swift; sourceTree = "<group>"; };
+		BF74934A3D0A47FF4D038F7A /* KeychainInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainInspectorVC.swift; sourceTree = "<group>"; };
+		C03F3E00029BFC4A957DF5BA /* MemoryGraphVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGraphVC.swift; sourceTree = "<group>"; };
+		C24794AE6628FAE5E548A375 /* PerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitor.swift; sourceTree = "<group>"; };
+		C48F28B4EE3A360EA4078671 /* MemoryDiffVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryDiffVC.swift; sourceTree = "<group>"; };
+		C721FF8E5B7290B6EF38FA85 /* PhantomAnalyticsMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomAnalyticsMonitor.swift; sourceTree = "<group>"; };
+		CB9CAB064CB3D8C409958567 /* InterceptRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptRule.swift; sourceTree = "<group>"; };
+		CCB7309301BC21FF8B207F4C /* InterceptorCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptorCardCell.swift; sourceTree = "<group>"; };
+		CD8A70CC73E1E05DF153E5F4 /* UIColor+Phantom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Phantom.swift"; sourceTree = "<group>"; };
+		CDDD5B68FFB2E6E3093202CD /* LogStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogStore.swift; sourceTree = "<group>"; };
+		CFE3BE396859DBFC8B2981DF /* UIViewController+PhantomAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+PhantomAppearance.swift"; sourceTree = "<group>"; };
+		D1C9E459F52274E6A6363B5D /* PhantomEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomEmptyStateView.swift; sourceTree = "<group>"; };
+		D2C7C5C310C97A4A9FD58A73 /* PhantomWebViewConsoleBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomWebViewConsoleBridge.swift; sourceTree = "<group>"; };
+		D42B97164577C1972DED07C9 /* PhantomMockEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomMockEditorVC.swift; sourceTree = "<group>"; };
+		D45652B97CB40FA373C28769 /* PhantomSessionRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomSessionRecorder.swift; sourceTree = "<group>"; };
+		D465F76FA9AC8E64FFA4355B /* PhantomFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomFeature.swift; sourceTree = "<group>"; };
+		D55B44F7DABADB44D0DBDA70 /* ObjectRetainGraphVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectRetainGraphVC.swift; sourceTree = "<group>"; };
+		D7406251BC1DC5AB2EE2C187 /* PhantomRuleMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomRuleMatcher.swift; sourceTree = "<group>"; };
+		D9F399AFEF13530D9495EC58 /* PhantomURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomURLProtocol.swift; sourceTree = "<group>"; };
+		DB272FB22B1D8C308FFD71CA /* PhantomAccessibilityAuditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomAccessibilityAuditor.swift; sourceTree = "<group>"; };
+		DC125611DE7DB2D62B1F5E0D /* PhantomInterceptorDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomInterceptorDraft.swift; sourceTree = "<group>"; };
+		DD830D9018E1B28247010169 /* PhantomMeasurementTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomMeasurementTool.swift; sourceTree = "<group>"; };
+		DE95B82D013C548DA8AFCEAA /* HeapSnapshotVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeapSnapshotVC.swift; sourceTree = "<group>"; };
+		E85B9D4E1EDFCDA0561D4C6C /* UIImage+Phantom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Phantom.swift"; sourceTree = "<group>"; };
+		EAAFE8B54EA0016F03BCECF8 /* PhantomTouchVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomTouchVisualizer.swift; sourceTree = "<group>"; };
+		F3DED2E0625FAFAE00FD4644 /* NetworkListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkListVC.swift; sourceTree = "<group>"; };
+		F6A77DE8DF2406CB8F6C3304 /* PhantomAssetInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomAssetInspector.swift; sourceTree = "<group>"; };
+		F8AB6866E42B7042123F6C79 /* PhantomRemoteServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomRemoteServer.swift; sourceTree = "<group>"; };
+		F91EF16F0520D4809FFCDFD8 /* UIViewController+Phantom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Phantom.swift"; sourceTree = "<group>"; };
+		F935DE1EDE9D98BFF52EC801 /* PhantomMetricKitMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomMetricKitMonitor.swift; sourceTree = "<group>"; };
+		FADECC18277C3E3925C8A8D4 /* ResponderChainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponderChainVC.swift; sourceTree = "<group>"; };
+		FDEFF3EFBCE5D480363E2B20 /* PhantomWebViewConsoleAutoInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomWebViewConsoleAutoInstaller.swift; sourceTree = "<group>"; };
+		FE34E9772E4903AC8F74F9D3 /* RenderListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderListVC.swift; sourceTree = "<group>"; };
+		FE6BFD5E09ECBCB077920390 /* AssetListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetListVC.swift; sourceTree = "<group>"; };
+		FEAA9C475F2F27E0B067665D /* Data+Phantom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Phantom.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		260E32B0A5C04092D430EFB9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80E9B00B9B85EE733AB54AA3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01AE07A6246A1A81B87C011C /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				15ED3EE774A5C0DF70787015 /* Core */,
+				50DD8F0136F02BA1F48F65D6 /* UI */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		04DB85DEB8C8F03CD1487FA5 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				96FB036DF5F7F9E27258468B /* PhantomCURLExporter.swift */,
+				14EC047D71150408DD88947B /* PhantomNetworkModel.swift */,
+				80BB2C8B8E02A0E940376AD8 /* PhantomNetworkSimulator.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		06F307B5ED86633718B88F3D /* QA */ = {
+			isa = PBXGroup;
+			children = (
+				0B52D34C15979DE97EF496F9 /* Core */,
+				AE13EDE20FC23A73BE8E1176 /* UI */,
+			);
+			path = QA;
+			sourceTree = "<group>";
+		};
+		07BD8BDB481278C0987F6B2D /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				7B7BEE7C8023E448BFD0197B /* UI */,
+				8D8D72D386D5AAEFEB90A1C4 /* PhantomSecurityInspector.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		09768B71F1A469E138B0404D = {
+			isa = PBXGroup;
+			children = (
+				9E2E008E53BCDFBF7813FCEF /* Products */,
+				0D3DCDD73BED403D6AFFE975 /* Project */,
+			);
+			sourceTree = "<group>";
+		};
+		0AD03C5BB0A88256980BE738 /* Interceptor */ = {
+			isa = PBXGroup;
+			children = (
+				728A39411FD4854EF5CC00E3 /* Core */,
+				173F102567C7F8D523C061B6 /* UI */,
+			);
+			path = Interceptor;
+			sourceTree = "<group>";
+		};
+		0B52D34C15979DE97EF496F9 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				DB272FB22B1D8C308FFD71CA /* PhantomAccessibilityAuditor.swift */,
+				24BEA77324F73536FA95A66A /* PhantomBGTaskInspector.swift */,
+				7D0EC902A33B5A23A49C5194 /* PhantomBugReporter.swift */,
+				8B6734178FDCC4F738750B09 /* PhantomEnvironmentMonitor.swift */,
+				4327717669535414FE001B29 /* PhantomLocaleManager.swift */,
+				6CA2B329018F0E8AED337FDC /* PhantomLocationManager.swift */,
+				032F6575A78D384E69AE1221 /* PhantomPushSimulator.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		0B6AAA752CE8E9CEDE435492 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				1FE43F738AC7B802D75B4A1E /* PhantomExtensionBus.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		0D3DCDD73BED403D6AFFE975 /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				C8BAF17C7E7E4D4AE4CFB9BF /* Derived */,
+				3EA019D236583EF169A8B7A1 /* Sources */,
+			);
+			name = Project;
+			sourceTree = "<group>";
+		};
+		11B95A0BC7A67E23D25F3797 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FEAA9C475F2F27E0B067665D /* Data+Phantom.swift */,
+				CD8A70CC73E1E05DF153E5F4 /* UIColor+Phantom.swift */,
+				B85C78D90D077E98B7656A7A /* UIExtensions+Phantom.swift */,
+				A9472CA8E283781549A25480 /* UIFont+Phantom.swift */,
+				E85B9D4E1EDFCDA0561D4C6C /* UIImage+Phantom.swift */,
+				F91EF16F0520D4809FFCDFD8 /* UIViewController+Phantom.swift */,
+				CFE3BE396859DBFC8B2981DF /* UIViewController+PhantomAppearance.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		13C1C198870A309F976D0488 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				734B2DAF479223798F3F0A1D /* PhantomPresentationResolver.swift */,
+				757AC796D4CB5FC559F6A5AF /* PhantomSwizzler.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		1493DB6EE0D5D39E642FDB27 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2E04FA9BF2E1EADA753318FC /* PhantomMainThreadChecker.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		15ED3EE774A5C0DF70787015 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F6A77DE8DF2406CB8F6C3304 /* PhantomAssetInspector.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		173F102567C7F8D523C061B6 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				CCB7309301BC21FF8B207F4C /* InterceptorCardCell.swift */,
+				5013898CB3EB208D678E48CE /* InterceptorListVC.swift */,
+				D42B97164577C1972DED07C9 /* PhantomMockEditorVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		1DC08E9A522BD3BBC8D30BB0 /* UIInspector */ = {
+			isa = PBXGroup;
+			children = (
+				D792E57A8F609B5BA2619464 /* Core */,
+				E2BED055C8AE4B3E07F4F737 /* UI */,
+				B4447A7822F63CEA644EFB6D /* PhantomUIInspector.swift */,
+			);
+			path = UIInspector;
+			sourceTree = "<group>";
+		};
+		2094E6978E08CEC860E48BD9 /* InfoPlists */ = {
+			isa = PBXGroup;
+			children = (
+				74C93DD1C29E5CC5F10672B0 /* PhantomSwift-Info.plist */,
+				1C5F8031AB4F686EBBB09256 /* PhantomSwiftNetworking-Info.plist */,
+			);
+			path = InfoPlists;
+			sourceTree = "<group>";
+		};
+		2483CBDC5A6B5DB910D50E80 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				F8AB6866E42B7042123F6C79 /* PhantomRemoteServer.swift */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		261E42D2E807B967EE48A2AB /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				59AF0237EBFE164DE6D88BCB /* PhantomBadgeView.swift */,
+				9E3E341848285B83B5F11BBD /* PhantomCodeView.swift */,
+				D1C9E459F52274E6A6363B5D /* PhantomEmptyStateView.swift */,
+				000D79F8F86FC9611F4860D5 /* PhantomTableVC.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		285DA2F01B63315968B860D2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				170811D6DCE7215CAFBF6374 /* CrashLogVC.swift */,
+				96FCB5824CDFA90E49D78501 /* HangDetailVC.swift */,
+				BF512A1E29E60744E97F58D0 /* HangListVC.swift */,
+				C48F28B4EE3A360EA4078671 /* MemoryDiffVC.swift */,
+				C03F3E00029BFC4A957DF5BA /* MemoryGraphVC.swift */,
+				ABF249DE8CA43F66FCFBCE66 /* PerformanceDashboardVC.swift */,
+				403B3DC793A1ACC4441B228F /* PhantomTimelineView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		3081C53B06FF4375456578AA /* Performance */ = {
+			isa = PBXGroup;
+			children = (
+				8BFDB4127E5281E89415DDA2 /* Core */,
+				285DA2F01B63315968B860D2 /* UI */,
+			);
+			path = Performance;
+			sourceTree = "<group>";
+		};
+		315C715A0300E6580731E9C8 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				8DB009D91B108A8376EB6177 /* PhantomFeatureFlags.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		38882C45DFFD265C12A63063 /* Interceptor */ = {
+			isa = PBXGroup;
+			children = (
+				CB9CAB064CB3D8C409958567 /* InterceptRule.swift */,
+				063512E737868C9CCFE9563D /* PhantomInterceptor.swift */,
+				D7406251BC1DC5AB2EE2C187 /* PhantomRuleMatcher.swift */,
+			);
+			path = Interceptor;
+			sourceTree = "<group>";
+		};
+		39C524129DC6C867C940B2D7 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				361132A9C0D6CF00C464CA2C /* PhantomHARExporter.swift */,
+				61018E2D1F3C386074FB4C9E /* PhantomRequestStore.swift */,
+				D45652B97CB40FA373C28769 /* PhantomSessionRecorder.swift */,
+				D9F399AFEF13530D9495EC58 /* PhantomURLProtocol.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		3A554B9C6E835B11A41ABD87 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				38882C45DFFD265C12A63063 /* Interceptor */,
+				699E12750D9BCC538F8FC56D /* Network */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		3EA019D236583EF169A8B7A1 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B388A78D303FAA565CFC668A /* PhantomSwift */,
+				DEF3BA7271B9F49EC2982306 /* PhantomSwiftNetworking */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		48872AA57664DC97A1460D84 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				A19185EE43EF36AE20789CE2 /* UI */,
+				62A1EB9E97905A624A7013F4 /* LogEntry.swift */,
+				88ACC0450235B7EF37FD97AC /* LogLevel.swift */,
+				CDDD5B68FFB2E6E3093202CD /* LogStore.swift */,
+				12AAD4AEFF7E0EB598CB73D8 /* PhantomLog.swift */,
+				A30401E79075006332C172C8 /* PhantomOSLogBridge.swift */,
+				FDEFF3EFBCE5D480363E2B20 /* PhantomWebViewConsoleAutoInstaller.swift */,
+				D2C7C5C310C97A4A9FD58A73 /* PhantomWebViewConsoleBridge.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		50DD8F0136F02BA1F48F65D6 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				2063276C73386EE308D8CFCF /* AssetGridCell.swift */,
+				FE6BFD5E09ECBCB077920390 /* AssetListVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		5EF0F6F298F81A3488C42A7C /* MemoryLeak */ = {
+			isa = PBXGroup;
+			children = (
+				A8E7853F7C1579DFF3E7A1EA /* UI */,
+				1210F82D33FC8186C03FCE12 /* PhantomHeapSnapshot.swift */,
+				7BB61DB22BCF55BDF4FD51C7 /* PhantomLeakTracker.swift */,
+			);
+			path = MemoryLeak;
+			sourceTree = "<group>";
+		};
+		6150DC99092D285331F77BC4 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				39C524129DC6C867C940B2D7 /* Core */,
+				C8BAC1BB1E02E7F2435D423A /* UI */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		61D0A484774C6C2970CBCB39 /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				03042793610B4AE8C3B84BBC /* PhantomDashboardSearch.swift */,
+				8BE2BD98A4AFF5565CD83B6D /* PhantomDashboardVC.swift */,
+				333AC74F3B1E97D8E489CECD /* PhantomDynamicIsland.swift */,
+				96089D5230B24C3A607A1DBB /* PhantomFeatureCatalog.swift */,
+				5F69BE976CFE47E9B3F2ECE1 /* PhantomGestureHandler.swift */,
+				25C8308F198CBEF9CAFB9A24 /* PhantomHUDWindow.swift */,
+				974D9296ADF2283856BD9F9B /* PhantomTheme.swift */,
+			);
+			path = HUD;
+			sourceTree = "<group>";
+		};
+		689876D4DEAF97506F9F55CD /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				0A62334119EB2BF45EC64DB0 /* PhantomSnapshotManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		699E12750D9BCC538F8FC56D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				04DB85DEB8C8F03CD1487FA5 /* Core */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		6E7B0A5D82280E35CB6668A7 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				8AE00AD359F1BF8BB9A0E6F6 /* Core */,
+				9149BA363F8A0D13E96D981F /* UI */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		728A39411FD4854EF5CC00E3 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				DC125611DE7DB2D62B1F5E0D /* PhantomInterceptorDraft.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		784E7871765F24DA738F85E9 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				94D87B35451446AFB8E3E78F /* CoreDataInspectorVC.swift */,
+				BF74934A3D0A47FF4D038F7A /* KeychainInspectorVC.swift */,
+				709CB5BE880223B5DCFEDDAD /* SandboxInspectorVC.swift */,
+				A7078D12327520BB2E2521A6 /* SnapshotListVC.swift */,
+				0EFF4FE1DBF546F4ECE204E6 /* SQLiteInspectorVC.swift */,
+				657C95A634A8A0FE9FE9AC68 /* StorageDashboardCell.swift */,
+				BC64C94304ED029916BF0BCB /* StorageListVC.swift */,
+				995D4C5DF02AB9BA6B0F0B80 /* UserDefaultsVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		7B7BEE7C8023E448BFD0197B /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				4F4E0D27D46097C5745C79D6 /* SecurityDashboardVC.swift */,
+				4DA082BF00FBC4004DAE338F /* SecurityKeychainVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		8AE00AD359F1BF8BB9A0E6F6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C721FF8E5B7290B6EF38FA85 /* PhantomAnalyticsMonitor.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		8BFDB4127E5281E89415DDA2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C24794AE6628FAE5E548A375 /* PerformanceMonitor.swift */,
+				1EA4CB78EE623924E02ADD72 /* PhantomCrashLogStore.swift */,
+				7B2E6F906ED8891BE92E2902 /* PhantomHangDetector.swift */,
+				1F490623CA0268DAA5DD7140 /* PhantomMemorySlayer.swift */,
+				F935DE1EDE9D98BFF52EC801 /* PhantomMetricKitMonitor.swift */,
+				88E50A00F61CAF00ECA65567 /* PhantomObjectTracker.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		9149BA363F8A0D13E96D981F /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1C8C062343DE0E550C255409 /* AnalyticsListVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		947370426B66700A088FF3CE /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				04EEFFAA826DD75B17F4A2EA /* PhantomRuntimeInspector.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		9562F6DA86A6519FAFF0056F /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				FE34E9772E4903AC8F74F9D3 /* RenderListVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		9E2E008E53BCDFBF7813FCEF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				171E4D4E6D36859650346DBD /* PhantomSwift.framework */,
+				40C425AF2D95876BAF803761 /* PhantomSwiftNetworking.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A19185EE43EF36AE20789CE2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A0F927B455732C5F2B82C3A1 /* ExtensionLogVC.swift */,
+				010FD1C81C958CEE78B51289 /* LogConsoleVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A8E7853F7C1579DFF3E7A1EA /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DE95B82D013C548DA8AFCEAA /* HeapSnapshotVC.swift */,
+				0D94F1B1BC53566719A23845 /* LeakListVC.swift */,
+				D55B44F7DABADB44D0DBDA70 /* ObjectRetainGraphVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		ACD2CB68E33F4D0C375EFD90 /* FeatureFlags */ = {
+			isa = PBXGroup;
+			children = (
+				315C715A0300E6580731E9C8 /* Core */,
+				E54E95E8D71A5046A44FF4EA /* UI */,
+			);
+			path = FeatureFlags;
+			sourceTree = "<group>";
+		};
+		AE13EDE20FC23A73BE8E1176 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				5601C61199E306C276A8607E /* AccessibilityDashboardVC.swift */,
+				4EC59D9DE6BFDE9017A20E45 /* AppShortcutsVC.swift */,
+				5BB998B360ABC6D55A96C046 /* BGTaskInspectorVC.swift */,
+				A7CF6237ECAD2DE902F597A8 /* DeepLinkTesterVC.swift */,
+				29B26E2ACAB90E4313B2CD79 /* EnvironmentDashboardVC.swift */,
+				4448C8E044E83C92D002C8B0 /* MacroRecorderVC.swift */,
+				1E7D681ED2700766870C52B7 /* PushSimulatorVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		AF4DFE1A95340D419E96FD19 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				4151EBDD651D07A33C6FEFDC /* PhantomConfig.swift */,
+				B45673C9D749116330D85F0F /* PhantomEnvironment.swift */,
+				72FF46155BCF61FF5172B670 /* PhantomEventBus.swift */,
+				D465F76FA9AC8E64FFA4355B /* PhantomFeature.swift */,
+				5D9D0C9BF0571D39C654EA35 /* PhantomLaunchPlanner.swift */,
+				B7F39F43962FAECF1614E246 /* PhantomPlugin.swift */,
+				9DC326D7FF1F41E2FE045DFC /* PhantomPluginRegistry.swift */,
+				A099768B32038A281FD80A9D /* PhantomSwift.swift */,
+				4FEECBC14A8CBC45E7A9E6F5 /* PhantomSwiftExports.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		B388A78D303FAA565CFC668A /* PhantomSwift */ = {
+			isa = PBXGroup;
+			children = (
+				AF4DFE1A95340D419E96FD19 /* Core */,
+				61D0A484774C6C2970CBCB39 /* HUD */,
+				C5A5EEB7EDFB6D7A1AFA2105 /* Modules */,
+				E56CD97DBE1F7941D18784C4 /* Shared */,
+				8A1BFA093F1BBC4DB12CDD44 /* Documentation.docc */,
+			);
+			path = PhantomSwift;
+			sourceTree = "<group>";
+		};
+		B3B4EE1C187D4A8606F4D1A2 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				D9B312C067F457DC368D1F1E /* Core */,
+				9562F6DA86A6519FAFF0056F /* UI */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
+		B678DAF7DF97242DB7C908EF /* RuntimeBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				947370426B66700A088FF3CE /* Core */,
+				F3B09766FCE653859A8BAB55 /* UI */,
+			);
+			path = RuntimeBrowser;
+			sourceTree = "<group>";
+		};
+		C5A5EEB7EDFB6D7A1AFA2105 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				6E7B0A5D82280E35CB6668A7 /* Analytics */,
+				01AE07A6246A1A81B87C011C /* Assets */,
+				0B6AAA752CE8E9CEDE435492 /* Core */,
+				ACD2CB68E33F4D0C375EFD90 /* FeatureFlags */,
+				0AD03C5BB0A88256980BE738 /* Interceptor */,
+				48872AA57664DC97A1460D84 /* Logger */,
+				C86E2187713F5FA9AC582935 /* MainThreadChecker */,
+				5EF0F6F298F81A3488C42A7C /* MemoryLeak */,
+				6150DC99092D285331F77BC4 /* Network */,
+				3081C53B06FF4375456578AA /* Performance */,
+				06F307B5ED86633718B88F3D /* QA */,
+				2483CBDC5A6B5DB910D50E80 /* Remote */,
+				B678DAF7DF97242DB7C908EF /* RuntimeBrowser */,
+				07BD8BDB481278C0987F6B2D /* Security */,
+				D88ECDDE27FBCEE87E873F93 /* Storage */,
+				B3B4EE1C187D4A8606F4D1A2 /* SwiftUI */,
+				1DC08E9A522BD3BBC8D30BB0 /* UIInspector */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		C86E2187713F5FA9AC582935 /* MainThreadChecker */ = {
+			isa = PBXGroup;
+			children = (
+				1493DB6EE0D5D39E642FDB27 /* Core */,
+				EEEF0835AE95F89FD692AB33 /* UI */,
+			);
+			path = MainThreadChecker;
+			sourceTree = "<group>";
+		};
+		C8BAC1BB1E02E7F2435D423A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1FF2438BAA40CEFF162C8D6B /* BadNetworkDashboardVC.swift */,
+				F3DED2E0625FAFAE00FD4644 /* NetworkListVC.swift */,
+				6B8D5F58EC8A8BBE9E376D02 /* NetworkWaterfallVC.swift */,
+				21B68997D6C90F68C03F2164 /* PhantomNetworkCell.swift */,
+				8A10C3B186CFFB95E684F581 /* PhantomNetworkHeaderView.swift */,
+				730B9B09BF5898756A09F4A2 /* RequestReplayVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		C8BAF17C7E7E4D4AE4CFB9BF /* Derived */ = {
+			isa = PBXGroup;
+			children = (
+				2094E6978E08CEC860E48BD9 /* InfoPlists */,
+			);
+			path = Derived;
+			sourceTree = "<group>";
+		};
+		D792E57A8F609B5BA2619464 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				BDC5A2C48D32F6C1BBD26CBA /* PhantomFPSMonitor.swift */,
+				27C8856770EB86F1082A3A37 /* PhantomGridOverlay.swift */,
+				7EA78CCCD2ABAFC2A2ACDFB8 /* PhantomLayoutConflictDetector.swift */,
+				DD830D9018E1B28247010169 /* PhantomMeasurementTool.swift */,
+				EAAFE8B54EA0016F03BCECF8 /* PhantomTouchVisualizer.swift */,
+				2D056FFE6E3B07C8F2100154 /* PhantomUIKitTracker.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		D88ECDDE27FBCEE87E873F93 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				689876D4DEAF97506F9F55CD /* Core */,
+				784E7871765F24DA738F85E9 /* UI */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		D9B312C067F457DC368D1F1E /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				3DCD92C3D26809F0DC1FBED8 /* PhantomRenderStore.swift */,
+				79D1E243E3A2C84C6D502D87 /* PhantomRenderTracker.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		DEF3BA7271B9F49EC2982306 /* PhantomSwiftNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				3A554B9C6E835B11A41ABD87 /* Modules */,
+			);
+			path = PhantomSwiftNetworking;
+			sourceTree = "<group>";
+		};
+		E2BED055C8AE4B3E07F4F737 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				225CE97926C23CF35B0A97E1 /* AccessibilityAuditVC.swift */,
+				8D290358C697DE8615538028 /* AnimationInspectorVC.swift */,
+				47ACFC82CA9285AE81547BFF /* ColorPickerVC.swift */,
+				2C1BDB40B4BAB19E96428484 /* ConstraintInspectorVC.swift */,
+				7E8012451E884A5550AE1546 /* DevToolsVC.swift */,
+				0AD9A30F9D0C73391E0B1B08 /* EnvironmentOverrideVC.swift */,
+				3220D2AB57A33C6FF8A86E57 /* GestureInspectorVC.swift */,
+				8813DF3490D7AE0A80A2734A /* GridOverlayVC.swift */,
+				8A971038DFE7595932A3D4EB /* HitTestInspectorVC.swift */,
+				A00245CA56BA594E8345475A /* LayerInspectorVC.swift */,
+				AEB34024EB243EB7EA5E8F23 /* LayoutConflictVC.swift */,
+				A94CE6D9DCE4585DAB8A5EE0 /* LiveEditVC.swift */,
+				FADECC18277C3E3925C8A8D4 /* ResponderChainVC.swift */,
+				9E11EB4054F5335893AF7AE8 /* SnapshotCompareVC.swift */,
+				A0BF6FDBE4352F3628C38C6E /* UIInspectorActionCard.swift */,
+				1B1C7FB01BAFE92DF7CDABD6 /* UserDefaultsInspectorVC.swift */,
+				276D88EF9920B97868D67AA4 /* ViewDetailVC.swift */,
+				B12136C1830CB8C303BA0A5D /* ViewHierarchy3DVC.swift */,
+				28F5C2B38FBD3356DD5E4A32 /* ViewHierarchyVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		E54E95E8D71A5046A44FF4EA /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				144521B36FB328076D6AA881 /* FeatureFlagsDashboardVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		E56CD97DBE1F7941D18784C4 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				261E42D2E807B967EE48A2AB /* Components */,
+				11B95A0BC7A67E23D25F3797 /* Extensions */,
+				13C1C198870A309F976D0488 /* Helpers */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		EEEF0835AE95F89FD692AB33 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				4185F809625A25DDB471063E /* MainThreadCheckerVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		F3B09766FCE653859A8BAB55 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0E92721BA6DD16EF8F1DAFC9 /* ClassDetailVC.swift */,
+				4892E780AF1DE7E41191CB2D /* RuntimeBrowserVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		02095BFF427C6D7D1D5EE05F /* PhantomSwiftNetworking */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB4DB1149FAC808937BC8FA5 /* Build configuration list for PBXNativeTarget "PhantomSwiftNetworking" */;
+			buildPhases = (
+				A0F4D680B1F55B4FA94FBD53 /* Sources */,
+				4BF0BC0DEDE440910CF00363 /* Resources */,
+				260E32B0A5C04092D430EFB9 /* Frameworks */,
+				98659DDFBC135891087687F9 /* Embed Frameworks */,
+				7EB25AF03932D879A9C1AAAB /* Copy Built Products for Explicit Dependencies */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhantomSwiftNetworking;
+			packageProductDependencies = (
+			);
+			productName = PhantomSwiftNetworking;
+			productReference = 40C425AF2D95876BAF803761 /* PhantomSwiftNetworking.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6B13B5B92ADC3026452FF6D3 /* PhantomSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1185FAFF8C9B73FA9C291769 /* Build configuration list for PBXNativeTarget "PhantomSwift" */;
+			buildPhases = (
+				95CC6EE0F26AC06B02F78B9C /* Sources */,
+				F2F211794FBEDFF9F64A6202 /* Resources */,
+				80E9B00B9B85EE733AB54AA3 /* Frameworks */,
+				2987EC469065ACE83A4E5BEB /* Embed Frameworks */,
+				9A3879AEF73F734DA420C7F7 /* Dependencies */,
+				C65FBC7388401A9BE427B47E /* Copy Built Products for Explicit Dependencies */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2D334CD3247B55BA3B22167F /* PBXTargetDependency */,
+			);
+			name = PhantomSwift;
+			packageProductDependencies = (
+			);
+			productName = PhantomSwift;
+			productReference = 171E4D4E6D36859650346DBD /* PhantomSwift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		044D9295FB2A012F7C9CEB06 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 85EE9FD73432CF2BEDB668B2 /* Build configuration list for PBXProject "PhantomSwift" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 09768B71F1A469E138B0404D;
+			productRefGroup = 9E2E008E53BCDFBF7813FCEF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6B13B5B92ADC3026452FF6D3 /* PhantomSwift */,
+				02095BFF427C6D7D1D5EE05F /* PhantomSwiftNetworking */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4BF0BC0DEDE440910CF00363 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2F211794FBEDFF9F64A6202 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7EB25AF03932D879A9C1AAAB /* Copy Built Products for Explicit Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILD_DIR)/Debug$(EFFECTIVE_PLATFORM_NAME)$(TARGET_BUILD_SUBPATH)/$(PRODUCT_NAME)/$(PRODUCT_NAME).framework",
+			);
+			name = "Copy Built Products for Explicit Dependencies";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILD_DIR)/Debug$(EFFECTIVE_PLATFORM_NAME)$(TARGET_BUILD_SUBPATH)/$(PRODUCT_NAME).framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script copies built products into the shared directory to be available for app and other targets that don't have scoped directories\n# If you try to archive any of the configurations seen in the output paths, the operation will fail due to `Multiple commands produce` error\n\nFILE=\"$BUILD_DIR/Debug$EFFECTIVE_PLATFORM_NAME$TARGET_BUILD_SUBPATH/$PRODUCT_NAME/$PRODUCT_NAME.framework\"\nDESTINATION_FILE=\"$BUILD_DIR/Debug$EFFECTIVE_PLATFORM_NAME$TARGET_BUILD_SUBPATH/$PRODUCT_NAME.framework\"\nif [[ -d \"$FILE\" && ! -d \"$DESTINATION_FILE\" ]]; then\n    ln -s \"$FILE\" \"$DESTINATION_FILE\"\nfi\n\nif [[ -f \"$FILE\" && ! -f \"$DESTINATION_FILE\" ]]; then\n    ln -s \"$FILE\" \"$DESTINATION_FILE\"\nfi";
+		};
+		C65FBC7388401A9BE427B47E /* Copy Built Products for Explicit Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILD_DIR)/Debug$(EFFECTIVE_PLATFORM_NAME)$(TARGET_BUILD_SUBPATH)/$(PRODUCT_NAME)/$(PRODUCT_NAME).framework",
+			);
+			name = "Copy Built Products for Explicit Dependencies";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILD_DIR)/Debug$(EFFECTIVE_PLATFORM_NAME)$(TARGET_BUILD_SUBPATH)/$(PRODUCT_NAME).framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script copies built products into the shared directory to be available for app and other targets that don't have scoped directories\n# If you try to archive any of the configurations seen in the output paths, the operation will fail due to `Multiple commands produce` error\n\nFILE=\"$BUILD_DIR/Debug$EFFECTIVE_PLATFORM_NAME$TARGET_BUILD_SUBPATH/$PRODUCT_NAME/$PRODUCT_NAME.framework\"\nDESTINATION_FILE=\"$BUILD_DIR/Debug$EFFECTIVE_PLATFORM_NAME$TARGET_BUILD_SUBPATH/$PRODUCT_NAME.framework\"\nif [[ -d \"$FILE\" && ! -d \"$DESTINATION_FILE\" ]]; then\n    ln -s \"$FILE\" \"$DESTINATION_FILE\"\nfi\n\nif [[ -f \"$FILE\" && ! -f \"$DESTINATION_FILE\" ]]; then\n    ln -s \"$FILE\" \"$DESTINATION_FILE\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		95CC6EE0F26AC06B02F78B9C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE37B9B7F8A02EDD234BF201 /* PhantomConfig.swift in Sources */,
+				080F95604868D9EE1150DAA6 /* PhantomEnvironment.swift in Sources */,
+				8EA4C9E344F9908A70F5061F /* PhantomEventBus.swift in Sources */,
+				1D10F8D56AEEE283B42C2606 /* PhantomFeature.swift in Sources */,
+				793F92BD9AB756794636C268 /* PhantomLaunchPlanner.swift in Sources */,
+				DC0532AE05FB571F59AAFF98 /* PhantomPlugin.swift in Sources */,
+				9D45A28A795748D767F95151 /* PhantomPluginRegistry.swift in Sources */,
+				E51ADAD9A8F6714F29CC1E39 /* PhantomSwift.swift in Sources */,
+				40D6FE4A4B3A1C470CF68090 /* PhantomSwiftExports.swift in Sources */,
+				53D17202D07C305716205AF2 /* Documentation.docc in Sources */,
+				62C548959397C6142827721B /* PhantomDashboardSearch.swift in Sources */,
+				5592441869BDF902B415F2CF /* PhantomDashboardVC.swift in Sources */,
+				BF5FFD02D4A9C2DB2F03F423 /* PhantomDynamicIsland.swift in Sources */,
+				7CC9BF15DF17298D1CA6BBC6 /* PhantomFeatureCatalog.swift in Sources */,
+				E6521C0730B700F5DB6A8667 /* PhantomGestureHandler.swift in Sources */,
+				47802DC82757B9926A01AE32 /* PhantomHUDWindow.swift in Sources */,
+				AC6827417752017A976273B9 /* PhantomTheme.swift in Sources */,
+				431A9ADAD625BAD4BBAA5528 /* PhantomAnalyticsMonitor.swift in Sources */,
+				E61BFAE425F45A64880F1995 /* AnalyticsListVC.swift in Sources */,
+				700516C465199B0DB4E0F2BA /* PhantomAssetInspector.swift in Sources */,
+				ED94470506F6FE218FF76360 /* AssetGridCell.swift in Sources */,
+				3D7175AEB10EBB7D90D0A470 /* AssetListVC.swift in Sources */,
+				EC39E3FA9F711720217230D8 /* PhantomExtensionBus.swift in Sources */,
+				9BEAB3A388758E98FE08E37A /* PhantomFeatureFlags.swift in Sources */,
+				CD36FD996C40DB483FF0436B /* FeatureFlagsDashboardVC.swift in Sources */,
+				884E4E25B432E21E336E298C /* PhantomInterceptorDraft.swift in Sources */,
+				E50148DCD494AA4B2D86CD7B /* InterceptorCardCell.swift in Sources */,
+				B72569A5DD5D1EA544AB6C58 /* InterceptorListVC.swift in Sources */,
+				E9A4B7BACF326A1395280D11 /* PhantomMockEditorVC.swift in Sources */,
+				8A9A7281DF42741C90203835 /* LogEntry.swift in Sources */,
+				D5072C09381B4AD609CC1B77 /* LogLevel.swift in Sources */,
+				8BCFE57494999806FEE48203 /* LogStore.swift in Sources */,
+				FAEA8E08B1459F07109554C9 /* PhantomLog.swift in Sources */,
+				FC914AF1DAC1883280EBFC85 /* PhantomOSLogBridge.swift in Sources */,
+				3DF88B18A0D2405FFA9A1BC0 /* PhantomWebViewConsoleAutoInstaller.swift in Sources */,
+				53ADB07BB163E1C25F87A9BC /* PhantomWebViewConsoleBridge.swift in Sources */,
+				21A27756608462CF07298E24 /* ExtensionLogVC.swift in Sources */,
+				CD2F2374903FD9C958DEB2A3 /* LogConsoleVC.swift in Sources */,
+				86322B26C4B7102E48E5F348 /* PhantomMainThreadChecker.swift in Sources */,
+				B0F0F1326A3359478156B9FB /* MainThreadCheckerVC.swift in Sources */,
+				F1A4404D3DEC9428A1B5BDE9 /* PhantomHeapSnapshot.swift in Sources */,
+				26A204471F37F1338F98285A /* PhantomLeakTracker.swift in Sources */,
+				7214B5039AE109997511F3AD /* HeapSnapshotVC.swift in Sources */,
+				29782A713FEF3BDB215DA193 /* LeakListVC.swift in Sources */,
+				97294065B0468D9B5E30D150 /* ObjectRetainGraphVC.swift in Sources */,
+				A42FB6D793BFE6B2066E3955 /* PhantomHARExporter.swift in Sources */,
+				B9AC9900ABA1326A696D15AE /* PhantomRequestStore.swift in Sources */,
+				B28D0E07E37478812D305C8E /* PhantomSessionRecorder.swift in Sources */,
+				C50C77394D31FB63DECBD84E /* PhantomURLProtocol.swift in Sources */,
+				3D51A35AA449949496E4A93F /* BadNetworkDashboardVC.swift in Sources */,
+				1B3494202BB4BB11960A4FFC /* NetworkListVC.swift in Sources */,
+				9F43D07ECE3F3F16098A5E8A /* NetworkWaterfallVC.swift in Sources */,
+				F01E45BE8A62CC44656333CD /* PhantomNetworkCell.swift in Sources */,
+				25090D1ADC876840B68D46BB /* PhantomNetworkHeaderView.swift in Sources */,
+				236887AF009F53E7AA2D69F5 /* RequestReplayVC.swift in Sources */,
+				A983CE9126FE12063E5D8E82 /* PerformanceMonitor.swift in Sources */,
+				E6AC11CFD2EA6398205E7F62 /* PhantomCrashLogStore.swift in Sources */,
+				6518BCB403D8D515607D4CF6 /* PhantomHangDetector.swift in Sources */,
+				377ECA57D735784377955C19 /* PhantomMemorySlayer.swift in Sources */,
+				266A534CCF9BC662546BCB8D /* PhantomMetricKitMonitor.swift in Sources */,
+				DE63541A99DDC7040A02075B /* PhantomObjectTracker.swift in Sources */,
+				12DA08CB2D72B8AEB0E701A7 /* CrashLogVC.swift in Sources */,
+				862AF437D25661DAF7584BE2 /* HangDetailVC.swift in Sources */,
+				0CA8A41CD9D5049D1DFF7DE3 /* HangListVC.swift in Sources */,
+				B4B5CE02E8F2909BB5C5A36F /* MemoryDiffVC.swift in Sources */,
+				1501766C99737638BAE33CDE /* MemoryGraphVC.swift in Sources */,
+				CBF4817A5E85010AB65204A6 /* PerformanceDashboardVC.swift in Sources */,
+				8305EC1ABA1703FE56BC187B /* PhantomTimelineView.swift in Sources */,
+				0B3ED71CD31E2041050D3619 /* PhantomAccessibilityAuditor.swift in Sources */,
+				DABDC788B631621151A9E678 /* PhantomBGTaskInspector.swift in Sources */,
+				2C1B93C3EF2688927EC04730 /* PhantomBugReporter.swift in Sources */,
+				A592EDD9D77446102C940785 /* PhantomEnvironmentMonitor.swift in Sources */,
+				6E0BF30FE8A6BB246DA49333 /* PhantomLocaleManager.swift in Sources */,
+				2707FDF23E3AAADF14C5775D /* PhantomLocationManager.swift in Sources */,
+				9E4C0226699DB0FCF7A10854 /* PhantomPushSimulator.swift in Sources */,
+				DFE7CCB0727AF11E0051D621 /* AccessibilityDashboardVC.swift in Sources */,
+				6D47C15896B6EC09FD567192 /* AppShortcutsVC.swift in Sources */,
+				022BAFC3AD72BD3678A56412 /* BGTaskInspectorVC.swift in Sources */,
+				EC272C51AB023D734E0A9291 /* DeepLinkTesterVC.swift in Sources */,
+				926EACD4E754DC981307B1DA /* EnvironmentDashboardVC.swift in Sources */,
+				C4136C5817D589D59FBFFC3D /* MacroRecorderVC.swift in Sources */,
+				4C12651B8500B77D2C90328C /* PushSimulatorVC.swift in Sources */,
+				CC07CFB46CA9008DA1B245B7 /* PhantomRemoteServer.swift in Sources */,
+				6817AF6222AFDD9E8D614000 /* PhantomRuntimeInspector.swift in Sources */,
+				5442C81C51C92806A751B68A /* ClassDetailVC.swift in Sources */,
+				943A3815BA101FD3D4372490 /* RuntimeBrowserVC.swift in Sources */,
+				CD4808E87A5ED64015C724E2 /* PhantomSecurityInspector.swift in Sources */,
+				3BE275A2AE2473104DB862B1 /* SecurityDashboardVC.swift in Sources */,
+				24DFF2B7E0840B93833D3A3D /* SecurityKeychainVC.swift in Sources */,
+				2D583A33B782AF168E2BA5C5 /* PhantomSnapshotManager.swift in Sources */,
+				B029C7BE40F2F7A1EECF21AA /* CoreDataInspectorVC.swift in Sources */,
+				5FD28BA933D718815530677D /* KeychainInspectorVC.swift in Sources */,
+				F8050874741260BAF4E6B3B0 /* SQLiteInspectorVC.swift in Sources */,
+				7FF431958640AD9C64378366 /* SandboxInspectorVC.swift in Sources */,
+				2F42FEE8921D0158FA77D11D /* SnapshotListVC.swift in Sources */,
+				C381F8191B06898E9E0B5EAF /* StorageDashboardCell.swift in Sources */,
+				ECB7786BA7F986A2746F6F02 /* StorageListVC.swift in Sources */,
+				56AA2CCFE6B91C01DFB3249D /* UserDefaultsVC.swift in Sources */,
+				ADC540B76F1F2C8710DD7320 /* PhantomRenderStore.swift in Sources */,
+				DC941C3FB9B186A16C1CB7FB /* PhantomRenderTracker.swift in Sources */,
+				1BF10A46CFBF59D39AE9DCD2 /* RenderListVC.swift in Sources */,
+				BEAC0A36EDF293A34A1CB31A /* PhantomFPSMonitor.swift in Sources */,
+				8A8DEFE6AEED1594753071E4 /* PhantomGridOverlay.swift in Sources */,
+				3786AA85B3EC1B9261134457 /* PhantomLayoutConflictDetector.swift in Sources */,
+				CA5C17FDF7BD6DC7E3A585B4 /* PhantomMeasurementTool.swift in Sources */,
+				6B3ED8EC5FC591D2B16B0A9B /* PhantomTouchVisualizer.swift in Sources */,
+				2E3AEA41C2656AE8A8A242EE /* PhantomUIKitTracker.swift in Sources */,
+				71BA814AB0B048B49FE0D76F /* PhantomUIInspector.swift in Sources */,
+				319023CF7CFF422590F7D17A /* AccessibilityAuditVC.swift in Sources */,
+				E921AE3240C12A55032A66D6 /* AnimationInspectorVC.swift in Sources */,
+				843CB7A324B8F335BABE9B8C /* ColorPickerVC.swift in Sources */,
+				7DCF4E45C44DD23619B7F004 /* ConstraintInspectorVC.swift in Sources */,
+				F9E5042CA4DAA4AC216E9209 /* DevToolsVC.swift in Sources */,
+				B332DD6D0BC43DA5CDEF261E /* EnvironmentOverrideVC.swift in Sources */,
+				A0BE33DAF57DEAFCFC642249 /* GestureInspectorVC.swift in Sources */,
+				E1DF993188EFF6515DC7A097 /* GridOverlayVC.swift in Sources */,
+				F587A91BDE3AD035B8C06C36 /* HitTestInspectorVC.swift in Sources */,
+				FF7BF61AB7C8606E8EC3D31D /* LayerInspectorVC.swift in Sources */,
+				CCD5723E0466EE96211A8228 /* LayoutConflictVC.swift in Sources */,
+				7B65236F93E192F05AB1D001 /* LiveEditVC.swift in Sources */,
+				926CA15AF68B49FC3EB2E31F /* ResponderChainVC.swift in Sources */,
+				CC5B018BAB6F7873C9D0C77B /* SnapshotCompareVC.swift in Sources */,
+				73BF3325F26F6432DB2D6B7D /* UIInspectorActionCard.swift in Sources */,
+				CBCDC19EF8D170BBA51BED04 /* UserDefaultsInspectorVC.swift in Sources */,
+				E069DB9E0A4CE06075A56ABD /* ViewDetailVC.swift in Sources */,
+				420736E551C6930C0765C9CD /* ViewHierarchy3DVC.swift in Sources */,
+				F1E2A84AAE6AE898D5401F20 /* ViewHierarchyVC.swift in Sources */,
+				00055ADA950978B69BB8EECE /* PhantomBadgeView.swift in Sources */,
+				BD61B098490AE1E8B5486485 /* PhantomCodeView.swift in Sources */,
+				ECE27A278EA7DB00CA87E2DE /* PhantomEmptyStateView.swift in Sources */,
+				23B41ADFDC826478601FC5D0 /* PhantomTableVC.swift in Sources */,
+				E157F8475390C8FBAB82B09C /* Data+Phantom.swift in Sources */,
+				F25F0603D32EAE5EA88E1BAC /* UIColor+Phantom.swift in Sources */,
+				3299DD9D173646C3F9AFEEC7 /* UIExtensions+Phantom.swift in Sources */,
+				A1E7AD59ABC70A22B48AF8B9 /* UIFont+Phantom.swift in Sources */,
+				A58BF82843A39988A3741A46 /* UIImage+Phantom.swift in Sources */,
+				7386C3F84DAAC5B726127CED /* UIViewController+Phantom.swift in Sources */,
+				D61E4DD5FD7B95319AA7A6D9 /* UIViewController+PhantomAppearance.swift in Sources */,
+				35DB28718B85F22329273EF7 /* PhantomPresentationResolver.swift in Sources */,
+				4F8FC452EC6032B69276A652 /* PhantomSwizzler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A0F4D680B1F55B4FA94FBD53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				878398BA2193E6D5520ABDE7 /* InterceptRule.swift in Sources */,
+				D0C08391B41387CB0E7A310D /* PhantomInterceptor.swift in Sources */,
+				0C4F7FF001B446490B9AFD6C /* PhantomRuleMatcher.swift in Sources */,
+				60B49AFD80B8B7E81A4499AD /* PhantomCURLExporter.swift in Sources */,
+				9AB8C839282FFAC97D5D1FC8 /* PhantomNetworkModel.swift in Sources */,
+				B19D3957FE765E16A4D5FAF0 /* PhantomNetworkSimulator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2D334CD3247B55BA3B22167F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PhantomSwiftNetworking;
+			target = 02095BFF427C6D7D1D5EE05F /* PhantomSwiftNetworking */;
+			targetProxy = C6E1F736AB4255608011E745 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		35FD9141C05DDDCBE369B7C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Resources/InfoPlists/PhantomSwift-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = PhantomSwift;
+				PRODUCT_NAME = PhantomSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		43845545EEE326D329A078A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILT_PRODUCTS_DIR = "$(CONFIGURATION_BUILD_DIR)$(TARGET_BUILD_SUBPATH)/$(PRODUCT_NAME)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(CONFIGURATION_BUILD_DIR)$(TARGET_BUILD_SUBPATH)";
+				INFOPLIST_FILE = "Resources/InfoPlists/PhantomSwiftNetworking-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = PhantomSwiftNetworking;
+				PRODUCT_NAME = PhantomSwiftNetworking;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGET_BUILD_DIR = "$(CONFIGURATION_BUILD_DIR)$(TARGET_BUILD_SUBPATH)/$(PRODUCT_NAME)";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		9D81AD2B8EFA4363C0A65293 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Resources/InfoPlists/PhantomSwiftNetworking-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = PhantomSwiftNetworking;
+				PRODUCT_NAME = PhantomSwiftNetworking;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		BB944A15EF0A5CE10A9559D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+					"SWIFT_PACKAGE=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = (
+					"$(inherited)",
+					"-package-name",
+					PhantomSwift,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					SWIFT_PACKAGE,
+				);
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		C589B9B5F869CF5866551BDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILT_PRODUCTS_DIR = "$(CONFIGURATION_BUILD_DIR)$(TARGET_BUILD_SUBPATH)/$(PRODUCT_NAME)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(CONFIGURATION_BUILD_DIR)$(TARGET_BUILD_SUBPATH)";
+				INFOPLIST_FILE = "Resources/InfoPlists/PhantomSwift-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = PhantomSwift;
+				PRODUCT_NAME = PhantomSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGET_BUILD_DIR = "$(CONFIGURATION_BUILD_DIR)$(TARGET_BUILD_SUBPATH)/$(PRODUCT_NAME)";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D110BA246870819E031E2434 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = (
+					"$(inherited)",
+					"-package-name",
+					PhantomSwift,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					SWIFT_PACKAGE,
+				);
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				USE_HEADERMAP = NO;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1185FAFF8C9B73FA9C291769 /* Build configuration list for PBXNativeTarget "PhantomSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C589B9B5F869CF5866551BDA /* Debug */,
+				35FD9141C05DDDCBE369B7C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		85EE9FD73432CF2BEDB668B2 /* Build configuration list for PBXProject "PhantomSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB944A15EF0A5CE10A9559D0 /* Debug */,
+				D110BA246870819E031E2434 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB4DB1149FAC808937BC8FA5 /* Build configuration list for PBXNativeTarget "PhantomSwiftNetworking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43845545EEE326D329A078A4 /* Debug */,
+				9D81AD2B8EFA4363C0A65293 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 044D9295FB2A012F7C9CEB06 /* Project object */;
+}

@@ -250,7 +250,7 @@ internal final class NetworkListVC: PhantomTableVC, PhantomEventObserver {
         }
     }
 
-    private let emptyView = PhantomEmptyStateView(emoji: "📡", title: "No Requests", message: "Network traffic will appear here automatically.")
+    private let emptyView = PhantomEmptyStateView(symbolName: "antenna.radiowaves.left.and.right", title: "No Requests", message: "Network traffic will appear here automatically.")
 
     private func updateEmptyState() {
         if filteredRequests.isEmpty {

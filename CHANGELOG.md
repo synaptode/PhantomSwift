@@ -5,6 +5,17 @@ All notable changes to PhantomSwift will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-08-02
+
+### Changed
+- ⚠️ **Minimum Runtime Raised**: PhantomSwift now requires iOS 13.0 or newer, which allows the package to use SF Symbols directly across the UI and removes the legacy emoji fallback path
+- 🎨 **Icon System Cleanup**: Replaced remaining emoji-based UI icons with SF Symbol equivalents in the empty-state and logger surfaces
+
+### Technical Notes
+- **SemVer rationale**: Released as a minor version because the minimum supported platform changed, which is a breaking compatibility boundary for existing consumers
+- **Release focus**: iOS 13 baseline, native iconography, and release metadata consistency
+- **Recommended upgrade**: Consumers on `1.1.x` should move to `1.2.0` only if their app supports iOS 13 or newer
+
 ## [1.1.2] - 2026-07-05
 
 ### Added
@@ -107,7 +118,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔧 **.gitignore**: Expanded from 43 to 120 lines with organized sections for Xcode, SPM, CocoaPods, Carthage, Fastlane, coverage tools, and IDEs
 
 ### Technical Details
-- **Target**: iOS 12.0+ with #available guards for iOS 13+ APIs
+- **Target**: iOS 13.0+ with `#available` guards for iOS 13+ APIs
 - **Dependencies**: Zero external dependencies (Apple frameworks only)
 - **Language**: Swift 5.0+ / Swift 5.9+ recommended
 - **Architecture**: UIKit-first, programmatic UI layout (no storyboards/XIBs)

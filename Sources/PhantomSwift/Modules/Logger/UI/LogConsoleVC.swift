@@ -110,7 +110,7 @@ internal final class LogConsoleVC: UIViewController, PhantomEventObserver {
         levelChips.append(allChip)   // index 0 = ALL
 
         for level in LogLevel.allCases {
-            let chip = LevelChip(title: "\(level.emoji) \(level.name)", accent: accentColor(for: level))
+            let chip = LevelChip(title: level.name, symbolName: level.symbolName, accent: accentColor(for: level))
             chip.level = level
             chip.addTarget(self, action: #selector(levelChipTapped(_:)), for: .touchUpInside)
             filterStack.addArrangedSubview(chip)
@@ -370,25 +370,40 @@ extension LogConsoleVC: UISearchBarDelegate {
 
 private final class LevelChip: UIControl {
     var level: LogLevel?
+    private let iconView = UIImageView()
     private let label = UILabel()
+    private let stackView = UIStackView()
     private let accent: UIColor
 
     var isActive: Bool = false { didSet { updateAppearance() } }
 
-    init(title: String, accent: UIColor) {
+    init(title: String, symbolName: String? = nil, accent: UIColor) {
         self.accent = accent
         super.init(frame: .zero)
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = symbolName == nil ? 0 : 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stackView)
+
+        if let symbolName {
+            iconView.image = UIImage(systemName: symbolName, withConfiguration: UIImage.SymbolConfiguration(pointSize: 11, weight: .semibold))
+            iconView.tintColor = accent
+            iconView.contentMode = .scaleAspectFit
+            stackView.addArrangedSubview(iconView)
+        }
+
         label.text = title
         label.font = .systemFont(ofSize: 11, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
+        stackView.addArrangedSubview(label)
+
         layer.cornerRadius = 12
         layer.borderWidth  = 1
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
         ])
         updateAppearance()
     }
@@ -399,10 +414,12 @@ private final class LevelChip: UIControl {
             backgroundColor     = accent.withAlphaComponent(0.2)
             layer.borderColor   = accent.cgColor
             label.textColor     = accent
+            iconView.tintColor  = accent
         } else {
             backgroundColor     = PhantomTheme.shared.surfaceColor
             layer.borderColor   = UIColor.white.withAlphaComponent(0.1).cgColor
             label.textColor     = PhantomTheme.shared.textColor.withAlphaComponent(0.5)
+            iconView.tintColor  = PhantomTheme.shared.textColor.withAlphaComponent(0.5)
         }
     }
 
@@ -421,11 +438,11 @@ private final class LogCell: UITableViewCell {
     }()
 
     private let accentBar    = UIView()
-    private let levelBadge   = UILabel()
     private let messageLabel = UILabel()
     private let metaLabel    = UILabel()
     private let tagBadge     = UIView()
     private let tagLabel     = UILabel()
+    private let levelIcon    = UIImageView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -446,9 +463,10 @@ private final class LogCell: UITableViewCell {
         accentBar.layer.cornerRadius = 2
         contentView.addSubview(accentBar)
 
-        levelBadge.font      = .systemFont(ofSize: 16)
-        levelBadge.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(levelBadge)
+        levelIcon.contentMode = .scaleAspectFit
+        levelIcon.tintColor   = PhantomTheme.shared.textColor
+        levelIcon.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(levelIcon)
 
         messageLabel.font          = UIFont.phantomMonospaced(size: 12, weight: .medium)
         messageLabel.textColor     = PhantomTheme.shared.textColor
@@ -481,16 +499,17 @@ private final class LogCell: UITableViewCell {
             accentBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
             accentBar.widthAnchor.constraint(equalToConstant: 4),
 
-            levelBadge.leadingAnchor.constraint(equalTo: accentBar.trailingAnchor, constant: 10),
-            levelBadge.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            levelBadge.widthAnchor.constraint(equalToConstant: 22),
+            levelIcon.leadingAnchor.constraint(equalTo: accentBar.trailingAnchor, constant: 10),
+            levelIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            levelIcon.widthAnchor.constraint(equalToConstant: 18),
+            levelIcon.heightAnchor.constraint(equalToConstant: 18),
 
             messageLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            messageLabel.leadingAnchor.constraint(equalTo: levelBadge.trailingAnchor, constant: 6),
+            messageLabel.leadingAnchor.constraint(equalTo: levelIcon.trailingAnchor, constant: 6),
             messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
 
             tagBadge.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 5),
-            tagBadge.leadingAnchor.constraint(equalTo: levelBadge.trailingAnchor, constant: 6),
+            tagBadge.leadingAnchor.constraint(equalTo: levelIcon.trailingAnchor, constant: 6),
 
             tagLabel.topAnchor.constraint(equalTo: tagBadge.topAnchor, constant: 2),
             tagLabel.bottomAnchor.constraint(equalTo: tagBadge.bottomAnchor, constant: -2),
@@ -512,7 +531,8 @@ private final class LogCell: UITableViewCell {
     func configure(with entry: LogEntry) {
         let accent = accentColor(for: entry.level)
         accentBar.backgroundColor  = accent
-        levelBadge.text            = entry.level.emoji
+        levelIcon.image            = UIImage(systemName: entry.level.symbolName, withConfiguration: UIImage.SymbolConfiguration(pointSize: 14, weight: .semibold))
+        levelIcon.tintColor        = accent
 
         messageLabel.text          = entry.message
         messageLabel.textColor     = accent.withAlphaComponent(entry.level == .verbose ? 0.6 : 1.0)
@@ -599,7 +619,7 @@ private final class LogDetailVC: UIViewController {
         let file = URL(fileURLWithPath: entry.file).lastPathComponent
         return [
             ("ENTRY", [
-                ("Level",    "\(entry.level.emoji) \(entry.level.name)"),
+                ("Level",    entry.level.name),
                 ("Tag",      entry.tag ?? "—"),
                 ("Time",     LogDetailVC.dateFormatter.string(from: entry.timestamp)),
             ]),

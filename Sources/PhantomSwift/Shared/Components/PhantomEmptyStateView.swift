@@ -9,15 +9,15 @@ internal final class PhantomEmptyStateView: UIView {
     }
 
     private let stackView = UIStackView()
-    private let emojiLabel = UILabel()
+    private let iconView = UIImageView()
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
     private let style: Style
     
-    internal init(emoji: String, title: String, message: String, style: Style = .standard) {
+    internal init(symbolName: String, title: String, message: String, style: Style = .standard) {
         self.style = style
         super.init(frame: .zero)
-        emojiLabel.text = emoji
+        iconView.image = UIImage(systemName: symbolName)
         titleLabel.text = title
         messageLabel.text = message
         setup()
@@ -33,18 +33,21 @@ internal final class PhantomEmptyStateView: UIView {
         stackView.spacing = style == .compact ? 8 : 10
         addSubview(stackView)
 
+        iconView.contentMode = .scaleAspectFit
+        iconView.tintColor = PhantomTheme.shared.primaryColor
+
         switch style {
         case .standard:
-            emojiLabel.font = UIFont.systemFont(ofSize: 64)
+            iconView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 52, weight: .regular)
             titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
             messageLabel.font = UIFont.systemFont(ofSize: 14)
         case .compact:
-            emojiLabel.font = UIFont.systemFont(ofSize: 46)
+            iconView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 38, weight: .regular)
             titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
             messageLabel.font = UIFont.systemFont(ofSize: 12)
         }
 
-        stackView.addArrangedSubview(emojiLabel)
+        stackView.addArrangedSubview(iconView)
 
         titleLabel.textColor = PhantomTheme.shared.textColor
         stackView.addArrangedSubview(titleLabel)

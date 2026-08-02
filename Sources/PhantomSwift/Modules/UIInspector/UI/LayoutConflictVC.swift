@@ -17,7 +17,7 @@ internal final class LayoutConflictVC: UIViewController {
     }()
 
     private lazy var emptyView = PhantomEmptyStateView(
-        emoji: "📐",
+        symbolName: "ruler",
         title: "No Layout Conflicts",
         message: "AutoLayout constraint breaks will appear here in real-time as you use the app."
     )

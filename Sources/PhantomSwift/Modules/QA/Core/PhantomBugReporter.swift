@@ -54,7 +54,7 @@ public final class PhantomBugReporter {
 
             // 4. Recent logs (last 100)
             let logs = LogStore.shared.getAll().suffix(100)
-            let logText = logs.map { "[\($0.level.emoji)] \($0.timestamp) | \($0.message)" }.joined(separator: "\n")
+            let logText = logs.map { "[\($0.level.name)] \($0.timestamp) | \($0.message)" }.joined(separator: "\n")
             try logText.write(to: bundleDir.appendingPathComponent("recent_logs.txt"),
                               atomically: true, encoding: .utf8)
 

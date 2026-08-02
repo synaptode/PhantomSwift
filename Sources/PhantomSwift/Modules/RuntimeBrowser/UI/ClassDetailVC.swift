@@ -36,7 +36,7 @@ internal final class ClassDetailVC: UIViewController {
         }
     }()
     private let emptyView = PhantomEmptyStateView(
-        emoji: "📭",
+        symbolName: "doc.text.magnifyingglass",
         title: "None Found",
         message: "This class has no items in this category."
     )

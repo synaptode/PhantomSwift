@@ -14,7 +14,7 @@ internal final class AppShortcutsVC: PhantomTableVC {
     private func loadShortcuts() {
         self.shortcuts = PhantomSwift.shared.config.shortcuts
         if shortcuts.isEmpty {
-            let empty = PhantomEmptyStateView(emoji: "⌨️", title: "No Shortcuts", message: "Register shortcuts in PhantomConfig to see them here.")
+            let empty = PhantomEmptyStateView(symbolName: "keyboard", title: "No Shortcuts", message: "Register shortcuts in PhantomConfig to see them here.")
             tableView.backgroundView = empty
         } else {
             tableView.backgroundView = nil

@@ -3,17 +3,17 @@ import Foundation
 
 /// Priority levels for PhantomSwift logs.
 public enum LogLevel: Int, CaseIterable {
-    /// 🔍 Granular technical details
+    /// Granular technical details
     case verbose = 0
-    /// 🐛 General debug info
+    /// General debug info
     case debug = 1
-    /// ℹ️ Normal app flow
+    /// Normal app flow
     case info = 2
-    /// ⚠️ Unusual but non-fatal
+    /// Unusual but non-fatal
     case warning = 3
-    /// ❌ Error requiring attention
+    /// Error requiring attention
     case error = 4
-    /// 🚨 Fatal, potential crash
+    /// Fatal, potential crash
     case critical = 5
     
     /// User-friendly name
@@ -28,15 +28,15 @@ public enum LogLevel: Int, CaseIterable {
         }
     }
     
-    /// Associated emoji for visual cues
-    public var emoji: String {
+    /// Associated SF Symbol for visual cues
+    public var symbolName: String {
         switch self {
-        case .verbose: return "🔍"
-        case .debug: return "🐛"
-        case .info: return "ℹ️"
-        case .warning: return "⚠️"
-        case .error: return "❌"
-        case .critical: return "🚨"
+        case .verbose: return "magnifyingglass"
+        case .debug: return "ladybug"
+        case .info: return "info.circle"
+        case .warning: return "exclamationmark.triangle"
+        case .error: return "xmark.octagon"
+        case .critical: return "exclamationmark.shield"
         }
     }
 }
