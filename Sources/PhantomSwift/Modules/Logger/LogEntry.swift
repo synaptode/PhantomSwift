@@ -32,7 +32,7 @@ public struct LogEntry: Identifiable {
     
     /// Formatted log string for display.
     public var formatted: String {
-        "[\(level.emoji) \(level.name)] \(message)"
+        "[\(level.name)] \(message)"
     }
 }
 #endif

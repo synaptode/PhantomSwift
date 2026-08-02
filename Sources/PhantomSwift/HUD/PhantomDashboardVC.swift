@@ -81,7 +81,7 @@ internal final class PhantomDashboardVC: UIViewController {
     private var sections: [AlphaSection] = []
     private var lastVisibleSection = -1
     private let emptyStateView = PhantomEmptyStateView(
-        emoji: "🔍",
+        symbolName: "magnifyingglass",
         title: "No Results",
         message: "No modules match your search."
     )
@@ -167,7 +167,7 @@ internal final class PhantomDashboardVC: UIViewController {
     // MARK: - Frosted glass background
 
     private func setupFrostedBackground() {
-        // Deep dark base (fallback for iOS 12)
+        // Deep dark base for the dashboard backdrop.
         view.backgroundColor = UIColor(white: 0.04, alpha: 1.0)
 
         if #available(iOS 13.0, *) {

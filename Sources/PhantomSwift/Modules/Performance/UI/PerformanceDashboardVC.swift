@@ -447,8 +447,6 @@ private final class MetricView: UIView {
         unitLabel.text = unit
         if #available(iOS 13.0, *) {
             iconView.image = UIImage(systemName: icon)
-        } else {
-            // iOS 12 Fallback text is placed in init usually, skipping since it's just decorative.
         }
         setup()
     }

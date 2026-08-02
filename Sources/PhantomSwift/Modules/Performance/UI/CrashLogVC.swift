@@ -17,7 +17,7 @@ internal final class CrashLogVC: UIViewController {
     }()
 
     private lazy var emptyView = PhantomEmptyStateView(
-        emoji: "✅",
+        symbolName: "checkmark.seal",
         title: "No Crashes Recorded",
         message: "Uncaught NSExceptions and MetricKit crash diagnostics appear here."
     )

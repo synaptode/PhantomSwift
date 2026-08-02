@@ -294,7 +294,7 @@ internal final class InterceptorListVC: UIViewController {
     private let mockoonValueLabel = UILabel()
     private var refreshTimer: Timer?
     private let emptyView = PhantomEmptyStateView(
-        emoji: "🎭",
+        symbolName: "theatermasks",
         title: "No active rules",
         message: "Intercept or mock network traffic by adding a rule.",
         style: .compact

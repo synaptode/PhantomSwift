@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/synaptode/PhantomSwift/releases/tag/v1.1.2">
-    <img src="https://img.shields.io/badge/version-1.1.2-blue.svg?style=flat" alt="Version 1.1.2">
+  <a href="https://github.com/synaptode/PhantomSwift/releases/tag/v1.2.0">
+    <img src="https://img.shields.io/badge/version-1.2.0-blue.svg?style=flat" alt="Version 1.2.0">
   </a>
   <a href="https://github.com/synaptode/PhantomSwift/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat" alt="MIT License">
@@ -30,7 +30,7 @@
 PhantomSwift is an open-source iOS debugging library for Swift developers.
 It provides network inspection, memory leak detection, UI hierarchy exploration,
 and 25+ diagnostic tools — all in a single zero-dependency package.
-Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods, with a minimum runtime target of iOS 12 and a validated Swift 5.9+ toolchain.
+Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods, with a minimum runtime target of iOS 13 and a validated Swift 5.9+ toolchain.
 </p>
 
 ---
@@ -69,7 +69,7 @@ Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods, with a mini
 
 - **Zero external dependencies** — built entirely with Apple frameworks
 - **`#if DEBUG` safe** — every file is wrapped; nothing ships to the App Store
-- **iOS 12+ runtime support** — with `#available` guards for newer APIs
+- **iOS 13+ runtime support** — with `#available` guards for newer APIs
 - **Swift 5.x aligned** — validated with Swift 5.9+ toolchains
 - **Glassmorphic UI** — premium dark theme with blur, shadows, and micro-animations
 - **Modular architecture** — enable or disable any module independently
@@ -188,7 +188,7 @@ Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/synaptode/PhantomSwift.git", from: "1.1.2")
+    .package(url: "https://github.com/synaptode/PhantomSwift.git", from: "1.2.0")
 ]
 ```
 
@@ -200,7 +200,7 @@ pod 'PhantomSwift', :configurations => ['Debug']
 
 > **Important:** Always add PhantomSwift to your **Debug** configuration only. All code is wrapped in `#if DEBUG`, but restricting the dependency ensures zero bytes in release builds.
 >
-> **Compatibility:** PhantomSwift supports **iOS 12.0+** at runtime. The current package manifest and CocoaPods spec are validated with **Swift 5.9+** toolchains, which keeps the library within the Swift 5 generation while matching the repo's actual build settings.
+> **Compatibility:** PhantomSwift supports **iOS 13.0+** at runtime. The current package manifest and CocoaPods spec are validated with **Swift 5.9+** toolchains, which keeps the library within the Swift 5 generation while matching the repo's actual build settings.
 
 ---
 
@@ -858,13 +858,13 @@ PhantomSwift.configure { config in
 
 | Requirement | Minimum |
 |-------------|---------|
-| iOS | 12.0+ |
+| iOS | 13.0+ |
 | Swift | 5.9+ |
 | Xcode | 15.0+ |
 | Dependencies | None |
 
 > **iOS Compatibility Notes:**
-> - **iOS 12–12.x:** Core functionality works. SF Symbols replaced with text/Menlo fallbacks.
+> - **iOS 13+:** Core functionality uses SF Symbols directly with no emoji fallbacks.
 > - **iOS 13+:** Full SF Symbols, `UINavigationBarAppearance`, monospaced digit fonts.
 > - **iOS 13+:** Remote WebSocket Server requires `Network.framework` (`NWListener`).
 > - **iOS 14+:** OSLog bridge for unified logging.

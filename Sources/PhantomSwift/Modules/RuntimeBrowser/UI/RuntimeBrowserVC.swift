@@ -29,7 +29,7 @@ internal final class RuntimeBrowserVC: UIViewController {
     }()
     private let statsLabel = UILabel()
     private let emptyView = PhantomEmptyStateView(
-        emoji: "🔬",
+        symbolName: "magnifyingglass.circle",
         title: "No Classes Found",
         message: "Try a different search term."
     )
