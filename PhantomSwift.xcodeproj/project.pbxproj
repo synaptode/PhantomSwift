@@ -154,6 +154,25 @@
 		FC914AF1DAC1883280EBFC85 /* PhantomOSLogBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30401E79075006332C172C8 /* PhantomOSLogBridge.swift */; };
 		FE37B9B7F8A02EDD234BF201 /* PhantomConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4151EBDD651D07A33C6FEFDC /* PhantomConfig.swift */; };
 		FF7BF61AB7C8606E8EC3D31D /* LayerInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00245CA56BA594E8345475A /* LayerInspectorVC.swift */; };
+		006F2E9496689BFDEA56AD5B /* PhantomDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36FCC0C845939BBC77303B7 /* PhantomDetailCell.swift */; };
+		A01B45DA099D34A3EA568AE6 /* PhantomFilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0B6B818DAEB14A5CB93D8 /* PhantomFilterChip.swift */; };
+		0E518A8D2986B644A048627E /* PhantomGraphQLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE74E81CF26B5FBED5C8A10 /* PhantomGraphQLParser.swift */; };
+		75C96754D1AC503D0534A37D /* PhantomPushMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA726DF56D1749849880FE6 /* PhantomPushMonitor.swift */; };
+		3308C0F3F96581D90F06383D /* PhantomPushRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6AC1EC44AA6C3C8BEB781D /* PhantomPushRecord.swift */; };
+		B5692ADFEF70BEA558D658FD /* PhantomPushStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48028AD94B3A09DC20C95E3 /* PhantomPushStore.swift */; };
+		FB663B204FE109687CB4393A /* PhantomWebViewInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCA6CBEBF780849DBC953EC /* PhantomWebViewInterceptor.swift */; };
+		3EF0CABF583AE13C37727CE2 /* PhantomWebViewStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6416E32186AC539684CD4EE0 /* PhantomWebViewStorageManager.swift */; };
+		44428B72BB75F5207C282B28 /* PhantomWebViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441081E5E755C8FCBFB9DDDA /* PhantomWebViewStore.swift */; };
+		47F488713D471F01770580F4 /* PushDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994F6AC918309583B90375E3 /* PushDetailVC.swift */; };
+		470B98D27DBA2EDE1D785B1D /* PushMonitorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6E84A9C6B54FDF01810E10 /* PushMonitorCell.swift */; };
+		22979696E392CE5A01C77746 /* PushMonitorContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCB8B7AFF619636A35075B /* PushMonitorContainerVC.swift */; };
+		123811CBD4C872A095E67A1B /* PushMonitorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3B63EC1F6BAD28629969F /* PushMonitorVC.swift */; };
+		09A214F14A3EB9E71B48D3C6 /* RequestDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE4CAE8DE9A7016D9CDC4D6 /* RequestDetailVC.swift */; };
+		5A0CD3BB10A5856206437341 /* WebViewInspectorVC+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21E69A5EEAB26BD9259068F /* WebViewInspectorVC+UI.swift */; };
+		CC41848D91CCA358E3147C24 /* WebViewInspectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34819D6182185AD6CE0FFD73 /* WebViewInspectorVC.swift */; };
+		B2FD73F21682D38944F941D9 /* WebViewLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFD9A2B4D2321138DB72F96 /* WebViewLogCell.swift */; };
+		FDAA7F01BC63AC8E38ED5834 /* WebViewLogDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A076814C3F10C87B1228CCB8 /* WebViewLogDetailVC.swift */; };
+		A5779722F6A689E8C093674F /* WebViewStorageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F13223E247E76749562B933 /* WebViewStorageVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,6 +369,25 @@
 		FE34E9772E4903AC8F74F9D3 /* RenderListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderListVC.swift; sourceTree = "<group>"; };
 		FE6BFD5E09ECBCB077920390 /* AssetListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetListVC.swift; sourceTree = "<group>"; };
 		FEAA9C475F2F27E0B067665D /* Data+Phantom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Phantom.swift"; sourceTree = "<group>"; };
+		B36FCC0C845939BBC77303B7 /* PhantomDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomDetailCell.swift; sourceTree = "<group>"; };
+		14F0B6B818DAEB14A5CB93D8 /* PhantomFilterChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomFilterChip.swift; sourceTree = "<group>"; };
+		4DE74E81CF26B5FBED5C8A10 /* PhantomGraphQLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomGraphQLParser.swift; sourceTree = "<group>"; };
+		4BA726DF56D1749849880FE6 /* PhantomPushMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomPushMonitor.swift; sourceTree = "<group>"; };
+		0C6AC1EC44AA6C3C8BEB781D /* PhantomPushRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomPushRecord.swift; sourceTree = "<group>"; };
+		D48028AD94B3A09DC20C95E3 /* PhantomPushStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomPushStore.swift; sourceTree = "<group>"; };
+		FFCA6CBEBF780849DBC953EC /* PhantomWebViewInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomWebViewInterceptor.swift; sourceTree = "<group>"; };
+		6416E32186AC539684CD4EE0 /* PhantomWebViewStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomWebViewStorageManager.swift; sourceTree = "<group>"; };
+		441081E5E755C8FCBFB9DDDA /* PhantomWebViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomWebViewStore.swift; sourceTree = "<group>"; };
+		994F6AC918309583B90375E3 /* PushDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushDetailVC.swift; sourceTree = "<group>"; };
+		4B6E84A9C6B54FDF01810E10 /* PushMonitorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushMonitorCell.swift; sourceTree = "<group>"; };
+		3ECCB8B7AFF619636A35075B /* PushMonitorContainerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushMonitorContainerVC.swift; sourceTree = "<group>"; };
+		E5C3B63EC1F6BAD28629969F /* PushMonitorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushMonitorVC.swift; sourceTree = "<group>"; };
+		5EE4CAE8DE9A7016D9CDC4D6 /* RequestDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDetailVC.swift; sourceTree = "<group>"; };
+		D21E69A5EEAB26BD9259068F /* WebViewInspectorVC+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewInspectorVC+UI.swift"; sourceTree = "<group>"; };
+		34819D6182185AD6CE0FFD73 /* WebViewInspectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewInspectorVC.swift; sourceTree = "<group>"; };
+		EFFD9A2B4D2321138DB72F96 /* WebViewLogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewLogCell.swift; sourceTree = "<group>"; };
+		A076814C3F10C87B1228CCB8 /* WebViewLogDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewLogDetailVC.swift; sourceTree = "<group>"; };
+		3F13223E247E76749562B933 /* WebViewStorageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStorageVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -434,6 +472,10 @@
 				4327717669535414FE001B29 /* PhantomLocaleManager.swift */,
 				6CA2B329018F0E8AED337FDC /* PhantomLocationManager.swift */,
 				032F6575A78D384E69AE1221 /* PhantomPushSimulator.swift */,
+			
+				4BA726DF56D1749849880FE6 /* PhantomPushMonitor.swift */,
+				0C6AC1EC44AA6C3C8BEB781D /* PhantomPushRecord.swift */,
+				D48028AD94B3A09DC20C95E3 /* PhantomPushStore.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -590,6 +632,8 @@
 				61018E2D1F3C386074FB4C9E /* PhantomRequestStore.swift */,
 				D45652B97CB40FA373C28769 /* PhantomSessionRecorder.swift */,
 				D9F399AFEF13530D9495EC58 /* PhantomURLProtocol.swift */,
+			
+				4DE74E81CF26B5FBED5C8A10 /* PhantomGraphQLParser.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -818,6 +862,11 @@
 				29B26E2ACAB90E4313B2CD79 /* EnvironmentDashboardVC.swift */,
 				4448C8E044E83C92D002C8B0 /* MacroRecorderVC.swift */,
 				1E7D681ED2700766870C52B7 /* PushSimulatorVC.swift */,
+			
+				994F6AC918309583B90375E3 /* PushDetailVC.swift */,
+				4B6E84A9C6B54FDF01810E10 /* PushMonitorCell.swift */,
+				3ECCB8B7AFF619636A35075B /* PushMonitorContainerVC.swift */,
+				E5C3B63EC1F6BAD28629969F /* PushMonitorVC.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -888,6 +937,8 @@
 				D88ECDDE27FBCEE87E873F93 /* Storage */,
 				B3B4EE1C187D4A8606F4D1A2 /* SwiftUI */,
 				1DC08E9A522BD3BBC8D30BB0 /* UIInspector */,
+			
+				3DCDA1D67F97E9F820E8D0D2 /* WebViewInspector */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -910,6 +961,10 @@
 				21B68997D6C90F68C03F2164 /* PhantomNetworkCell.swift */,
 				8A10C3B186CFFB95E684F581 /* PhantomNetworkHeaderView.swift */,
 				730B9B09BF5898756A09F4A2 /* RequestReplayVC.swift */,
+			
+				B36FCC0C845939BBC77303B7 /* PhantomDetailCell.swift */,
+				14F0B6B818DAEB14A5CB93D8 /* PhantomFilterChip.swift */,
+				5EE4CAE8DE9A7016D9CDC4D6 /* RequestDetailVC.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1020,6 +1075,37 @@
 				4892E780AF1DE7E41191CB2D /* RuntimeBrowserVC.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		8EDA9BE8D2BAF12606761E16 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				FFCA6CBEBF780849DBC953EC /* PhantomWebViewInterceptor.swift */,
+				6416E32186AC539684CD4EE0 /* PhantomWebViewStorageManager.swift */,
+				441081E5E755C8FCBFB9DDDA /* PhantomWebViewStore.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		4193F177B6A2F35AFB3542C6 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D21E69A5EEAB26BD9259068F /* WebViewInspectorVC+UI.swift */,
+				34819D6182185AD6CE0FFD73 /* WebViewInspectorVC.swift */,
+				EFFD9A2B4D2321138DB72F96 /* WebViewLogCell.swift */,
+				A076814C3F10C87B1228CCB8 /* WebViewLogDetailVC.swift */,
+				3F13223E247E76749562B933 /* WebViewStorageVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		3DCDA1D67F97E9F820E8D0D2 /* WebViewInspector */ = {
+			isa = PBXGroup;
+			children = (
+				8EDA9BE8D2BAF12606761E16 /* Core */,
+				4193F177B6A2F35AFB3542C6 /* UI */,
+			);
+			path = WebViewInspector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1304,6 +1390,26 @@
 				D61E4DD5FD7B95319AA7A6D9 /* UIViewController+PhantomAppearance.swift in Sources */,
 				35DB28718B85F22329273EF7 /* PhantomPresentationResolver.swift in Sources */,
 				4F8FC452EC6032B69276A652 /* PhantomSwizzler.swift in Sources */,
+			
+				006F2E9496689BFDEA56AD5B /* PhantomDetailCell.swift in Sources */,
+				A01B45DA099D34A3EA568AE6 /* PhantomFilterChip.swift in Sources */,
+				0E518A8D2986B644A048627E /* PhantomGraphQLParser.swift in Sources */,
+				75C96754D1AC503D0534A37D /* PhantomPushMonitor.swift in Sources */,
+				3308C0F3F96581D90F06383D /* PhantomPushRecord.swift in Sources */,
+				B5692ADFEF70BEA558D658FD /* PhantomPushStore.swift in Sources */,
+				FB663B204FE109687CB4393A /* PhantomWebViewInterceptor.swift in Sources */,
+				3EF0CABF583AE13C37727CE2 /* PhantomWebViewStorageManager.swift in Sources */,
+				44428B72BB75F5207C282B28 /* PhantomWebViewStore.swift in Sources */,
+				47F488713D471F01770580F4 /* PushDetailVC.swift in Sources */,
+				470B98D27DBA2EDE1D785B1D /* PushMonitorCell.swift in Sources */,
+				22979696E392CE5A01C77746 /* PushMonitorContainerVC.swift in Sources */,
+				123811CBD4C872A095E67A1B /* PushMonitorVC.swift in Sources */,
+				09A214F14A3EB9E71B48D3C6 /* RequestDetailVC.swift in Sources */,
+				5A0CD3BB10A5856206437341 /* WebViewInspectorVC+UI.swift in Sources */,
+				CC41848D91CCA358E3147C24 /* WebViewInspectorVC.swift in Sources */,
+				B2FD73F21682D38944F941D9 /* WebViewLogCell.swift in Sources */,
+				FDAA7F01BC63AC8E38ED5834 /* WebViewLogDetailVC.swift in Sources */,
+				A5779722F6A689E8C093674F /* WebViewStorageVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1506,7 +1612,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = (
@@ -1623,7 +1729,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_SWIFT_FLAGS = (
 					"$(inherited)",
