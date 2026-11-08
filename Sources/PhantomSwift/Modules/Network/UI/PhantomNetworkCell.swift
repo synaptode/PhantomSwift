@@ -166,7 +166,7 @@ internal final class PhantomNetworkCell: UITableViewCell {
 
             // Mockoon badge (below host label, leading aligned)
             mockoonBadge.leadingAnchor.constraint(equalTo: methodBadge.leadingAnchor),
-            mockoonBadge.centerYAnchor.constraint(equalTo: hostLabel.centerYAnchor),
+            mockoonBadge.centerYAnchor.constraint(equalTo: hostLabel.centerYAnchor)
         ])
     }
 
@@ -183,13 +183,17 @@ internal final class PhantomNetworkCell: UITableViewCell {
     private func configureCoreInfo(request: PhantomRequest, tint: UIColor) {
         statusBar.backgroundColor = tint
 
-        // Method
-        methodBadge.text = request.method.uppercased()
-        methodBadge.backgroundColor = colorForMethod(request.method)
-
-        // Path & host
-        pathLabel.text = request.url.path.isEmpty ? "/" : request.url.path
-
+        if let gql = PhantomGraphQLParser.parse(request: request) {
+            methodBadge.text = gql.operationType.rawValue.uppercased()
+            methodBadge.backgroundColor = gql.operationType == .mutation
+                ? UIColor.Phantom.vibrantOrange
+                : UIColor.Phantom.vibrantPurple
+            pathLabel.text = gql.displayName
+        } else {
+            methodBadge.text = request.method.uppercased()
+            methodBadge.backgroundColor = colorForMethod(request.method)
+            pathLabel.text = request.url.path.isEmpty ? "/" : request.url.path
+        }
         // Mockoon badge
         let isMockoon = request.mockoonRedirectedURL != nil
         mockoonBadge.isHidden = !isMockoon
@@ -237,7 +241,11 @@ internal final class PhantomNetworkCell: UITableViewCell {
             statusBadge.backgroundColor = UIColor.Phantom.secondary
             metricsLabel.text = formatMetrics(request)
         default:
-            if statusCode > 0 {
+            if let gql = PhantomGraphQLParser.parse(request: request), gql.hasErrors {
+                statusBadge.text = " GQL ERR "
+                statusBadge.textColor = .white
+                statusBadge.backgroundColor = UIColor.Phantom.error
+            } else if statusCode > 0 {
                 statusBadge.text = " \(statusCode) "
                 statusBadge.textColor = .white
                 statusBadge.backgroundColor = tint
@@ -251,7 +259,8 @@ internal final class PhantomNetworkCell: UITableViewCell {
 
     private func configureBorder(request: PhantomRequest, statusCode: Int) {
         // Highlight card border for errors
-        if statusCode >= 400 || isFailed(request) {
+        let hasGqlErrors = PhantomGraphQLParser.parse(request: request)?.hasErrors ?? false
+        if statusCode >= 400 || isFailed(request) || hasGqlErrors {
             cardView.layer.borderColor = UIColor.Phantom.error.withAlphaComponent(0.25).cgColor
         } else if statusCode >= 200 && statusCode < 300 {
             cardView.layer.borderColor = UIColor.white.withAlphaComponent(0.06).cgColor
@@ -278,6 +287,23 @@ internal final class PhantomNetworkCell: UITableViewCell {
     }
 
     // MARK: - Animations
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        stopPulse()
+        pendingDot.isHidden = true
+        mockoonBadge.isHidden = true
+        cardView.layer.borderColor = UIColor.white.withAlphaComponent(0.06).cgColor
+        statusBadge.text = nil
+        metricsLabel.text = nil
+    }
+
+    // MARK: - Colors
+}
+
+// MARK: - Animations & Colors
+
+extension PhantomNetworkCell {
     private func startPulse() {
         guard pendingDot.layer.animation(forKey: "pulse") == nil else { return }
         let anim = CABasicAnimation(keyPath: "opacity")
@@ -293,17 +319,6 @@ internal final class PhantomNetworkCell: UITableViewCell {
         pendingDot.layer.removeAnimation(forKey: "pulse")
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        stopPulse()
-        pendingDot.isHidden = true
-        mockoonBadge.isHidden = true
-        cardView.layer.borderColor = UIColor.white.withAlphaComponent(0.06).cgColor
-        statusBadge.text = nil
-        metricsLabel.text = nil
-    }
-
-    // MARK: - Colors
     private func colorForStatus(_ code: Int, status: PhantomRequest.RequestStatus) -> UIColor {
         switch status {
         case .completed:

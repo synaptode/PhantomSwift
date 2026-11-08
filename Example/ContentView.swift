@@ -84,6 +84,9 @@ struct ContentView: View {
                     demoRow("Extension Sidekick", icon: "puzzlepiece", color: .phantomBrown, subtitle: "Cross-process logs from widgets") {
                         ExtensionSidekickDemoView()
                     }
+                    demoRow("WebView Inspector", icon: "globe", color: .phantomCyan, subtitle: "Inspect DOM, HTML scripts, console & JS bridge") {
+                        WebViewDemoView()
+                    }
                 }
 
                 // MARK: - Tips

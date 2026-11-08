@@ -127,7 +127,7 @@ internal final class SnapshotCompareVC: UIViewController {
         captureButton.layer.cornerRadius = 14
         captureButton.layer.borderWidth = 1
         captureButton.layer.borderColor = UIColor.Phantom.vibrantGreen.withAlphaComponent(0.4).cgColor
-        captureButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 20)
+        captureButton.setPhantomPadding(top: 12, left: 20, bottom: 12, right: 20)
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         captureButton.addTarget(self, action: #selector(captureAfter), for: .touchUpInside)
     }

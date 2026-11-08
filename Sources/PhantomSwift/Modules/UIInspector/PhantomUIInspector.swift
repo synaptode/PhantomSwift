@@ -5,7 +5,7 @@ import UIKit
 internal final class PhantomUIInspector {
     internal static let shared = PhantomUIInspector()
 
-    private var isInspecting = false
+    internal private(set) var isInspecting = false
     private var overlayWindow: PhantomHUDWindow?
     private var selectionView: PhantomOverlayView?
     private var actionCard: UIInspectorActionCard?
@@ -277,7 +277,7 @@ private final class ConflictOverlayView: UIView {
         doneBtn.tintColor = .white
         doneBtn.backgroundColor = UIColor.Phantom.vibrantRed
         doneBtn.layer.cornerRadius = 16
-        doneBtn.contentEdgeInsets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
+        doneBtn.setPhantomPadding(top: 6, left: 16, bottom: 6, right: 16)
         doneBtn.translatesAutoresizingMaskIntoConstraints = false
         doneBtn.addTarget(self, action: #selector(handleDone), for: .touchUpInside)
         addSubview(doneBtn)

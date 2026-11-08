@@ -54,10 +54,10 @@ internal final class MainThreadCheckerVC: PhantomTableVC {
         if #available(iOS 13.0, *) {
             clearButton.setImage(UIImage(systemName: "trash"), for: .normal)
             clearButton.tintColor = .white
-            clearButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
+            clearButton.setPhantomPadding(top: 6, left: 12, bottom: 6, right: 12)
         } else {
             clearButton.setTitle("Clear", for: .normal)
-            clearButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
+            clearButton.setPhantomPadding(top: 6, left: 14, bottom: 6, right: 14)
         }
         clearButton.setTitleColor(.white, for: .normal)
         clearButton.backgroundColor = UIColor.Phantom.vibrantRed
@@ -100,11 +100,11 @@ internal final class MainThreadCheckerVC: PhantomTableVC {
         if filterText.isEmpty {
             filteredViolations = violations
         } else {
-            let q = filterText.lowercased()
+            let query = filterText.lowercased()
             filteredViolations = violations.filter {
-                $0.className.lowercased().contains(q) ||
-                $0.methodName.lowercased().contains(q) ||
-                $0.threadName.lowercased().contains(q)
+                $0.className.lowercased().contains(query) ||
+                $0.methodName.lowercased().contains(query) ||
+                $0.threadName.lowercased().contains(query)
             }
         }
         tableView.reloadData()

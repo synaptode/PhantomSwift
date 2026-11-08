@@ -32,7 +32,10 @@ internal enum PhantomPresentationResolver {
             }
         }
 
-        return UIApplication.shared.windows.filter { !($0 is PhantomHUDWindow) }
+        if let windows = UIApplication.shared.value(forKey: "windows") as? [UIWindow] {
+            return windows.filter { !($0 is PhantomHUDWindow) }
+        }
+        return []
     }
 
     static func activeHostWindow() -> UIWindow? {
@@ -57,6 +60,37 @@ internal enum PhantomPresentationResolver {
             depth += 1
         }
         return presenter
+    }
+
+    static func activeDashboard() -> PhantomDashboardVC? {
+        if let current = PhantomDashboardVC.current,
+           current.presentingViewController != nil || current.isBeingPresented || current.view.window != nil {
+            return current
+        }
+
+        for window in hostWindows() {
+            var current = window.rootViewController
+            var depth = 0
+            while let controller = current, depth < 20 {
+                if let dashboard = controller as? PhantomDashboardVC {
+                    return dashboard
+                }
+                current = controller.presentedViewController
+                depth += 1
+            }
+        }
+        return nil
+    }
+
+    static func isPhantomViewController(_ controller: UIViewController) -> Bool {
+        var current: UIViewController? = controller
+        while let currentController = current {
+            if currentController is PhantomDashboardVC {
+                return true
+            }
+            current = currentController.presentingViewController
+        }
+        return false
     }
 
     static func inspectedRootView(fallback: UIView? = nil) -> UIView {

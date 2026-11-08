@@ -51,7 +51,8 @@ public final class PhantomObjectTracker {
             line: line
         )
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.trackedObjects.append(tracked)
             
             // Attach a watcher to detect deallocation

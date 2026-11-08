@@ -292,11 +292,11 @@ internal enum PhantomFeatureCatalog {
         case .pushNotificationSimulator:
             return PhantomFeatureDescriptor(
                 title: "Push Notifications",
-                subtitle: "Trigger local push payloads",
+                subtitle: "Live push monitor & payload simulator",
                 icon: "bell.badge",
                 accent: UIColor.Phantom.vibrantPurple,
-                badgeProvider: { 0 },
-                makeViewController: { _ in PushSimulatorVC() }
+                badgeProvider: { PhantomPushStore.shared.count },
+                makeViewController: { _ in PushMonitorContainerVC() }
             )
 
         case .backgroundTaskInspector:
@@ -330,6 +330,16 @@ internal enum PhantomFeatureCatalog {
                 accent: UIColor.Phantom.vibrantGreen,
                 badgeProvider: { 0 },
                 makeViewController: { _ in RuntimeBrowserVC() }
+            )
+
+        case .webViewInspector:
+            return PhantomFeatureDescriptor(
+                title: "WebView",
+                subtitle: "Inspect DOM, scripts, console, and JS bridge",
+                icon: "globe",
+                accent: UIColor.Phantom.neonAzure,
+                badgeProvider: { PhantomWebViewStore.shared.count },
+                makeViewController: { _ in WebViewInspectorVC() }
             )
         }
     }

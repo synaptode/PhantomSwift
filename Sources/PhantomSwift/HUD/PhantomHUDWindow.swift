@@ -66,7 +66,7 @@ internal final class PhantomHUDWindow: UIWindow {
     }
     
     @objc private func handleDebugShortcut() {
-        PhantomSwift.shared.showDashboard()
+        PhantomSwift.shared.toggleDashboard()
     }
 }
 #endif

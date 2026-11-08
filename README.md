@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/synaptode/PhantomSwift/releases/tag/v1.2.0">
-    <img src="https://img.shields.io/badge/version-1.2.0-blue.svg?style=flat" alt="Version 1.2.0">
+  <a href="https://github.com/synaptode/PhantomSwift/releases/tag/v1.3.0">
+    <img src="https://img.shields.io/badge/version-1.3.0-blue.svg?style=flat" alt="Version 1.3.0">
   </a>
   <a href="https://github.com/synaptode/PhantomSwift/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat" alt="MIT License">
@@ -117,7 +117,7 @@ Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods, with a mini
 
 | Module | Description |
 |--------|-------------|
-| **Network Trace** | Real-time HTTP/HTTPS traffic monitoring with full request/response inspection, HAR export, and search/filter |
+| **Network Trace** | Real-time HTTP/HTTPS and GraphQL traffic monitoring with query/mutation parsing, error detection, HAR export, and search/filter |
 | **Interceptor** | Mock, block, delay, or redirect any request. Mockoon redirect support. Hit counters and exclude patterns |
 | **Bad Network** | Simulate poor connectivity (3G, Edge, packet loss, latency) with one tap |
 | **Network Waterfall** | Chrome DevTools-style waterfall timeline showing request durations and concurrency |
@@ -165,8 +165,9 @@ Compatible with UIKit and SwiftUI, installable via SPM or CocoaPods, with a mini
 | **Security Audit** | Jailbreak detection, SSL pinning check, and binary integrity verification |
 | **Environment Swapper** | Spoof GPS, change locale, monitor battery/thermal state |
 | **Runtime Browser** | Browse Objective-C classes, methods, and properties at runtime |
-| **Push Notification Tester** | Simulate and test push notifications locally |
+| **Push Notification Monitor** | Live capture of incoming APNs and local notifications, inspect JSON payload, token & lifecycle state, plus simulate custom notifications |
 | **Deeplink Tester** | Test URL schemes and universal links without leaving the app |
+| **WebView Inspector** | Inspect WKWebView DOM, raw HTML, script tags, console output, JS-to-native messages, and manage cookies/local storage |
 
 ---
 
@@ -188,7 +189,7 @@ Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/synaptode/PhantomSwift.git", from: "1.2.0")
+    .package(url: "https://github.com/synaptode/PhantomSwift.git", from: "1.3.0")
 ]
 ```
 
@@ -474,6 +475,15 @@ PhantomSwift.configure { config in
 }
 #endif
 ```
+
+
+### WebView Inspector
+
+PhantomSwift provides a dedicated hybrid runtime inspector for `WKWebView` (SF Symbol `globe`):
+
+- **Log Inspector**: Real-time inspection of `console.log`, `warn`, `error`, and automatic interception of JS-to-native `window.webkit.messageHandlers.*.postMessage` payloads.
+- **UI & DOM Inspector**: Extract full page source (`document.documentElement.outerHTML`), metadata (title, URL, HTTPS status), and list all inline and external `<script>` tags.
+- **JS REPL**: Evaluate JavaScript expressions live in the active `WKWebView` and inspect returned values.
 
 ---
 

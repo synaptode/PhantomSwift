@@ -102,4 +102,22 @@ extension UISearchBar {
     }
 }
 
+extension UIButton {
+    func setPhantomPadding(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
+        if #available(iOS 15.0, *) {
+            var config = configuration ?? UIButton.Configuration.plain()
+            config.contentInsets = NSDirectionalEdgeInsets(top: top, leading: left, bottom: bottom, trailing: right)
+            if let bgColor = backgroundColor {
+                config.background.backgroundColor = bgColor
+            }
+            if layer.cornerRadius > 0 {
+                config.background.cornerRadius = layer.cornerRadius
+            }
+            configuration = config
+        } else {
+            contentEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+        }
+    }
+}
+
 #endif

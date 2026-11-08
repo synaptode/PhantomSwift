@@ -6,6 +6,7 @@ import PhantomSwiftNetworking
 public final class PhantomURLProtocol: URLProtocol {
     private static let requestKey = "com.phantomswift.network.handled"
     private var session: URLSession?
+    private lazy var sessionDelegate = PhantomURLSessionBridge(owner: self)
     private var internalTask: URLSessionDataTask?
     private var startTime: Date?
     private var currentRequest: PhantomRequest?
@@ -33,7 +34,7 @@ public final class PhantomURLProtocol: URLProtocol {
     }
     
     public override func startLoading() {
-        let mutableRequest = (request as NSURLRequest).mutableCopy() as! NSMutableURLRequest
+        guard let mutableRequest = (request as NSURLRequest).mutableCopy() as? NSMutableURLRequest else { return }
         URLProtocol.setProperty(true, forKey: PhantomURLProtocol.requestKey, in: mutableRequest)
 
         // Apply Mockoon base-URL redirect if enabled (rewrites scheme+host+port, preserves path)
@@ -74,7 +75,7 @@ public final class PhantomURLProtocol: URLProtocol {
             }
             
             let config = self.cleanConfiguration()
-            self.session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+            self.session = URLSession(configuration: config, delegate: self.sessionDelegate, delegateQueue: nil)
             self.internalTask = self.session?.dataTask(with: mutableRequest as URLRequest)
             self.internalTask?.resume()
         }
@@ -105,7 +106,7 @@ public final class PhantomURLProtocol: URLProtocol {
         case .delay(_, let seconds):
             DispatchQueue.global().asyncAfter(deadline: .now() + seconds) {
                 let config = self.cleanConfiguration()
-                self.session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+                self.session = URLSession(configuration: config, delegate: self.sessionDelegate, delegateQueue: nil)
                 self.internalTask = self.session?.dataTask(with: request)
                 self.internalTask?.resume()
             }
@@ -115,7 +116,7 @@ public final class PhantomURLProtocol: URLProtocol {
                 var newRequest = request
                 newRequest.url = toURL
                 let config = self.cleanConfiguration()
-                self.session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+                self.session = URLSession(configuration: config, delegate: self.sessionDelegate, delegateQueue: nil)
                 self.internalTask = self.session?.dataTask(with: newRequest)
                 self.internalTask?.resume()
             } else {
@@ -132,7 +133,7 @@ public final class PhantomURLProtocol: URLProtocol {
             var modifiedRequest = request
             transform(&modifiedRequest)
             let config = self.cleanConfiguration()
-            self.session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+            self.session = URLSession(configuration: config, delegate: self.sessionDelegate, delegateQueue: nil)
             self.internalTask = self.session?.dataTask(with: modifiedRequest)
             self.internalTask?.resume()
             
@@ -186,8 +187,11 @@ public final class PhantomURLProtocol: URLProtocol {
     }
 }
 
-extension PhantomURLProtocol: URLSessionDataDelegate {
-    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+extension PhantomURLProtocol {
+    internal func handleResponse(
+        _ response: URLResponse,
+        completionHandler: @escaping (URLSession.ResponseDisposition) -> Void
+    ) {
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
         
         if let httpResponse = response as? HTTPURLResponse, var current = currentRequest {
@@ -198,7 +202,7 @@ extension PhantomURLProtocol: URLSessionDataDelegate {
                 body: nil,
                 duration: duration
             )
-            // Mockoon requests are still real HTTP calls but to a local mock server → mark as mocked
+            // Mockoon requests are still real HTTP calls but to a local mock server -> mark as mocked
             current.status = isMockoonRedirect ? .mocked : .completed
             self.currentRequest = current
             PhantomRequestStore.shared.update(current)
@@ -207,12 +211,12 @@ extension PhantomURLProtocol: URLSessionDataDelegate {
         completionHandler(.allow)
     }
     
-    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+    internal func handleData(_ data: Data) {
         client?.urlProtocol(self, didLoad: data)
         responseBody.append(data)
     }
     
-    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+    internal func handleCompletion(error: Error?) {
         if let error = error {
             client?.urlProtocol(self, didFailWithError: error)
             if var current = currentRequest {
@@ -232,6 +236,31 @@ extension PhantomURLProtocol: URLSessionDataDelegate {
                 PhantomRequestStore.shared.update(current)
             }
         }
+    }
+}
+
+private final class PhantomURLSessionBridge: NSObject, URLSessionDataDelegate, @unchecked Sendable {
+    private weak var owner: PhantomURLProtocol?
+
+    init(owner: PhantomURLProtocol) {
+        self.owner = owner
+    }
+
+    func urlSession(
+        _ session: URLSession,
+        dataTask: URLSessionDataTask,
+        didReceive response: URLResponse,
+        completionHandler: @escaping (URLSession.ResponseDisposition) -> Void
+    ) {
+        owner?.handleResponse(response, completionHandler: completionHandler)
+    }
+
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        owner?.handleData(data)
+    }
+
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        owner?.handleCompletion(error: error)
     }
 }
 #endif

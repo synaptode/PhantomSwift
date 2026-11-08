@@ -47,7 +47,7 @@ internal final class FeatureFlagsDashboardVC: PhantomTableVC {
         resetButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .bold)
         resetButton.backgroundColor = UIColor.Phantom.vibrantRed
         resetButton.layer.cornerRadius = 14
-        resetButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
+        resetButton.setPhantomPadding(top: 6, left: 14, bottom: 6, right: 14)
         resetButton.addTarget(self, action: #selector(resetAll), for: .touchUpInside)
         card.addSubview(resetButton)
         resetButton.translatesAutoresizingMaskIntoConstraints = false
@@ -81,12 +81,12 @@ internal final class FeatureFlagsDashboardVC: PhantomTableVC {
         if filterText.isEmpty {
             filteredGroups = groups
         } else {
-            let q = filterText.lowercased()
+            let query = filterText.lowercased()
             filteredGroups = groups.compactMap { group in
                 let matches = group.flags.filter {
-                    $0.title.lowercased().contains(q) ||
-                    $0.key.lowercased().contains(q) ||
-                    $0.description.lowercased().contains(q)
+                    $0.title.lowercased().contains(query) ||
+                    $0.key.lowercased().contains(query) ||
+                    $0.description.lowercased().contains(query)
                 }
                 return matches.isEmpty ? nil : (name: group.name, flags: matches)
             }

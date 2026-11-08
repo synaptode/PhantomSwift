@@ -45,6 +45,8 @@ public final class PhantomSwift {
     private var plugins: [PhantomPlugin] = []
     private var activeLaunchServices = Set<PhantomLaunchService>()
     private var isHUDSetupScheduled = false
+    private var isTransitioning = false
+
     
     /// Returns all registered plugins.
     internal var registeredPlugins: [PhantomPlugin] {
@@ -132,7 +134,7 @@ public final class PhantomSwift {
 
         case .pushNotificationSimulation:
             PhantomPushSimulator.shared.start()
-
+            PhantomPushMonitor.shared.start()
         case .backgroundTaskInspection:
             if #available(iOS 13.0, *) {
                 PhantomBGTaskInspector.shared.start()
@@ -153,6 +155,11 @@ public final class PhantomSwift {
 
         case .environmentMonitoring:
             _ = PhantomEnvironmentMonitor.shared
+
+        case .webViewInspection:
+            #if canImport(WebKit)
+            PhantomWebViewInterceptor.shared.start()
+            #endif
         }
     }
 
@@ -193,35 +200,76 @@ public final class PhantomSwift {
 
         let island = PhantomDynamicIsland(frame: CGRect(x: x, y: y, width: width, height: height))
         island.onAction = { [weak self] in
-            self?.showDashboard()
+            self?.toggleDashboard()
         }
         dynamicIsland = island
         hudWindow?.addSubview(island)
     }
     
+    /// Whether the dashboard or any of its child views is currently visible.
+    public var isDashboardVisible: Bool {
+        PhantomPresentationResolver.activeDashboard() != nil
+    }
+
+    /// Toggles the PhantomSwift dashboard (shows if hidden, dismisses if visible).
+    public func toggleDashboard() {
+        if isDashboardVisible || PhantomUIInspector.shared.isInspecting {
+            hideDashboard()
+        } else {
+            showDashboard()
+        }
+    }
+
     /// Manually show the PhantomSwift dashboard.
     public func showDashboard() {
+        guard !isDashboardVisible, !isTransitioning else { return }
         guard let presenter = PhantomPresentationResolver.topPresenter() else { return }
         presentDashboard(from: presenter)
     }
-    
+
+    /// Manually hide the PhantomSwift dashboard and all open modules.
+    public func hideDashboard(animated: Bool = true, completion: (() -> Void)? = nil) {
+        if PhantomUIInspector.shared.isInspecting {
+            PhantomUIInspector.shared.stopInspecting()
+        }
+
+        guard let dashboard = PhantomPresentationResolver.activeDashboard() else {
+            completion?()
+            return
+        }
+
+        guard !isTransitioning else { return }
+        isTransitioning = true
+
+        let dismissTarget: UIViewController = dashboard.presentingViewController ?? dashboard
+        dismissTarget.dismiss(animated: animated) { [weak self] in
+            self?.isTransitioning = false
+            PhantomEventBus.shared.post(.dashboardDismissed)
+            completion?()
+        }
+    }
+
     private func presentDashboard(from presenter: UIViewController) {
-        if presenter is PhantomDashboardVC { return }
+        guard !isDashboardVisible, !isTransitioning else { return }
+        guard !PhantomPresentationResolver.isPhantomViewController(presenter) else { return }
 
         var finalPresenter: UIViewController? = presenter
         var depth = 0
         while let nextPresenter = finalPresenter?.presentedViewController, depth < 10 {
-            if nextPresenter is PhantomDashboardVC { return } // Already showing
+            if PhantomPresentationResolver.isPhantomViewController(nextPresenter) { return }
             finalPresenter = nextPresenter
             depth += 1
         }
 
-        guard let finalPresenter else { return }
+        guard let targetPresenter = finalPresenter,
+              !PhantomPresentationResolver.isPhantomViewController(targetPresenter) else { return }
 
+        isTransitioning = true
         let dashboard = PhantomDashboardVC()
         dashboard.modalPresentationStyle = .fullScreen
-        
-        finalPresenter.present(dashboard, animated: true) {
+
+        targetPresenter.present(dashboard, animated: true) { [weak self] in
+            self?.isTransitioning = false
             PhantomEventBus.shared.post(.dashboardPresented)
         }
     }

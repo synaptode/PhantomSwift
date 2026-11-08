@@ -82,7 +82,7 @@ internal final class StorageDashboardCell: UICollectionViewCell {
         if #available(iOS 15.0, *) {
             let config = UIImage.SymbolConfiguration(hierarchicalColor: iconColor)
             iconImage.image = UIImage(systemName: icon, withConfiguration: config)
-        } else if #available(iOS 13.0, *) {
+        } else {
             iconImage.image = UIImage(systemName: icon)
         }
         iconContainer.backgroundColor = iconColor.withAlphaComponent(0.12)

@@ -61,5 +61,7 @@ public enum PhantomFeature: String, CaseIterable {
     case backgroundTaskInspector
     /// ObjC runtime browser — inspect loaded classes, methods, properties, and ivars
     case runtimeBrowser
+    /// Inspect WKWebView DOM, HTML scripts, console logs, and JS-to-native messages
+    case webViewInspector
 }
 #endif

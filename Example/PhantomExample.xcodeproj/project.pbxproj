@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,7 @@
 		BF662228FD5972F25FD728DC /* AnalyticsDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9445A0B02B22BB284A400 /* AnalyticsDemoView.swift */; };
 		C39D6EDC8DEF8DBD59E1C223 /* PhantomExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5EF21CE20B97BB4CA8F128 /* PhantomExampleTests.swift */; };
 		D7AE7EFB6FCCB174377D3863 /* QADemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB068C875C56FE57377BD381 /* QADemoView.swift */; };
+		D8AE7EFB6FCCB174377D3864 /* WebViewDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB168C875C56FE57377BD382 /* WebViewDemoView.swift */; };
 		EA68D725692EA1658202BD53 /* PhantomExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62676114550109B6FD5D3C18 /* PhantomExampleApp.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,13 +38,14 @@
 		5969BD52D1D02435154E42A9 /* PhantomExampleTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PhantomExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E153680C3F87AE15356D9B3 /* NetworkDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDemoView.swift; sourceTree = "<group>"; };
 		62676114550109B6FD5D3C18 /* PhantomExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhantomExampleApp.swift; sourceTree = "<group>"; };
-		62DD2E4031B6233F24F704EA /* PhantomExample.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PhantomExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		62DD2E4031B6233F24F704EA /* PhantomExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhantomExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		789CF5367A4E1237946A9AC9 /* SwiftUIDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIDemoView.swift; sourceTree = "<group>"; };
 		8F7F327A3405A0F17D5FD568 /* LoggerDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerDemoView.swift; sourceTree = "<group>"; };
 		9389694098CCA1B53A7F09FA /* StorageDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDemoView.swift; sourceTree = "<group>"; };
 		AD9CFBDD66336B970065C74B /* PhantomSwift */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PhantomSwift; path = ..; sourceTree = SOURCE_ROOT; };
 		E5F53997D021C3BC33A2D120 /* PerformanceDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceDemoView.swift; sourceTree = "<group>"; };
 		FB068C875C56FE57377BD381 /* QADemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QADemoView.swift; sourceTree = "<group>"; };
+		FB168C875C56FE57377BD382 /* WebViewDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDemoView.swift; sourceTree = "<group>"; };
 		FD7D17053B02A69B745462CA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +95,7 @@
 				E5F53997D021C3BC33A2D120 /* PerformanceDemoView.swift */,
 				62676114550109B6FD5D3C18 /* PhantomExampleApp.swift */,
 				FB068C875C56FE57377BD381 /* QADemoView.swift */,
+				FB168C875C56FE57377BD382 /* WebViewDemoView.swift */,
 				9389694098CCA1B53A7F09FA /* StorageDemoView.swift */,
 				789CF5367A4E1237946A9AC9 /* SwiftUIDemoView.swift */,
 			);
@@ -168,8 +171,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 64A89C5D2FA55100F4247ECB /* Build configuration list for PBXProject "PhantomExample" */;
 			compatibilityVersion = "Xcode 10.0";
@@ -200,6 +201,7 @@
 				8170AC12547D8D6C7422B08D /* PerformanceDemoView.swift in Sources */,
 				EA68D725692EA1658202BD53 /* PhantomExampleApp.swift in Sources */,
 				D7AE7EFB6FCCB174377D3863 /* QADemoView.swift in Sources */,
+				D8AE7EFB6FCCB174377D3864 /* WebViewDemoView.swift in Sources */,
 				6EFF3691B920FD849E79F0B2 /* StorageDemoView.swift in Sources */,
 				7B3CAFC78CE0704158F010BF /* SwiftUIDemoView.swift in Sources */,
 			);
@@ -307,7 +309,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -343,7 +345,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

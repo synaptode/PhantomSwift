@@ -5,6 +5,8 @@ import UIKit
 internal final class PhantomGestureHandler {
     internal static let shared = PhantomGestureHandler()
     private var isStarted = false
+    internal static var lastShakeTimestamp: TimeInterval = 0
+
     
     internal func start() {
         guard !isStarted else { return }
@@ -23,9 +25,13 @@ extension UIApplication {
         // Call original implementation
         self.phantom_sendEvent(event)
         
-        // Intercept Shake gesture
-        if event.type == .motion && event.subtype == .motionShake && PhantomSwift.shared.config.triggers.contains(.shake) {
-            PhantomSwift.shared.showDashboard()
+        // Intercept Shake gesture with debounce and toggle
+        let isShake = event.type == .motion && event.subtype == .motionShake
+        if isShake && PhantomSwift.shared.config.triggers.contains(.shake) {
+            let now = ProcessInfo.processInfo.systemUptime
+            guard now - PhantomGestureHandler.lastShakeTimestamp > 0.5 else { return }
+            PhantomGestureHandler.lastShakeTimestamp = now
+            PhantomSwift.shared.toggleDashboard()
         }
     }
 }

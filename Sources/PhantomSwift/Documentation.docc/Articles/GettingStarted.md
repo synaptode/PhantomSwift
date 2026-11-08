@@ -20,7 +20,7 @@ to the **Debug** configuration.
    https://github.com/synaptode/PhantomSwift.git
    ```
 
-3. Choose **Up to Next Major Version** starting from `1.0.0`.
+3. Choose **Up to Next Major Version** starting from `1.3.0`.
 4. Add the library to your **app target** (Debug configuration only for zero release overhead).
 
 Or declare the dependency in `Package.swift`:
@@ -28,7 +28,7 @@ Or declare the dependency in `Package.swift`:
 ```swift
 // Package.swift
 dependencies: [
-    .package(url: "https://github.com/synaptode/PhantomSwift.git", from: "1.0.0")
+    .package(url: "https://github.com/synaptode/PhantomSwift.git", from: "1.3.0")
 ],
 targets: [
     .target(name: "MyApp", dependencies: [

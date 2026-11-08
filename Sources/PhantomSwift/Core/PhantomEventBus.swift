@@ -75,7 +75,10 @@ public enum PhantomEvent {
     case memoryLeakDetected(LeakReport)
     case analyticsEvent(String, String, [String: String])
     case log(String)
-    
+    case webViewUpdated
+    case pushNotificationCaptured(PhantomPushRecord)
+    case apnsTokenUpdated(String)
+
     /// Returns a stable string identifier for the event type.
     internal var name: String {
         switch self {
@@ -87,6 +90,9 @@ public enum PhantomEvent {
         case .memoryLeakDetected: return "memoryLeakDetected"
         case .analyticsEvent: return "analyticsEvent"
         case .log: return "log"
+        case .webViewUpdated: return "webViewUpdated"
+        case .pushNotificationCaptured: return "pushNotificationCaptured"
+        case .apnsTokenUpdated: return "apnsTokenUpdated"
         }
     }
 }

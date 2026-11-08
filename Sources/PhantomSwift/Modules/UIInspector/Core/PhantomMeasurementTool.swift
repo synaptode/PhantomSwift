@@ -84,7 +84,7 @@ internal final class MeasurementOverlayView: UIView {
         doneButton.tintColor = .white
         doneButton.backgroundColor = UIColor.Phantom.vibrantRed
         doneButton.layer.cornerRadius = 16
-        doneButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
+        doneButton.setPhantomPadding(top: 6, left: 14, bottom: 6, right: 14)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.addTarget(self, action: #selector(handleDone), for: .touchUpInside)
         addSubview(doneButton)
@@ -95,7 +95,7 @@ internal final class MeasurementOverlayView: UIView {
         clearButton.tintColor = UIColor.white.withAlphaComponent(0.6)
         clearButton.backgroundColor = UIColor.white.withAlphaComponent(0.08)
         clearButton.layer.cornerRadius = 12
-        clearButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+        clearButton.setPhantomPadding(top: 4, left: 10, bottom: 4, right: 10)
         clearButton.translatesAutoresizingMaskIntoConstraints = false
         clearButton.addTarget(self, action: #selector(clearSelection), for: .touchUpInside)
         addSubview(clearButton)

@@ -284,7 +284,7 @@ internal final class ViewDetailVC: PhantomTableVC {
         btn.tintColor = color
         btn.backgroundColor = color.withAlphaComponent(0.1)
         btn.layer.cornerRadius = 12
-        btn.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
+        btn.setPhantomPadding(top: 6, left: 12, bottom: 6, right: 12)
         return btn
     }
 
@@ -467,7 +467,7 @@ internal final class ViewDetailVC: PhantomTableVC {
             if isLast {
                 btn.backgroundColor = UIColor.Phantom.neonAzure.withAlphaComponent(0.15)
                 btn.layer.cornerRadius = 8
-                btn.contentEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 2, right: 8)
+                btn.setPhantomPadding(top: 2, left: 8, bottom: 2, right: 8)
             }
             btn.tag = index
             btn.addTarget(self, action: #selector(breadcrumbTapped(_:)), for: .touchUpInside)

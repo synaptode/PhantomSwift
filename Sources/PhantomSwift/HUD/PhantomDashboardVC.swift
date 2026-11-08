@@ -4,6 +4,13 @@ import UIKit
 /// Niagara Launcher-style dashboard.
 /// Alphabetical A→Z sections · right-side index scrubber · giant floating section letter.
 internal final class PhantomDashboardVC: UIViewController {
+    internal static weak var current: PhantomDashboardVC?
+
+    deinit {
+        if Self.current === self {
+            Self.current = nil
+        }
+    }
 
     // MARK: - Item model
 
@@ -138,6 +145,7 @@ internal final class PhantomDashboardVC: UIViewController {
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
+        Self.current = self
         super.viewDidLoad()
         buildSections()
         setupFrostedBackground()

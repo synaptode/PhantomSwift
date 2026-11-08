@@ -17,6 +17,7 @@ internal enum PhantomLaunchService: String, Hashable {
     case uiKitRenderTracking
     case mainThreadChecking
     case environmentMonitoring
+    case webViewInspection
 }
 
 /// Immutable input for computing the PhantomSwift launch plan.
@@ -127,6 +128,10 @@ internal enum PhantomLaunchPlanner {
         Descriptor(
             service: .environmentMonitoring,
             requiredFeatures: [.environment]
+        ),
+        Descriptor(
+            service: .webViewInspection,
+            requiredFeatures: [.webViewInspector]
         ),
         Descriptor(
             service: .dashboardDynamicIsland,

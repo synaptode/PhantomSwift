@@ -5,6 +5,23 @@ All notable changes to PhantomSwift will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-11-08
+
+### Added
+- Dashboard toggle and dismissal control: added toggleDashboard(), hideDashboard(), and isDashboardVisible to PhantomSwift with active state detection
+- Push Notification Monitor module: real-time APNs payload inspection and history store
+- WebView Inspector module: inspect console logs, storage, and cookies from WKWebView instances
+- GraphQL parser: query and mutation analysis in Network Inspector
+
+### Fixed
+- Presentation duplication: prevented duplicate PhantomDashboardVC presentation on repeated shake gestures or debug shortcuts while a module is open
+- Shake debounce: added 0.5s debounce to shake gesture handling
+- Swift 6 and iOS 15+ deprecation warnings: resolved URLSessionDataDelegate Sendable conformance and UIButton padding deprecations
+- Swift Package Index configuration: restricted builder target platform to iOS in .spi.yml
+
+### Technical Notes
+- SemVer rationale: minor version bump for new non-breaking features (Push Monitor, WebView Inspector, GraphQL parser, and toggle APIs)
+
 ## [1.2.0] - 2026-08-02
 
 ### Changed

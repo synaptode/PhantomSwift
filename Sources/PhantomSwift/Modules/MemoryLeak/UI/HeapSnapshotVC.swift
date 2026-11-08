@@ -134,7 +134,7 @@ internal final class HeapSnapshotVC: UIViewController {
         btn.tintColor           = color
         btn.backgroundColor     = color.withAlphaComponent(0.12)
         btn.layer.cornerRadius  = 10
-        btn.contentEdgeInsets   = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+        btn.setPhantomPadding(top: 8, left: 12, bottom: 8, right: 12)
     }
 
     // MARK: - Actions

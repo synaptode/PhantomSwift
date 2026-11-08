@@ -1109,7 +1109,7 @@ internal final class ViewHierarchy3DVC: UIViewController {
         btn.layer.cornerRadius = 8
         btn.layer.borderWidth = active ? 1 : 0
         btn.layer.borderColor = active ? color.withAlphaComponent(0.5).cgColor : UIColor.clear.cgColor
-        btn.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+        btn.setPhantomPadding(top: 4, left: 10, bottom: 4, right: 10)
     }
 
     private func makePill(_ text: String, color: UIColor) -> UILabel {
